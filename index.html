@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>For Princess Ashka 🤍</title>
+<meta name="description" content="A little London park, a night sky and a bouquet of white peonies, made only for you.">
+<meta property="og:title" content="For Princess Ashka 🤍">
+<meta property="og:description" content="Open the box. Something is waiting inside.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0518">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B8%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#fff1f3;--pink:#ff8fb1}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#000;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+canvas{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;touch-action:none;display:block}
+.chip{position:fixed;left:max(12px,env(safe-area-inset-left));top:calc(12px + env(safe-area-inset-top));font:8px/1.8 "Press Start 2P",monospace;color:var(--ink);background:#000000b8;border:2px solid var(--pink);padding:8px 10px;max-width:58vw;cursor:pointer}
+#moon{position:fixed;right:max(26px,env(safe-area-inset-right));top:calc(16px + env(safe-area-inset-top));z-index:6;background:none;border:0;padding:0;cursor:pointer;filter:drop-shadow(0 0 12px #c9b8ffcc);animation:bob 3s ease-in-out infinite}
+#moon canvas{width:66px;height:66px;image-rendering:pixelated;display:block}
+#moon i{position:absolute;left:-10px;top:-2px;font:normal 13px/1 sans-serif;color:#ff8fb1}
+@keyframes bob{50%{transform:translateY(3px)}}
+@keyframes fadein{from{opacity:0}}
+.chip,.hint{animation:fadein 2.4s both}
+.hint{position:fixed;left:0;right:0;top:calc(62px + env(safe-area-inset-top));text-align:center;font:7px/1.8 "Press Start 2P",monospace;color:#ffc2d4aa;pointer-events:none}
+#dock{position:fixed;left:0;right:0;bottom:0;height:calc(100px + env(safe-area-inset-bottom));padding:10px 18px calc(8px + env(safe-area-inset-bottom));background:#0a0518;border-top:2px dashed #ff8fb1;text-align:center;display:flex;animation:fadein 2.4s both;flex-direction:column;justify-content:center;gap:6px}
+#dock small{font:7px/1.8 "Press Start 2P",monospace;color:#ff8fb1}
+#dock p{font:700 20px/1.1 Caveat,"Segoe Script",cursive;color:#fff1f3;transition:opacity .25s}
+#ov{position:fixed;inset:0;background:#000000d9;display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+#ov.show{display:flex}
+.paper{width:min(94vw,420px);max-height:88vh;overflow:auto;background:#fff6ee;color:#4a2b3d;border:3px solid #ff8fb1;box-shadow:6px 6px 0 #6b3a73;padding:22px 20px;animation:pop .35s steps(5)}
+@keyframes pop{from{transform:scale(.6) rotate(-3deg);opacity:0}}
+.paper h2{font:10px/1.8 "Press Start 2P",monospace;color:#b4567a;margin-bottom:12px}
+.paper p{font:500 22px/1.25 Caveat,"Segoe Script",cursive;margin-bottom:12px;opacity:0;animation:in .6s forwards}
+@keyframes in{to{opacity:1}}
+.paper textarea{display:block;width:100%;min-height:120px;margin:8px 0 4px;padding:10px;font:500 22px/1.25 Caveat,"Segoe Script",cursive;color:#4a2b3d;background:#fffdf9;border:2px solid #ff8fb1;border-radius:0;resize:vertical;outline:0;-webkit-user-select:text;user-select:text}
+.paper .wa{background:#25d366;color:#052e16}
+.paper button{display:block;margin:6px auto 0;font:8px "Press Start 2P",monospace;background:#ff8fb1;color:#3a1230;border:0;padding:10px 14px;box-shadow:3px 3px 0 #6b3a73;cursor:pointer}
+.day .chip{background:#fff3e8e6;color:#4a2b3d}
+.day .hint{color:#4a2b3dbb}
+.day #dock{background:#fff3e8;border-top-color:#ff8fb1}
+.day #dock p{color:#4a2b3d}
+.day #moon{filter:drop-shadow(0 0 12px #ffd24dcc)}
+#lawsBtn{position:fixed;right:max(26px,env(safe-area-inset-right));top:calc(92px + env(safe-area-inset-top));z-index:6;font:7px/1.6 "Press Start 2P",monospace;color:#ffe7f1;background:#000000b8;border:2px solid #ff8fb1;padding:6px 8px;cursor:pointer}
+#note{position:fixed;left:50%;top:calc(132px + env(safe-area-inset-top));width:min(90vw,340px);transform:translate(-50%,-12px);opacity:0;pointer-events:none;background:#fff6ee;color:#4a2b3d;border:3px solid #ff8fb1;box-shadow:4px 4px 0 #6b3a73;padding:10px 14px;text-align:center;transition:opacity .25s,transform .25s;z-index:8}
+#note.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#note small{display:block;font:7px/1.8 "Press Start 2P",monospace;color:#b4567a;margin-bottom:5px}
+#note p{font:700 19px/1.1 Caveat,"Segoe Script",cursive}
+#note{max-height:44vh;overflow:auto}
+.law{margin:8px 0;padding:8px 10px;border:2px solid #ffc2d4;background:#fffdf9;font:500 20px/1.15 Caveat,"Segoe Script",cursive;color:#4a2b3d}
+.law b{font:700 21px Caveat,cursive;color:#b4567a}
+#moon.dot i{animation:pulse .9s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.6)}}
+.day #lawsBtn{background:#fff3e8e6;color:#4a2b3d}
+#fab{position:fixed;right:max(26px,env(safe-area-inset-right));top:calc(126px + env(safe-area-inset-top));z-index:6;width:40px;height:40px;border-radius:50%;font-size:18px;background:#000000b8;border:2px solid #ff8fb1;cursor:pointer;padding:0}
+#menu{position:fixed;right:max(26px,env(safe-area-inset-right));top:calc(172px + env(safe-area-inset-top));z-index:6;display:none;flex-direction:column;gap:6px}
+#menu.on{display:flex}
+#menu button{width:40px;height:40px;border-radius:50%;font-size:18px;background:#000000b8;border:2px solid #ff8fb1;cursor:pointer;padding:0;touch-action:none}
+.day #fab,.day #menu button{background:#fff3e8e6}
+.stk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.stk div{border:2px solid #ffc2d4;padding:4px 2px;text-align:center;opacity:.45;filter:grayscale(1);background:#fffdf9}
+.stk div.on{opacity:1;filter:none}
+.stk span{font-size:22px;display:block}
+.stk small{font:6px/1.5 "Press Start 2P",monospace;color:#b4567a}
+.scrw{position:relative;width:300px;max-width:100%;height:130px;margin:8px auto}
+.scrw .dec{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;background:#fffdf9;border:2px dashed #ffc2d4;font:700 20px/1.1 Caveat,"Segoe Script",cursive;color:#4a2b3d}
+.scrw canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.paper textarea{display:block;width:100%;min-height:90px;margin:8px 0 4px;padding:10px;font:500 22px/1.25 Caveat,"Segoe Script",cursive;color:#4a2b3d;background:#fffdf9;border:2px solid #ff8fb1;border-radius:0;resize:vertical;outline:0;-webkit-user-select:text;user-select:text}
+.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}
+.paper .sv{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding:8px 2px;background:#fffdf9;color:#4a2b3d;border:2px solid #ff8fb1;box-shadow:2px 2px 0 #6b3a73;font:6px/1.5 "Press Start 2P",monospace;cursor:pointer}
+.sv span{font-size:24px}
+@media (prefers-reduced-motion:reduce){#letterBtn{animation:none}.paper{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="chip" id="chip">♥ for Ashka</div>
+<button id="moon" aria-label="Open your letter"><i>♥</i><canvas id="moonCv" width="40" height="40"></canvas></button>
+<div class="hint" id="hint">tap the box to open it</div>
+<button id="lawsBtn" aria-label="Laws of London">⚖ laws</button>
+<button id="fab" aria-label="Little extras">✨</button>
+<div id="menu"><button id="b-call" title="phone booth">☎️</button><button id="b-hug" title="hold for a hug">🤗</button><button id="b-miss" title="tell him you miss him">💗</button><button id="b-rough" title="rough day">🥺</button><button id="b-wish" title="wishing pond">🪙</button><button id="b-decree" title="today's royal decree">🎟</button><button id="b-stk" title="sticker book">📒</button><button id="b-snd" title="sound">🔇</button></div>
+<div id="note"></div>
+<div id="dock"><small id="dT">a little gift</small><p id="dM">made only for you, princess ♥</p></div>
+<div id="ov"><div class="paper" id="paper"></div></div>
+
+<script>
+// ===== EDIT ME =====
+const CFG = {
+  to: "Princess Ashka",
+  whatsapp: "447344574420", // country code + number (44 = UK)
+  ntfy: "ashka-yogesh-d84661fc3883", // secret channel: install the free "ntfy" app, subscribe to this name, and her messages arrive on your phone instantly
+  photos: [ /* put your pictures in a "photos" folder, then list them like: {src:"photos/us1.jpg", cap:"our first walk"}, */ ],
+  dates: [ {name:"Ashka's birthday", m:0, d:0, emoji:"🎂"}, {name:"our anniversary", m:0, d:0, emoji:"💍"} ], // set m (month 1-12) and d (day) to switch the countdowns and party day on
+  from: "Yogesh",
+  letter: [
+    "My dearest {to},",
+    "If I could gather every star in this sky and place them in your hands, it still would not come close to how much I love you. You are the softest light in my loudest days, the calm after every storm, the reason ordinary moments feel like magic.",
+    "I need you to hold on to this tightly, like a bouquet you never have to put down: you are never alone. Not on the quiet nights, not on the heavy ones, not when your own thoughts get too loud and try to convince you otherwise. Wherever you are, a piece of my heart is sitting right beside you, holding your hand, listening to every word, proud of you exactly as you are.",
+    "All I want, truly and endlessly, is to see you happy. Laughing so hard you forget why. Sleeping peacefully. Feeling safe, chosen, adored. If the world ever feels too big, lean on me. I am not going anywhere. I am yours, in every sunrise and every constellation.",
+    "I made you white peonies because they stand for love that is tender, soft and sure, just like you make me feel. They never fade here. Neither does what I feel for you.",
+    "Forever yours,<br>{from} 🤍",
+    "P.S. Look up. Every star has something to tell you. Tap them all."
+  ]
+};
+const MSGS = ["You are the reason I look up and smile.", "If you were a star I'd never stop wishing on you.", "You're not alone. Not tonight, not ever.", "Your laugh is my favorite sound in the whole universe.", "Even the sky is jealous of how bright you shine.", "I love you more than there are stars up here.", "You make ordinary days feel like magic.", "Rest your head. I'm right here with you.", "You are enough, exactly as you are.", "Every star here was placed to remind you that you're loved.", "Wherever you are, my heart is next to yours.", "You deserve soft mornings and gentle nights.", "Hard day? Lean on me. I've got you.", "You're my favorite person in every galaxy.", "Making you smile is my favorite thing to do.", "You're braver than you know. I'm so proud of you.", "If the world feels heavy, I'll carry it with you.", "I'd pick you in every universe.", "You're my calm and my chaos, and I adore both.", "Drink some water, and know that I love you. 💧", "Look at you, still shining. I see it.", "You're beautiful inside and out, and nobody does it like you.", "The world is softer with you in it.", "You're my home, wherever we are.", "I'll always choose you, quietly and loudly.", "Make a wish. I'll be there. 🌠", "Your happiness is my favorite thing to protect.", "You are loved. Fully. Endlessly.", "Hold my hand through the dark; the stars show up for you.", "Some people are stars. You're the whole sky to me.", "No distance can dim the light between us.", "You're allowed to rest. You're allowed to cry. You're always allowed to be loved.", "I think about you more than anything.", "You're my peony: soft, strong, and perfect.", "Tiny reminder: you're doing wonderfully.", "When you feel small, remember how huge you are in my heart.", "I fall for you a little more every day.", "My heart does a happy dance when you text.", "You're the best part of every day.", "Close your eyes. Feel that? That's me hugging you. 🫂", "Forever isn't long enough, but I'll take it with you.", "You make me want to be my best self.", "Keep going, my love. Brighter things are coming.", "This star is yours. So is every one of them.", "Princess, the night sky was made to frame you.", "I saved this star just to say: you're my favorite hello.", "Your smile could restart a dying star.", "You're the reason my heart has a favorite song.", "Somewhere out here a star burns as warmly as I adore you.", "You don't have to be strong tonight. I'll be strong for both of us.", "I'd cross a thousand light-years just to sit next to you.", "Every time you laugh, a star gets its sparkle. I'm sure of it.", "You are my favorite chapter in every story.", "Breathe in, breathe out. You're safe. You're loved.", "If you ever feel lost, find me. I'm the brightest thing pointing back to you.", "You are the soft glow I come home to.", "My world has more color since you walked into it.", "You are not too much. You are exactly enough.", "I'm cheering for you louder than the whole galaxy.", "Your kindness is rarer than any comet.", "I love how your eyes light up when you're excited.", "Let's grow old and still stargaze together.", "You're my sunrise after the longest night.", "No one makes silence feel as warm as you do.", "Thank you for choosing me, every single day.", "You are a whole constellation of wonderful things.", "I'm proud of how far you've come, little by little.", "If tomorrow is hard, tonight I'm still yours.", "You're the cherry on top of every good day.", "I could watch you do absolutely nothing and still be happy.", "Wishing you gentle dreams and a very soft pillow.", "You are my safe place made of stardust.", "Even on cloudy nights, you're my light.", "I love your heart most of all.", "There's a little spot in my chest with your name on it.", "You make my worries look tiny, like far-away stars.", "I promise to always listen, even to the long stories.", "You're the kind of person the universe is proud of.", "Take a deep breath. You've got a whole sky cheering you on.", "I love the way you love the world.", "You're my favorite notification.", "With you, even a silent night is full of music.", "You glow differently. I noticed. I always notice.", "Be gentle with yourself today. You're someone's whole universe.", "I want your best days and your worst days. All of them.", "You are magic wrapped in the sweetest soul.", "My favorite place is wherever you are.", "Your dreams are safe with me. Say them out loud.", "I'd lasso the moon for you, but you'd probably prefer snacks. 🍫", "You're my favorite plot twist.", "You are the poetry I never knew how to write.", "There's no place in the sky I'd rather look than at you.", "I'm so lucky it's you.", "If love had a shape, it would look a lot like you.", "You make me believe in good things.", "Your hugs fix more than you know.", "Princess Ashka, the stars rearranged themselves to spell your name.", "I hope today treated you softly.", "Your voice is my favorite lullaby.", "I'll remember the little things you say, forever.", "You are cherished more than words can hold.", "Every shooting star I see, I wish for your smile.", "You're the reason I believe in forever.", "Your happiness looks stunning on you.", "You don't need to be perfect; you're already perfect to me.", "Don't forget to eat something yummy today. 🍓", "You are the answer to a wish I didn't know I made.", "If you're reading this, I'm thinking of you right now.", "I love how your mind works.", "You're sunshine in a night-sky kind of world.", "Even the planets orbit around people like you.", "You are my favorite adventure.", "Thank you for being patient with me. I love you.", "You make my heart feel at home.", "The best view in the universe is you, laughing.", "You're my favorite 'what if' that became 'what is'.", "Dreams look good on you. Keep reaching.", "I'm never too busy to hear about your day.", "Look up! That sparkle is me sending you a kiss. 💋", "You're a rare kind of beautiful, the kind that stays.", "I'll keep every secret you trust me with.", "You are the calm in my storm.", "May your day be as lovely as your smile.", "I love you to the moon and back, then around the planets too.", "Your presence feels like a warm blanket.", "You light up rooms, skies, and my entire life.", "You're my forever kind of person.", "Sleep tight, princess. The stars are watching over you.", "I get shy and happy and silly all at once around you.", "You're even more beautiful than a clear night sky.", "Let's make a million tiny memories under this sky.", "You inspire me in ways you'll never realize.", "There's a star out here that shines just for your eyes.", "You're worth every wait, every mile, every star.", "I love every version of you.", "My heart's compass always points to you.", "You're my favorite thought at midnight.", "Whatever you dream of, I believe you can do it.", "You are a gift I never stop unwrapping.", "When you doubt yourself, borrow my belief in you.", "I'm here, I'm staying, I'm yours.", "You make winter nights feel warm.", "I hope you know how deeply you matter.", "Every galaxy has a center. Mine is you.", "Your soul is the prettiest thing I've ever seen.", "Be proud of yourself today. I certainly am.", "You are my sweetest coincidence.", "One more star, one more reason I adore you."];
+const FIN="You found every single one, Princess Ashka. Every star, every planet. You're my whole sky, and I love you, always. 🤍";
+const C = [
+["Orion","5.919,7.41,.5,r 5.419,6.35,1.6,b 5.679,-1.94,1.8,b 5.603,-1.20,1.7,b 5.533,-.30,2.2,b 5.796,-9.67,2.1,b 5.242,-8.20,.1,b 5.585,9.93,3.3","0-2 1-4 2-3 3-4 2-5 4-6 7-0 7-1"],
+["Big Dipper","11.062,61.75,1.8 11.031,56.38,2.4 11.897,53.69,2.4 12.257,57.03,3.3 12.900,55.96,1.8 13.399,54.93,2.2 13.792,49.31,1.9","1-2 2-3 3-0 0-1 3-4 4-5 5-6"],
+["Cassiopeia","0.153,59.15,2.3 0.675,56.54,2.2 0.945,60.72,2.5 1.430,60.24,2.7 1.907,63.67,3.4","0-1 1-2 2-3 3-4"],
+["Cygnus","20.690,45.28,1.25,w 20.370,40.26,2.2 19.512,27.96,3.1 20.770,33.97,2.5 19.750,45.13,2.9","0-1 1-2 3-1 1-4"],
+["Lyra","18.616,38.78,0,b 18.746,37.6,4.1 18.908,36.90,4.3 18.835,33.36,3.5 18.982,32.69,3.2","0-1 1-2 2-4 4-3 3-1"],
+["Leo","10.139,11.97,1.4,b 10.122,16.76,3.5 10.333,19.84,2.1 10.278,23.42,3.4 9.879,26.01,3.9 9.764,23.77,3.0 11.235,20.52,2.6 11.237,15.43,3.3 11.818,14.57,2.1","0-1 1-2 2-3 3-4 4-5 2-6 6-8 6-7 7-8 0-7"],
+["Scorpius","16.090,-19.81,2.6 16.005,-22.62,2.3 15.981,-26.11,2.9 16.353,-25.59,2.9 16.490,-26.43,1.0,r 16.598,-28.22,2.8 16.836,-34.29,2.3 16.865,-38.05,3.0 16.909,-42.36,3.6 17.203,-43.24,3.3 17.622,-43.0,1.9 17.793,-40.13,3.0 17.708,-39.03,2.4 17.560,-37.10,1.6 17.513,-37.30,2.7","0-1 1-2 1-3 3-4 4-5 5-6 6-7 7-8 8-9 9-10 10-11 11-12 12-13 13-14"],
+["Gemini","7.577,31.89,1.6 7.755,28.03,1.1,o 6.629,16.40,1.9 6.732,25.13,3.1 6.383,22.51,2.9 7.335,21.98,3.5 6.248,22.51,3.3","0-3 3-4 4-6 1-5 5-2 3-5"],
+["Taurus","4.599,16.51,.9,o 5.438,28.61,1.7 5.627,21.14,3.0 4.477,19.18,3.5 4.330,15.63,3.6 4.478,15.87,3.4 4.011,12.49,3.5 3.791,24.11,2.9","6-4 4-5 5-0 0-3 3-1 0-2"],
+["Southern Cross","12.443,-63.10,.8 12.519,-57.11,1.6 12.795,-59.69,1.3 12.252,-58.75,2.8","0-1 2-3"],
+["Aquila","19.846,8.87,.8,w 19.771,10.61,2.7 19.922,6.41,3.7 19.425,3.11,3.4 19.084,13.86,3.0 20.188,-.82,3.2 19.104,-4.88,3.4","1-0 0-2 0-3 3-6 0-5 1-4"],
+["Pegasus","23.079,15.21,2.5 23.063,28.08,2.4 0.220,15.18,2.8 0.140,29.09,2.1 21.736,9.88,2.4 22.691,10.83,3.4 22.717,30.22,2.9","0-1 1-3 3-2 2-0 0-5 5-4 6-1"],
+["Ursa Minor","2.530,89.26,2.0 17.537,86.59,4.4 16.766,82.04,4.2 15.734,77.79,4.3 16.292,75.76,5.0 15.345,71.83,3.0 14.845,74.16,2.1","0-1 1-2 2-3 3-4 4-5 5-6 6-3"],
+["Canis Major","6.752,-16.72,-1.5,b 6.378,-17.96,2.0 7.140,-26.39,1.8 6.977,-28.97,1.5 7.402,-29.30,2.4 7.063,-15.63,4.0","5-0 0-1 0-2 2-3 2-4"],
+["Sagittarius","18.403,-34.38,1.8 18.350,-29.83,2.7 18.466,-25.42,2.8 18.921,-26.30,2.0 19.043,-29.88,2.6 18.761,-26.99,3.2 19.116,-27.67,3.3 18.097,-30.42,3.0","7-1 1-2 2-5 5-3 3-6 6-4 4-0 0-7 1-0"],
+["Andromeda","0.140,29.09,2.1 1.162,35.62,2.1 2.065,42.33,2.1 0.655,30.86,3.3","0-3 3-1 1-2"],
+["Perseus","3.405,49.86,1.8 3.136,40.96,2.1 3.964,39.91,2.9 3.902,31.88,2.9 3.715,47.79,3.0 3.080,53.51,2.9","5-0 0-4 4-2 2-3 0-1"],
+["Auriga","5.278,46.0,.1,y 5.992,44.95,1.9 5.995,37.21,2.6 5.438,28.61,1.7 4.950,33.17,2.7","0-1 1-2 2-3 3-4 4-0"],
+["Bootes","14.261,19.18,0,o 14.750,27.07,2.4 15.032,40.39,3.5 14.535,38.31,3.0 13.911,18.40,2.7 14.531,30.37,3.6","0-5 5-1 1-3 3-2 0-4"],
+["Canis Minor","7.655,5.22,.4,y 7.452,8.29,2.9","0-1"],
+["Aries","2.120,23.46,2.0 1.911,20.81,2.6 1.892,19.29,3.9","0-1 1-2"],
+["Spica","13.420,-11.16,1.0,b",""],["Canopus","6.399,-52.70,-.7,y",""],["Achernar","1.629,-57.24,.5,b",""],["Fomalhaut","22.961,-29.62,1.2,w",""],["Alpha Centauri","14.660,-60.83,-.3,y",""],["Hadar","14.064,-60.37,.6,b",""],["Rasalhague","17.582,12.56,2.1,w",""],["Eltanin","17.943,51.49,2.2,o",""],["Alderamin","21.310,62.59,2.5,w",""],["Alphard","9.460,-8.66,2.0,o",""],["Menkar","3.038,4.09,2.5,r",""],["Alphecca","15.578,26.71,2.2,w",""],["Deneb Algedi","21.784,-16.13,2.9,w",""],["Sadalsuud","21.526,-5.57,2.9,y",""]
+].map(([n,p,l])=>({n,p:p.split(" ").map(q=>{const a=q.split(",");return {ra:+a[0]*15,dec:+a[1],m:+a[2],col:a[3]}}),l:l.split(" ").filter(Boolean).map(q=>q.split("-").map(Number))}));
+let off=0; C.forEach(c=>{c.off=off; off+=c.p.length;}); const TOTAL=off+7;
+const PERM=(()=>{const a=MSGS.map((_,i)=>i);let q=7;const r=()=>(q=(q*16807)%2147483647)/2147483647;for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a})();
+
+const $=s=>document.querySelector(s);
+const mod=(a,n)=>((a%n)+n)%n;
+const hashf=(a,b)=>{const h=Math.sin(a*127.1+b*311.7)*43758.5453;return h-Math.floor(h)};
+let seed=11; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+let found=new Set(); try{found=new Set(JSON.parse(localStorage.getItem("peony-sky")||"[]"))}catch(e){}
+const save=()=>{try{localStorage.setItem("peony-sky",JSON.stringify([...found]))}catch(e){}};
+
+
+// ===== real sky maths =====
+const rad=Math.PI/180,w180=a=>mod(a+180,360)-180;
+const EL={Mercury:[.38709927,.00000037,.20563593,.00001906,7.00497902,-.00594749,252.2503235,149472.67411175,77.45779628,.16047689,48.33076593,-.12534081],
+Venus:[.72333566,.0000039,.00677672,-.00004107,3.39467605,-.0007889,181.9790995,58517.81538729,131.60246718,.00268329,76.67984255,-.27769418],
+Earth:[1.00000261,.00000562,.01671123,-.00004392,-.00001531,-.01294668,100.46457166,35999.37244981,102.93768193,.32327364,0,0],
+Mars:[1.52371034,.00001847,.0933941,.00007882,1.84969142,-.00813131,-4.55343205,19140.30268499,-23.94362959,.44441088,49.55953891,-.29257343],
+Jupiter:[5.202887,-.00011607,.04838624,-.00013253,1.30439695,-.00183714,34.39644051,3034.74612775,14.72847983,.21252668,100.47390909,.20469106],
+Saturn:[9.53667594,-.0012506,.05386179,-.00050991,2.48599187,.00193609,49.95424423,1222.49362201,92.59887831,-.41897216,113.66242448,-.28867794],
+Uranus:[19.18916464,-.00196176,.04725744,-.00004397,.77263783,-.00242939,313.23810451,428.48202785,170.9542763,.40805281,74.01692503,.04240589],
+Neptune:[30.06992276,.00026291,.00859048,.00005105,1.77004347,.00035372,-55.12002969,218.45945325,44.96476227,-.32241464,131.78422574,-.00508664]};
+function helio(n,T){const e=EL[n],a=e[0]+e[1]*T,ec=e[2]+e[3]*T,I=(e[4]+e[5]*T)*rad,w=e[8]+e[9]*T,O=(e[10]+e[11]*T)*rad,M=w180(e[6]+e[7]*T-w)*rad;
+  let E=M;for(let i=0;i<9;i++)E=M+ec*Math.sin(E);
+  const xp=a*(Math.cos(E)-ec),yp=a*Math.sqrt(1-ec*ec)*Math.sin(E),om=w*rad-O,co=Math.cos(om),so=Math.sin(om),cO=Math.cos(O),sO=Math.sin(O),cI=Math.cos(I),sI=Math.sin(I);
+  return [(co*cO-so*sO*cI)*xp+(-so*cO-co*sO*cI)*yp,(co*sO+so*cO*cI)*xp+(-so*sO+co*cO*cI)*yp,so*sI*xp+co*sI*yp]}
+const JD=()=>Date.now()/86400000+2440587.5;
+const PLS=[["Mercury","#c9c3bd","#7d7872",2],["Venus","#fff0c8","#d9b97a",4],["Mars","#ff8a66","#b3482e",3],["Jupiter","#f5dcb0","#c9a06a",4,1],["Saturn","#ecd48f","#b39a5a",3,2],["Uranus","#a5eef0","#5fb3b8",3],["Neptune","#7c97ff","#3f55b8",3]];
+function planetsNow(){const T=(JD()-2451545)/36525,E=helio("Earth",T),ep=23.43928*rad;
+  return PLS.map(([n,c,d,r,k])=>{const h=helio(n,T),X=h[0]-E[0],Y=h[1]-E[1],Z=h[2]-E[2],y=Y*Math.cos(ep)-Z*Math.sin(ep),z=Y*Math.sin(ep)+Z*Math.cos(ep);
+    return {n,c,d,r,k,ra:mod(Math.atan2(y,X)/rad,360),dec:Math.atan2(z,Math.hypot(X,y))/rad}})}
+const vec=(r,d)=>{const a=r*rad,e=d*rad,c=Math.cos(e);return [c*Math.cos(a),c*Math.sin(a),Math.sin(e)]};
+const PL=planetsNow();PL.forEach(p=>p.v=vec(p.ra,p.dec));C.forEach(c=>c.p.forEach(p=>p.v=vec(p.ra,p.dec)));
+const PLMSG=["Mercury runs the fastest, but not as fast as my heart when I see you.","Venus is the brightest, but you outshine her every single time.","Mars is red like the blush I get when you smile at me.","Jupiter is enormous, and still smaller than how much I love you.","Saturn wears rings. I'd give you every one if you asked.","Uranus spins sideways, quirky like us. I love that about you.","Neptune is so far away, yet you're always close to my heart."];
+const lstDeg=()=>mod(280.46061837+360.98564736629*(JD()-2451545)-new Date().getTimezoneOffset()/4,360);
+const aG=192.85948*rad,dG=27.12825*rad,lN=122.93192*rad;
+function gal(l,b){l*=rad;b*=rad;const dl=lN-l,dec=Math.asin(Math.sin(b)*Math.sin(dG)+Math.cos(b)*Math.cos(dG)*Math.cos(dl));
+  return [mod((aG+Math.atan2(Math.cos(b)*Math.sin(dl),Math.sin(b)*Math.cos(dG)-Math.cos(b)*Math.sin(dG)*Math.cos(dl)))/rad,360),dec/rad]}
+
+// ===== pixel art helpers =====
+let LW,LH,S,Z,WW,BW,BH,dockLog,bg,F,boxCv,lidCv,charCv,H0,LAMP,CH,a0,d0,fov=70*rad,SC=250,CX,CY,Fx,Fy,Fz,Ex,Ey,Nx,Ny,Nz;
+const hill=xx=>H0+14*Math.sin(xx/LW*3.4+.9)+6*Math.sin(xx/LW*9);
+const ht=(X,Y,i)=>{const a=X%3-1,b=Y%3-1;return a*a+b*b<3.06*i*i};
+const RAMP=[[255,253,250],[246,241,236],[231,222,218],[210,198,200],[178,166,178],[140,128,146],[100,90,112]];
+const LIGHT=(()=>{const v=[-.45,-.6,.66],l=Math.hypot(...v);return v.map(a=>a/l)})();
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ramp=(v,R=RAMP)=>{const f=Math.min(.999,Math.max(0,1-v))*(R.length-1),i=f|0,t=f-i;return R[i].map((c,k)=>lerp(c,R[i+1][k],t))};
+const mk=()=>{const q=BW/400,c=document.createElement("canvas");c.width=BW;c.height=BH;const x=c.getContext("2d",{willReadFrequently:true}),Q=v=>v*q;
+  const poly=(pts,fill,al=1)=>{x.globalAlpha=al;x.fillStyle=fill;x.beginPath();pts.forEach((p,i)=>x[i?"lineTo":"moveTo"](Q(p[0]),Q(p[1])));x.closePath();x.fill();x.globalAlpha=1};
+  const rr=(X,Y,w,h,r,fill)=>{x.fillStyle=fill;x.beginPath();x.roundRect(Q(X),Q(Y),Q(w),Q(h),Q(r));x.fill()};
+  return {c,x,Q,poly,rr,q}};
+function finish(x){ // ordered dither + posterize = pixel-art look
+  const im=x.getImageData(0,0,BW,BH),d=im.data,B=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+  for(let i=0,p=0;i<d.length;i+=4,p++){if(d[i+3]<110){d[i+3]=0;continue}d[i+3]=255;
+    const th=(B[((p/BW|0)&3)*4+((p%BW)&3)]/16-.5)*20;
+    for(let k=0;k<3;k++)d[i+k]=Math.max(0,Math.min(255,Math.round((d[i+k]+th)/20)*20))}
+  x.putImageData(im,0,0);return im}
+
+// petal height field of one peony (unit disc); -1 outside
+function pz(u,v,sd){
+  const d=Math.hypot(u,v),a=Math.atan2(v,u),e=1+.05*Math.sin(a*6+sd)+.04*Math.sin(a*9-sd*2);
+  if(d>e)return -1;
+  const dn=d/e,L=7,l=Math.min(L-1,Math.floor(dn*L)),f=dn*L-l;
+  const lobe=.5+.5*Math.cos(a*(5+l)+sd*(l+1)+l*2.1);
+  let z=Math.sqrt(1-dn*dn*.9)*.75+.2*Math.pow(f,.7)*(.4+.6*Math.pow(lobe,.7))+.03*Math.sin(a*15+l*3+dn*24);
+  if(f<.18)z-=.14*(1-f/.18);
+  return z-.06*Math.pow(1-lobe,3);
+}
+
+// ===== flowers: every element is stamped with a "stage" so pixels can bloom one by one =====
+function makeFlowers(){
+  const {c,x,Q,poly}=mk(),N=BW*BH;seed=9;
+  let prev=new Uint8ClampedArray(N*4),stg=new Int16Array(N).fill(-1),k=0;
+  const mark=()=>{const cur=x.getImageData(0,0,BW,BH).data;for(let i=0;i<N;i++){const j=i*4;if(cur[j]!==prev[j]||cur[j+1]!==prev[j+1]||cur[j+2]!==prev[j+2]||cur[j+3]!==prev[j+3])stg[i]=k}prev=cur;k++};
+  const dot=(X,Y,col)=>{x.fillStyle=`rgb(${col[0]|0},${col[1]|0},${col[2]|0})`;x.fillRect(Math.round(X),Math.round(Y),1,1)};
+  const shadow=(cx,cy,R)=>{x.fillStyle="rgba(20,5,25,.42)";x.beginPath();x.ellipse(cx+R*.08,cy+R*.12,R*1.06,R*1.04,0,0,6.3);x.fill()};
+  const peony=(cx,cy,R,sd)=>{cx=Q(cx);cy=Q(cy);R=Q(R);shadow(cx,cy,R);const e=1.2/R,zf=(a,b)=>Math.max(0,pz(a,b,sd));
+    for(let py=-R*1.15|0;py<=R*1.15;py++)for(let px=-R*1.15|0;px<=R*1.15;px++){
+      const u=px/R,v=py/R,z=pz(u,v,sd);if(z<0)continue;
+      const gx=(zf(u+e,v)-zf(u-e,v))/(2*e),gy=(zf(u,v+e)-zf(u,v-e))/(2*e),n=[-gx*.8,-gy*.8,1],nl=Math.hypot(...n);
+      let lit=.22+.78*Math.max(0,(n[0]*LIGHT[0]+n[1]*LIGHT[1]+n[2]*LIGHT[2])/nl);
+      const d=Math.hypot(u,v);if(d>.9)lit*=1-.4*(d-.9)/.2;
+      const col=ramp(lit);if(d<.3){col[2]*=.88;col[1]*=.96}
+      dot(cx+px,cy+py,col)}mark()};
+  const bud=(cx,cy,R,sd)=>{cx=Q(cx);cy=Q(cy);R=Q(R);shadow(cx,cy,R);
+    for(let py=-R;py<=R;py++)for(let px=-R;px<=R;px++){const u=px/R,v=py/R,d=Math.hypot(u,v);if(d>1)continue;
+      const n=[u*.8,v*.8,Math.sqrt(Math.max(.05,1-d*d))],nl=Math.hypot(...n);
+      let lit=.22+.78*Math.max(0,(n[0]*LIGHT[0]+n[1]*LIGHT[1]+n[2]*LIGHT[2])/nl);
+      const s=Math.abs(Math.sin(u*7+v*1.5+sd)),gm=Math.min(1,Math.max(0,(v-.05)/.5));if(s<.1)lit*=.75;
+      const w=ramp(lit),gr=[150*lit+20,176*lit+20,110*lit+10];
+      dot(cx+px,cy+py,w.map((a,j)=>lerp(a,gr[j],gm*(s<.1?1:.8))))}mark()};
+  const G=[[150,196,140],[74,140,86],[40,104,58],[22,66,38],[10,36,22]];
+  const leaf=(cx,cy,len,wid,ang)=>{cx=Q(cx);cy=Q(cy);len=Q(len);wid=Q(wid);const ca=Math.cos(ang),sa=Math.sin(ang);
+    for(let y=-len;y<=len;y++)for(let X=-len;X<=len;X++){const u=X*ca+y*sa,v=-X*sa+y*ca,t=u/len;if(Math.abs(t)>1)continue;
+      const w=wid*(1-t*t);if(Math.abs(v)>w)continue;const s=v/w;
+      const kk=.42-.32*s+(Math.abs(s)<.1?.22:0)+(Math.abs(s+.45)<.08?.18:0)-.12*t*t;
+      dot(cx+X,cy+y,ramp(Math.min(1,Math.max(0,kk)),G))}mark()};
+  {const st=(x1,y1,x2,y2)=>{x1=Q(x1);y1=Q(y1);x2=Q(x2);y2=Q(y2);const n=Math.hypot(x2-x1,y2-y1)|0;for(let i=0;i<=n;i++){const X=x1+(x2-x1)*i/n,Y=y1+(y2-y1)*i/n;dot(X-1,Y,[58,128,76]);dot(X,Y,[34,90,52]);dot(X+1,Y,[22,62,38])}};
+   [[200,62],[118,88],[284,86],[60,140],[342,140],[200,125],[100,165],[300,168],[200,185],[112,200],[290,205]].forEach(([a,b])=>st(a,b,200,262));
+   [[172,298],[190,299],[210,299],[228,298]].forEach(([a,b])=>st(200,262,a,b));mark()}
+  [[230,28,36,10,-.9],[170,28,34,10,.8],[30,200,32,8,.6],[372,200,32,8,-.6]].forEach(a=>leaf(...a));
+  [[200,62,44,1],[118,88,42,2],[284,86,42,3],[60,140,40,4],[342,140,40,5]].forEach(a=>peony(...a));
+  [[150,40,17,1],[250,38,16,2],[30,115,16,3],[372,110,15,4]].forEach(a=>bud(...a));
+  [[200,125,54,6],[100,165,50,7],[300,168,50,8]].forEach(a=>peony(...a));
+  [[150,200,36,9,.7],[250,200,34,9,-.7]].forEach(a=>leaf(...a));
+  [[200,185,58,9],[112,200,44,10],[290,205,44,11]].forEach(a=>peony(...a));
+  [[60,195,20,5],[340,198,20,6]].forEach(a=>bud(...a));
+  {const be=(cx,cy,rx,ry,rot,col)=>{x.fillStyle=col;x.beginPath();x.ellipse(Q(cx),Q(cy),Q(rx),Q(ry),rot,0,6.3);x.fill()};
+   poly([[196,268],[180,298],[193,293],[204,272]],"#ff7fa6");poly([[204,268],[220,298],[207,293],[196,272]],"#ff7fa6");
+   be(178,262,24,11,.35,"#ff9fbd");be(222,262,24,11,-.35,"#ff9fbd");be(178,263,12,5,.35,"#e0507f");be(222,263,12,5,-.35,"#e0507f");be(200,263,9,10,0,"#ff6f9c");mark()}
+  const full=finish(x),tm=new Float32Array(N);
+  for(let i=0;i<N;i++)tm[i]=stg[i]>=0?stg[i]*.16+rnd()*.45:9e9;
+  const rev=document.createElement("canvas");rev.width=BW;rev.height=BH;
+  return {full,tm,done:new Uint8Array(N),cur:new ImageData(BW,BH),rc:rev.getContext("2d"),rev,fin:false,N};
+}
+// ===== cute gift box + lid =====
+function makeBox(){
+  const {c,x,Q,poly,rr}=mk();
+  let gr=x.createLinearGradient(Q(44),0,Q(356),0);gr.addColorStop(0,"#f29cb9");gr.addColorStop(.35,"#ffc9da");gr.addColorStop(1,"#f08fae");
+  rr(44,212,312,86,10,gr);rr(34,198,332,26,8,"#fff0f4");poly([[38,218],[362,218],[362,224],[38,224]],"#f2a6bf");
+  rr(100,232,200,48,8,"#ff8fb1");rr(103,235,194,42,6,"#fffaf3");
+  finish(x);
+  const s=Math.max(2,Math.round(Q(2.2))),H=["01010","11111","11111","01110","00100"];
+  x.fillStyle="#fff0f4";[[56,238],[80,262],[324,238],[300,262]].forEach(([X,Y])=>H.forEach((r,j)=>[...r].forEach((v,i)=>{if(v=="1")x.fillRect(Math.round(Q(X))+i*s,Math.round(Q(Y))+j*s,s,s)})));
+  x.textAlign="center";x.textBaseline="middle";
+  x.font='8px "Press Start 2P",monospace';x.fillStyle="#ff8fb1";x.fillText("for",Q(200),Q(244));
+  x.fillStyle="#b4567a";x.fillText("Princess Ashka",Q(200),Q(264));
+  return c;
+}
+function makeLid(){
+  const {c,x,Q,poly,rr}=mk();
+  let gr=x.createLinearGradient(0,Q(160),0,Q(206));gr.addColorStop(0,"#ffb3cb");gr.addColorStop(1,"#f07ea3");
+  rr(28,160,344,46,10,gr);rr(28,160,344,9,5,"#ffd0df");rr(186,160,28,46,2,"#fff0f4");
+  x.fillStyle="#fff0f4";[[-1,-.35],[1,.35]].forEach(([d,r])=>{x.beginPath();x.ellipse(Q(200+d*34),Q(142),Q(32),Q(16),-d*.35,0,6.3);x.fill()});
+  x.fillStyle="#f6b7cb";[[-1],[1]].forEach(([d])=>{x.beginPath();x.ellipse(Q(200+d*34),Q(144),Q(18),Q(8),-d*.35,0,6.3);x.fill()});
+  x.fillStyle="#ffc2d4";x.beginPath();x.arc(Q(200),Q(148),Q(11),0,6.3);x.fill();
+  poly([[192,156],[176,190],[190,186],[202,160]],"#fff0f4");poly([[208,156],[224,190],[210,186],[198,160]],"#fff0f4");
+  finish(x);return c;
+}
+
+
+// ===== halftone night scene (sky glow, bushes, hill, lamp pool) =====
+function makeScene(){
+  const c=document.createElement("canvas");c.width=LW;c.height=LH;const x=c.getContext("2d");
+  const im=x.createImageData(LW,LH),d=im.data,lx=LAMP.x,ly=LAMP.base;
+  const bushes=[[.04,20],[.11,15],[.19,24],[.82,18],[.9,24],[.97,16]].map(([f,r])=>{const cx=f*LW;return [cx,hill(cx)-r*.35,r]});
+  for(let Y=0;Y<LH;Y++)for(let X=0;X<LW;X++){
+    const h=hill(X);let col;
+    if(Y<h){
+      col=[3,2,14];const gi=Math.max(0,(Y-(h-LH*.26))/(LH*.26));if(ht(X,Y,gi*gi*.9))col=[86,46,150];
+      for(const [cx,cy,r] of bushes){const dd=Math.hypot(X-cx,Y-cy);if(dd<r){col=[12,6,30];const i=(cy-Y)/r*.55+.4;if(ht(X,Y,i))col=[104,60,168];if(dd>r-1.6)col=[160,120,235];}}
+    }else{
+      col=[19,10,44];const dp=Y-h;if(ht(X,Y,Math.max(0,.45-dp/70)))col=[64,38,120];if(dp<2)col=[140,100,215];
+      const pi=Math.max(0,1-(((X-lx-14)/84)**2+((Y-ly+2)/24)**2));if(pi>0&&ht(X,Y,pi))col=[255,184,107];
+    }
+    const j=(Y*LW+X)*4;d[j]=col[0];d[j+1]=col[1];d[j+2]=col[2];d[j+3]=255}
+  x.putImageData(im,0,0);
+  // lamp post (crisp rects)
+  const top=ly-122,O="#cdb8ff",D="#08041a",R=(a,b,w,h,f)=>{x.fillStyle=f;x.fillRect(a,b,w,h)};
+  R(lx-3,top+32,6,ly-top-32,O);R(lx-2,top+32,4,ly-top-32,D);
+  for(let r=0;r<12;r++){R(lx-3-r,ly-12+r,6+r*2,1,r==11?O:D);R(lx-3-r,ly-12+r,1,1,O);R(lx+2+r,ly-12+r,1,1,O)}
+  for(let r=0;r<10;r++){R(lx-4-r,top+r,8+r*2,1,D);R(lx-4-r,top+r,1,1,O);R(lx+3+r,top+r,1,1,O)}
+  R(lx-1,top-4,2,4,O);R(lx-14,top+10,28,22,O);R(lx-13,top+11,26,20,D);
+  return c;
+}
+function makeChar(){
+  const W=44,H=58,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d"),im=x.createImageData(W,H),d=im.data;
+  const head=(a,b)=>Math.hypot(a-22,b-26)<=17,body=(a,b)=>((a-22)/11)**2+((b-46)/10)**2<=1,
+    arm=(a,b)=>Math.hypot(a-9,b-45)<=4.5||Math.hypot(a-35,b-45)<=4.5,
+    ear=(a,b)=>(a>=9&&a<=17&&b>=2&&b<=22)||(a>=27&&a<=35&&b>=2&&b<=22),
+    foot=(a,b)=>Math.hypot(a-16,b-55)<=3.5||Math.hypot(a-28,b-55)<=3.5,
+    ins=(a,b)=>head(a,b)||body(a,b)||arm(a,b)||ear(a,b)||foot(a,b);
+  for(let b=0;b<H;b++)for(let a=0;a<W;a++){if(!ins(a,b))continue;
+    let col=[255,214,228];
+    if(!(ins(a+2,b)&&ins(a-2,b)&&ins(a,b+2)&&ins(a,b-2)))col=[20,8,36];
+    else{if(((a>=11&&a<=15)||(a>=29&&a<=33))&&b>=4&&b<=17)col=[46,24,86];
+      else if(ht(a,b,Math.max(0,(a-12)/24)*.95))col=[229,154,184]}
+    const j=(b*W+a)*4;d[j]=col[0];d[j+1]=col[1];d[j+2]=col[2];d[j+3]=255}
+  x.putImageData(im,0,0);return c;
+}
+
+
+// ===== true 3D celestial sphere, stereographic like a planetarium app =====
+let MW=null,FS,ECL,EQ;const MWC=["rgba(190,170,255,.07)","rgba(190,170,255,.13)","rgba(255,205,215,.12)","rgba(255,205,215,.2)"];
+function makeSkyData(){seed=21;MW=[[],[],[],[]];
+  for(let i=0;i<11000;i++){const l=rnd()*360,lw=w180(l),core=Math.exp(-((lw/55)**2));if(rnd()>.3+.7*core)continue;
+    const b=(rnd()+rnd()+rnd()+rnd()-2)*7*(1.4-.5*core),[ra,dec]=gal(l,b);MW[(Math.abs(lw)<45?2:0)+(rnd()<.35?1:0)].push(vec(ra,dec))}
+  FS=Array.from({length:3500},(_,i)=>{const z=rnd()*2-1,a=rnd()*6.283,r=Math.sqrt(1-z*z);return {x:r*Math.cos(a),y:r*Math.sin(a),z,a:.15+.6*rnd()*rnd(),f:1.5+rnd()*3,ph:rnd()*6.28,c:["#fff","#cfd8ff","#ffe9c8"][i%3],big:rnd()<.05}});
+  const ep=23.43928*rad;ECL=[];EQ=[];for(let k=0;k<360;k++){const l=k*rad;ECL.push(vec(mod(Math.atan2(Math.cos(ep)*Math.sin(l),Math.cos(l))/rad,360),Math.asin(Math.sin(ep)*Math.sin(l))/rad));EQ.push(vec(k,0))}}
+function setCam(){SC=(LW/2)/(2*Math.tan(fov/4));const ca=Math.cos(a0),sa=Math.sin(a0),cd=Math.cos(d0),sd=Math.sin(d0);Fx=cd*ca;Fy=cd*sa;Fz=sd;Ex=-sa;Ey=ca;Nx=-sd*ca;Ny=-sd*sa;Nz=cd}
+const pj=(x,y,z)=>{const zc=x*Fx+y*Fy+z*Fz;if(zc<-.6)return null;const k=SC*2/(1+zc);return [CX-(x*Ex+y*Ey)*k,CY-(x*Nx+y*Ny+z*Nz)*k,zc]};
+function rotView(dx,dy){const x=Fx+Ex*dx/SC+Nx*dy/SC,y=Fy+Ey*dx/SC+Ny*dy/SC,z=Fz+Nz*dy/SC,l=Math.hypot(x,y,z);d0=Math.max(-1.53,Math.min(1.53,Math.asin(z/l)));a0=Math.atan2(y,x)}
+function clipSky(){g.beginPath();g.moveTo(0,0);g.lineTo(LW,0);for(let x=LW;x>=0;x-=6)g.lineTo(x,hill(x)-3);g.lineTo(0,hill(0)-3);g.closePath();g.clip()}
+function drawBackSky(){
+  MW.forEach((tier,ti)=>{g.fillStyle=MWC[ti];for(const v of tier){const p=pj(v[0],v[1],v[2]);if(p&&p[0]>-2&&p[0]<LW+2&&p[1]>-2&&p[1]<H0)g.fillRect(p[0]|0,p[1]|0,1,1)}});
+  FS.forEach(s=>{const p=pj(s.x,s.y,s.z);if(!p||p[0]<-3||p[0]>LW+3||p[1]<-3||p[1]>H0)return;g.globalAlpha=s.a*(.7+.3*Math.sin(t*s.f+s.ph));g.fillStyle=s.c;g.fillRect(p[0]|0,p[1]|0,s.big?2:1,s.big?2:1)});
+  g.globalAlpha=1;
+  g.fillStyle="rgba(255,214,140,.55)";ECL.forEach(v=>{const p=pj(v[0],v[1],v[2]);if(p)g.fillRect(p[0]|0,p[1]|0,1,1)});
+  g.fillStyle="rgba(150,180,255,.4)";EQ.forEach(v=>{const p=pj(v[0],v[1],v[2]);if(p)g.fillRect(p[0]|0,p[1]|0,1,1)});
+}
+const STC={r:"#ff9a7a",o:"#ffc27a",y:"#fff0b0",w:"#ffffff",b:"#b4ccff"};
+function star(x,y,m,col,ph,isF){ // round twinkling star, size by real magnitude
+  const r=Math.max(1.2,2.9-m*.45),tw=.72+.2*Math.sin(t*(2+ph%1.9)+ph*5)+.08*Math.sin(t*9.1+ph*2.3);
+  g.fillStyle=isF?"#ff9fc0":(STC[col]||"#ffffff");
+  g.globalAlpha=.16*tw;g.beginPath();g.arc(x,y,r*3.2,0,6.283);g.fill();
+  g.globalAlpha=.4*tw;g.beginPath();g.arc(x,y,r*1.7,0,6.283);g.fill();
+  g.globalAlpha=Math.min(1,.55+.45*tw);g.beginPath();g.arc(x,y,r*(.85+.15*tw),0,6.283);g.fill();
+  g.globalAlpha=tw;g.fillStyle="#fff";g.beginPath();g.arc(x,y,r*.5,0,6.283);g.fill();g.globalAlpha=1}
+function drawPlanet(X,Y,p){X|=0;Y|=0;const r=p.r;
+  if(p.k==2){g.fillStyle=p.c;g.fillRect(X-r-4,Y,2*r+9,1);g.fillStyle=p.d;g.fillRect(X-r-4,Y+1,2*r+9,1)}
+  for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.hypot(dx,dy)>r+.4)continue;g.fillStyle=(p.k==1&&(dy&1))||dx+dy>r*.5?p.d:p.c;g.fillRect(X+dx,Y+dy,1,1)}
+  g.globalAlpha=.4;g.fillStyle=p.c;for(let a=0;a<12;a++)g.fillRect(X+Math.round(Math.cos(a/12*6.283)*(r+5)),Y+Math.round(Math.sin(a/12*6.283)*(r+5)),1,1);g.globalAlpha=1}
+function drawMoon(){const x=$("#moonCv").getContext("2d"),age=mod((JD()-2451550.26)/29.530588853,1),ph=age*6.2832,r=18,c=20;x.clearRect(0,0,40,40);
+  const lit=(X,y)=>{const nx=X/r,ny=y/r,t=Math.cos(ph)*Math.sqrt(Math.max(0,1-ny*ny));return age<.5?nx>t:nx<-t};
+  for(let y=-19;y<=19;y++)for(let X=-19;X<=19;X++){const d=Math.hypot(X,y);if(d>r)continue;const L=lit(X,y),cr=((X*7+y*13)%11==0)||(X-7)**2+(y+6)**2<6||(X+8)**2+(y-8)**2<5;
+    let col=L?(cr?"#ecdca4":"#fff4c9"):(cr?"#4b3d78":"#665797");
+    if(d>r-1.4)col=L?"#ffe9a8":"#a592e8";x.fillStyle=col;x.fillRect(X+c,y+c,1,1)}
+  [[-6,-2,"#2a1f4a"],[6,-2,"#2a1f4a"],[-2,4,"#ff8fb1"],[-1,5,"#ff8fb1"],[0,5,"#ff8fb1"],[1,5,"#ff8fb1"],[2,4,"#ff8fb1"],[-10,3,"#ffb3c8"],[-9,3,"#ffb3c8"],[9,3,"#ffb3c8"],[10,3,"#ffb3c8"]].forEach(([X,y,col])=>{x.fillStyle=col;x.fillRect(X+c,y+c,1,1);if(Math.abs(X)==6)x.fillRect(X+c,y+c+1,1,1)})}
+
+// ================= LONDON LIVE: clock, season, weather, daytime park =================
+const UP=new URLSearchParams(location.search);
+let LD,SUN=[30,0],SEAS="autumn",MODE="night",modeOv=UP.get("mode")||"auto",WX0={rain:0,snow:0,fog:0,cloud:.3,wind:.2,wx:.1,temp:10,label:"",live:false},WX=WX0,snowy=false,XMAS=false,dayKey="",dayDirty=true,lastTick=0;
+function londonNow(){const o=UP.get("t"),m=o&&o.match(/(\d+)-(\d+)-(\d+)(?:T(\d+):?(\d+)?)?/);
+  if(m){const y=+m[1],mo=+m[2],d=+m[3],h=+(m[4]||12),mi=+(m[5]||0);return {y,mo,d,h,mi,utc:Date.UTC(y,mo-1,d,h,mi)}}
+  const p={};new Intl.DateTimeFormat("en-GB",{year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date()).forEach(x=>p[x.type]=+x.value);
+  return {y:p.year,mo:p.month,d:p.day,h:p.hour%24,mi:p.minute,utc:Date.now()}}
+const seasonOf=(mo,d)=>{const k=mo*100+d;return k>=320&&k<=620?"spring":k>=621&&k<=921?"summer":k>=922&&k<=1220?"autumn":"winter"};
+function sunPos(utc){const n=utc/86400000+2440587.5-2451545,L=mod(280.46+.9856474*n,360),gm=mod(357.528+.9856003*n,360)*rad,lam=(L+1.915*Math.sin(gm)+.02*Math.sin(2*gm))*rad,ep=23.439*rad,
+  ra=Math.atan2(Math.cos(ep)*Math.sin(lam),Math.cos(lam)),dc=Math.asin(Math.sin(ep)*Math.sin(lam)),la=51.5074*rad;let H=(mod(280.46061837+360.98564736629*n,360)+LON)*rad-ra;H=Math.atan2(Math.sin(H),Math.cos(H));
+  return [Math.asin(Math.sin(la)*Math.sin(dc)+Math.cos(la)*Math.cos(dc)*Math.cos(H))/rad,H]}
+const WC=c=>c==0?["clear sky",0,0,0]:c<=2?["partly cloudy",0,0,0]:c==3?["overcast",0,0,0]:(c==45||c==48)?["fog",0,0,.7]:(c>=51&&c<=57)?["drizzle",.3,0,0]:(c>=61&&c<=67)?["rain",.65,0,0]:((c>=71&&c<=77)||c==85||c==86)?["snow",0,.7,0]:(c>=80&&c<=82)?["showers",.7,0,0]:c>=95?["thunderstorm",.95,0,0]:["cloudy",0,0,0];
+function simWx(){const h=hashf(LD.mo*40+LD.d,LD.h>>1),r=hashf(LD.d,LD.mo+7),T={spring:12,summer:22,autumn:9,winter:4}[SEAS]+hashf(LD.d,LD.mo)*6-3,pr={spring:.25,summer:.15,autumn:.35,winter:.3}[SEAS],wet=h<pr;
+  return {rain:wet&&T>1?.4+r*.4:0,snow:wet&&T<=1?.5:0,fog:SEAS=="autumn"&&LD.h<10?.5:0,cloud:wet?.8:r*.5,wind:.15+r*.3,wx:(r-.5)*.5,temp:T,label:wet?(T>1?"light rain":"snow"):"mild",live:false}}
+function loadWx(){if(UP.get("wx"))return;try{fetch("https://api.open-meteo.com/v1/forecast?latitude=51.5074&longitude=-0.1278&current=temperature_2m,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&wind_speed_unit=kmh").then(r=>r.json()).then(j=>{const c=j.current,w=WC(c.weather_code),sp=Math.min(1,c.wind_speed_10m/35);
+  WX0={rain:w[1],snow:w[2],fog:w[3],cloud:c.cloud_cover/100,wind:sp,wx:-Math.sin(c.wind_direction_10m*rad)*sp,temp:c.temperature_2m,label:w[0],live:true};tick()}).catch(()=>{})}catch(e){}setTimeout(loadWx,6e5)}
+function effWx(){const w=Object.assign({},WX0);if(LD.mo==12&&LD.d>=24&&LD.d<=26){w.snow=Math.max(w.snow,.55);w.rain=0;w.cloud=Math.max(w.cloud,.7);w.temp=Math.min(w.temp,1);w.label=(w.label?w.label+" · ":"")+"Christmas snow"}return w}
+function tick(){LD=londonNow();SUN=sunPos(LD.utc);SEAS=seasonOf(LD.mo,LD.d);const o=UP.get("wx");
+  if(o){WX0=Object.assign({rain:0,snow:0,fog:0,cloud:.2,wind:.2,wx:.2,temp:10,live:false,label:o},{rain:{rain:.7,cloud:.8},snow:{snow:.7,cloud:.8,temp:0},fog:{fog:.8,cloud:.5},storm:{rain:.95,wind:.9,wx:.8,cloud:1},wind:{wind:.9,wx:.9},clear:{}}[o]||{})}
+  else if(!WX0.live)WX0=simWx();
+  WX=effWx();snowy=WX.snow>.25||(SEAS==="winter"&&WX.temp<=1);XMAS=LD.mo==12||(LD.mo==1&&LD.d<=6);
+  const dm=modeOv==="auto"?(SUN[0]>-4?"day":"night"):modeOv,k=SEAS+snowy+XMAS;
+  if(dm!==MODE){MODE=dm;applyMode()}if(k!==dayKey){dayKey=k;dayDirty=true}if(stK!==LD.mo*40+LD.d){stK=LD.mo*40+LD.d;ST=sunTimes()}hourCheck();TIDE=tideAt(LD.utc)}
+
+// ----- palettes + tiny helpers -----
+const mixc=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k),rgbs=a=>`rgb(${a[0]|0},${a[1]|0},${a[2]|0})`;
+const tri=x=>{x=mod(x,2);return x<1?x*2-1:3-x*2},trd=x=>mod(x,2)<1?1:-1;
+const CAN={spring:[[[247,182,207],[255,224,236],[205,120,160]],[[100,180,90],[150,220,120],[60,130,66]]],summer:[[[52,150,72],[104,204,104],[28,98,50]]],autumn:[[[222,130,40],[250,190,70],[160,70,20]],[[190,50,35],[235,100,60],[120,30,25]],[[230,176,48],[255,230,110],[170,120,30]]],winter:[[[240,246,255],[255,255,255],[176,194,222]]]};
+const SE_L={spring:"🌸 Spring",summer:"☀️ Summer",autumn:"🍂 Autumn",winter:"❄️ Winter"};
+let hz=0,yb=0,PD={x:0,y:0,rx:1,ry:1},dayBG=null,TREES=[],LIGHTS=[],ENT=[],CL=[],DQ=[],DMi={},PT=[],SNW=[],RN=[];
+function blob(x,cx,cy,r,p){cx|=0;cy|=0;r=Math.max(2,r|0);for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){const d=Math.hypot(dx,dy);if(d>r)continue;const sh=(dx*.55+dy*.85)/r,X=cx+dx,Y=cy+dy;let c=p[0];
+  if(sh<-.25&&ht(X,Y,Math.min(1,-sh*1.2)))c=p[1];else if(sh>.2&&ht(X+1,Y,Math.min(1,sh*1.2)))c=p[2];if(d>r-1.3)c=p[2];x.fillStyle=rgbs(c);x.fillRect(X,Y,1,1)}}
+
+const LON=UP.get('t')?-.1278:-new Date().getTimezoneOffset()/4;let curE=null,nf=0,ST=[null,null],stK=-1;const NITE=new Set(["jog","kite","bf","picnic","van","pig","sq","shop","dance"]);
+const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],hm=m=>m==null?"--:--":String(m/60|0).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+const HOL={"1-1":"New Year 🎆","2-14":"Valentine's 💕","3-17":"St Patrick's ☘️","5-1":"May Day 🌼","6-21":"Midsummer ☀️","10-31":"Halloween 🎃","11-5":"Bonfire Night 🎆","12-24":"Christmas Eve 🎄","12-25":"Christmas 🎄","12-31":"New Year's Eve 🥂"};
+function sunTimes(){const m0=LD.utc-(LD.h*60+LD.mi)*60000;let r=null,s=null,p=sunPos(m0)[0];for(let i=1;i<=144;i++){const a=sunPos(m0+i*600000)[0];if(p<=0&&a>0&&r==null)r=i*10;if(p>0&&a<=0)s=i*10;p=a}return [r,s]}
+function moonPos(utc){const d=utc/86400000+2440587.5-2451545,L=mod(218.316+13.176396*d,360),M=mod(134.963+13.064993*d,360)*rad,F=mod(93.272+13.22935*d,360)*rad,lam=(L+6.289*Math.sin(M))*rad,bet=5.128*Math.sin(F)*rad,ep=23.439*rad,
+  ra=Math.atan2(Math.sin(lam)*Math.cos(ep)-Math.tan(bet)*Math.sin(ep),Math.cos(lam)),dc=Math.asin(Math.sin(bet)*Math.cos(ep)+Math.cos(bet)*Math.sin(ep)*Math.sin(lam)),la=51.5074*rad;
+  let H=(mod(280.46061837+360.98564736629*d,360)+LON)*rad-ra;H=Math.atan2(Math.sin(H),Math.cos(H));return [Math.asin(Math.sin(la)*Math.sin(dc)+Math.cos(la)*Math.cos(dc)*Math.cos(H))/rad,H]}
+const NAMES=["Nell","Biscuit","Oscar","Pip","Mabel","Arlo","Ivy","Teddy","Rosie","Finn","Daisy","Moss"],LVL=["new face","friend","close friend","best friend"],
+LRN=["learned your name from Yogesh: Ashka ♥","helped Yogesh plan every surprise in this park","is saving the best spot for you, just like Yogesh asked","knows Yogesh built this whole park for you","heard Yogesh say you are his whole sky","promised Yogesh to look after you every day"];
+let PM={};try{PM=JSON.parse(localStorage.getItem("park-mem")||"{}")}catch(e){}
+// ----- static park (lawn, path, skyline, trees, stalls) -----
+function buildDay(){
+  hz=Math.round(LH*.44);yb=LH-dockLog-14;PD={x:LW*.27,y:hz+(yb-hz)*.58,rx:LW*.2,ry:LW*.052};
+  const c=document.createElement("canvas");c.width=LW;c.height=LH;const x=c.getContext("2d");seed=33;
+  const R=(a,b,w,h,f)=>{x.fillStyle=f;x.fillRect(a|0,b|0,w|0,h|0)},sn=snowy;
+  const LC={spring:[[104,184,88],[146,214,112],[70,146,72]],summer:[[78,152,66],[122,192,82],[52,112,54]],autumn:[[148,138,62],[198,172,72],[108,98,46]],winter:[[196,210,222],[250,252,255],[158,174,196]]}[sn?"winter":SEAS],pc=sn?[232,238,246]:SEAS=="autumn"?[196,146,86]:[216,198,162];
+  const im=x.createImageData(LW,LH),d=im.data;
+  for(let Y=hz;Y<LH;Y++){const dep=(Y-hz)/(LH-hz);for(let X=0;X<LW;X++){const pd=Math.hypot((X-PD.x)/PD.rx,(Y-PD.y)/PD.ry);if(pd<1)continue;
+    let col=mixc(LC[0],LC[2],dep*.6);const tx=hashf(X>>2,Y>>2);
+    if(ht(X,Y,Math.max(0,tx-.45)*1.6))col=LC[1];else if(ht(X+1,Y+1,Math.max(0,.35-tx)*1.5))col=LC[2];
+    if(pd<1.1)col=sn?[235,240,248]:[104,84,62];
+    const px0=LW*.55+LW*.16*Math.sin((Y-hz)/80+1),pw=8+(Y-hz)*.2,ax=Math.abs(X-px0);
+    if(ax<pw){col=pc;if(ax>pw-2)col=mixc(pc,[90,80,60],.4);else if(ht(X,Y,hashf(X,Y>>1)*.4))col=mixc(pc,[255,255,255],.35)}
+    const j=(Y*LW+X)*4;d[j]=col[0];d[j+1]=col[1];d[j+2]=col[2];d[j+3]=255}}
+  x.putImageData(im,0,0);
+  const fl=SEAS=="spring"?["#fff","#ffd6e8","#fff27a","#ff9ac2"]:SEAS=="summer"?["#fff","#fff27a","#ffb3d1"]:SEAS=="autumn"?["#c0391f","#e8862b","#f0b030","#8a2a14"]:[];
+  if(!sn&&fl.length)for(let i=0;i<150;i++){const X=rnd()*LW,Y=hz+18+rnd()*(LH-hz-18);if(Math.hypot((X-PD.x)/PD.rx,(Y-PD.y)/PD.ry)<1.15)continue;R(X,Y,2,2,fl[(rnd()*fl.length)|0]);if(SEAS!="autumn")R(X,Y,1,1,"#ffd24d")}
+  // London skyline: Big Ben, Eye, Shard, Gherkin, St Paul's, BT Tower
+  const sk="rgba(118,138,186,.55)",sx=f=>LW*f;
+  R(sx(.1)-5,hz-52,10,52,sk);R(sx(.1)-4,hz-60,8,8,sk);R(sx(.1)-1,hz-70,2,10,sk);R(sx(.1)-2,hz-47,4,5,"rgba(255,236,170,.8)");
+  for(let a=0;a<120;a++){const an=a/120*6.283;R(sx(.3)+Math.cos(an)*28,hz-30+Math.sin(an)*28,1,1,sk)}for(let k=0;k<12;k++){const an=k/12*6.283;for(let r=2;r<28;r+=2)R(sx(.3)+Math.cos(an)*r,hz-30+Math.sin(an)*r,1,1,sk)}R(sx(.3)-2,hz-4,4,4,sk);
+  for(let i=0;i<66;i++){const w=i*.17+1;R(sx(.52)-w,hz-66+i,w*2,1,sk)}
+  for(let i=0;i<40;i++){const w=7*Math.sqrt(Math.max(0,1-((i-20)/23)**2))+1;R(sx(.66)-w,hz-40+i,w*2,1,sk)}
+  R(sx(.8)-15,hz-14,30,14,sk);for(let i=0;i<=15;i++){const w=Math.sqrt(225-i*i);R(sx(.8)-w,hz-14-i,w*2,1,sk)}R(sx(.8)-2,hz-36,4,7,sk);R(sx(.8),hz-43,1,7,sk);
+  R(sx(.93)-3,hz-60,6,60,sk);R(sx(.93)-6,hz-46,12,5,sk);
+  const wi=sn||SEAS=="winter",FAR=wi?[[[150,150,172],[210,216,238],[100,100,126]]]:CAN[SEAS];
+  for(let X=-6;X<LW+14;X+=12){const r=8+rnd()*7;blob(x,X,hz-r*.35+rnd()*3,r,FAR[(rnd()*FAR.length)|0])}
+  TREES=[];LIGHTS=[];const trunk="#5a3a22",pal=wi?null:CAN[SEAS];
+  const tree=(cx,base,s)=>{R(cx-5*s,base-72*s,10*s,72*s,trunk);R(cx-5*s,base-72*s,3*s,72*s,"#7a5434");R(cx+3*s,base-72*s,2*s,72*s,"#3e2816");R(cx-9*s,base-6*s,18*s,6*s,trunk);
+    if(pal){[[0,-104,34],[-30,-86,24],[30,-90,26],[-10,-132,24],[22,-126,22]].forEach(([a,b,r])=>blob(x,cx+a*s,base+b*s,r*s,pal[(rnd()*pal.length)|0]));TREES.push({x:cx,y:base-104*s,r:46*s})}
+    else{const by=base-72*s;[[-34,-118],[30,-124],[-18,-140],[10,-150],[40,-100],[-40,-96]].forEach(([a,b])=>{const X=cx+a*s,Y=base+b*s,n=Math.max(1,Math.hypot(X-cx,Y-by)|0);for(let i=0;i<=n;i++)R(cx+(X-cx)*i/n,by+(Y-by)*i/n,2,2,"#4a3020");
+      if(sn)blob(x,X,Y-2,6*s,CAN.winter[0]);if(XMAS)LIGHTS.push({x:X,y:Y,ph:LIGHTS.length})})}};
+  tree(LW*.8,hz+34,.42);tree(LW*.3,hz+30,.38);tree(LW*.015,hz+(yb-hz)*.5,.55);tree(LW*.99,hz+(yb-hz)*.45,.5);
+  // outdoor market stalls (+ festive lights in winter)
+  const aw={spring:["#ffb6c8","#fff"],summer:["#ff6b6b","#fff"],autumn:["#e8862b","#6b3a1c"],winter:["#d33a3a","#fff"]}[SEAS];
+  [0,1].forEach(i=>{const cx=LW*.5+14+i*30,cy=hz+36;R(cx-12,cy-9,24,9,"#8a5a34");for(let k=0;k<8;k++){R(cx-12+k*3,cy-15,3,5,aw[k%2]);if(XMAS||SEAS=="winter")LIGHTS.push({x:cx-11+k*3,y:cy-10,ph:k+i*3})}
+    R(cx-12,cy-10,24,1,"rgba(0,0,0,.25)");[0,1,2,3].forEach(k=>R(cx-9+k*5,cy-8,2,2,["#ff6b6b","#ffd24d","#7cd86b","#ff9ac2"][(k+i)%4]))});
+  if(SEAS=="summer")for(let k=0;k<18;k++)R(LW*.5+k*4,hz+20+Math.sin(k/18*3.14)*5,3,3,["#ff6b6b","#ffd24d","#6bc7ff","#a56bff"][k%4]);
+  if(XMAS){const tx=LW*.42,ty=hz+48;for(let i=0;i<4;i++){const w=6+i*5,y0=ty-30+i*8;for(let r=0;r<10;r++)R(tx-w*(r/10+.3),y0+r,w*2*(r/10+.3),1,i%2?"#1f7a46":"#2a9a58")}R(tx-2,ty,4,5,trunk);R(tx-1,ty-36,3,3,"#ffd24d");for(let i=0;i<10;i++)LIGHTS.push({x:tx+(rnd()-.5)*20,y:ty-28+rnd()*28,ph:i})}
+  dayBG=c;initDay();
+}
+
+// ----- the living park: who is here this season -----
+function initDay(){
+  ENT=[];const sp=SEAS=="spring",su=SEAS=="summer",au=SEAS=="autumn",wi=SEAS=="winter"||snowy,gy=f=>hz+20+(yb-8-hz-20)*f;
+  const PAL={spring:["#6a8fd8","#2a1a10","#ff9ac2","#3a2418","#fff"],summer:["#ffffff","#3a2a20","#ffd24d","#6b3a1c","#fff"],autumn:["#7a4a2a","#2a1a10","#b5532a","#3a2418","#e8a030"],winter:["#2a3a6a","#2a1a10","#c0392b","#3a2418","#fff"]}[SEAS];
+  for(let i=0;i<2;i++)ENT.push({k:"duck",a0:i*1.6,sp:wi?0:(.12+i*.02)*(i%2?-1:1),ra:.5+.12*(i%3),rb:.45+.14*((i+1)%3)});
+  if(!wi)ENT.push({k:"swan",a0:3.5,sp:.07,ra:.6,rb:.6});
+  if(sp||su)for(let i=1;i<=2;i++)ENT.push({k:"dl",i,lead:ENT[0]});
+  ENT.push({k:"owner",x:LW*.72,y:gy(.8)},{k:"dog",x0:LW*.72,y:gy(.8)+8,len:70,sp:.5,col:"#b07a48"});
+  ENT.push({k:"walk",y:gy(.85),cx:LW*.5,amp:LW*.28,sp:.05,pal:PAL});
+  if(sp){ENT.push({k:"bench",x:LW*.84,y:gy(.55),pal:PAL},{k:"shop",x:LW*.56,y:hz+46,ph:0},{k:"shop",x:LW*.66,y:hz+46,ph:2})}
+  if(su){ENT.push({k:"picnic",x:LW*.62,y:gy(.72),pal:PAL},{k:"dance",x:LW*.82,y:gy(.92),pal:PAL},{k:"boat"},{k:"van",x:LW*.43,y:gy(.16)},{k:"shop",x:LW*.6,y:hz+46,ph:1})}
+  if(au){ENT.push({k:"bench",x:LW*.84,y:gy(.55),pal:PAL},{k:"watch",x:LW*.63,y:gy(.3),pal:PAL},{k:"stag",y:gy(.1)},{k:"sq",x0:LW*.2,y:gy(.7),len:40,ph:0},{k:"fire",x:LW*.6,y:gy(.62)})}
+  if(wi){ENT.push({k:"skate",a0:0,sp:.35,pal:PAL},{k:"skate",a0:3.1,sp:.3,pal:PAL},{k:"bench",x:LW*.84,y:gy(.55),pal:PAL},{k:"shop",x:LW*.56,y:hz+46,ph:0},{k:"shop",x:LW*.66,y:hz+46,ph:2})}
+  ENT.push({k:"jog",y:gy(.95),sp:34,ph:LW*.3});
+  if(!snowy)for(let i=0;i<2;i++)ENT.push({k:"pig",x:LW*.52+i*14,y:gy(.7)+i*3,ph:i*2});
+  if(WX.wind>.4&&WX.rain<.3)ENT.push({k:"kite",x:LW*.7,y:gy(.92)});
+  if(sp||su)for(let i=0;i<3;i++)ENT.push({k:"bf",bx:LW*(.3+i*.2),by:gy(.45)+i*10,ph:i*2,c:["#ff9ac2","#ffd24d","#9ad0ff"][i]});
+  CL=Array.from({length:3+Math.round(WX.cloud*7)},()=>({x:rnd()*LW,y:8+rnd()*(hz-60),w:36+rnd()*50,s:.6+rnd()*.8}));
+  PT=Array.from({length:46},()=>({x:0,y:-99,gy:0,ph:rnd()*6,c:rnd(),vy:12+rnd()*16}));
+  SNW=Array.from({length:220},()=>({x:rnd()*LW,y:rnd()*LH,s:rnd(),ph:rnd()*6}));
+  RN=Array.from({length:320},()=>({x:rnd()*LW,y:rnd()*LH}));
+}
+
+// ----- sprites -----
+const SKN="#ffd9bf",TR="#2b2b44";
+const mkf=(x,y,u,d)=>(ox,oy,w,h,c)=>{g.fillStyle=c;const X=x+(d>0?ox:-ox-w)*u,Y=y+oy*u,a=Math.round(X*RS)/RS,b=Math.round(Y*RS)/RS;g.fillRect(a,b,Math.round((X+w*u)*RS)/RS-a,Math.round((Y+h*u)*RS)/RS-b)};
+function person(x,y,u,d,wl,col,hair,o){o=o||{};g.fillStyle="rgba(30,40,20,.16)";g.beginPath();g.ellipse(x,y,5*u,1.6*u,0,0,6.283);g.fill();const f=mkf(x,y,u,d),s=Math.sin(wl)>0?1:0;f(-1,-3,1,3-s,TR);f(0,-3,1,2+s,TR);if(o.dress)f(-2,-5,4,3,col);f(-2,-8,4,5,col);if(o.scarf)f(-2,-8,4,1,o.scarf);f(-1,-11,3,3,SKN);f(-2,-12,4,2,hair);if(o.long)f(-2,-11,1,4,hair);if(o.hat)f(-2,-13,4,1,o.hat)}
+function sitter(x,y,u,d,col,hair,o){o=o||{};const f=mkf(x,y,u,d);f(-2,-6,4,4,col);f(-1,-9,3,3,SKN);f(-2,-10,4,2,hair);if(o.long)f(-2,-9,1,4,hair);f(0,-2,4,1,TR)}
+function umbrella(x,y,u,c){g.fillStyle=c;g.fillRect(x-7*u,y-16*u,14*u,u);g.fillRect(x-5*u,y-17*u,10*u,u);g.fillRect(x-3*u,y-18*u,6*u,u);g.fillStyle="#444";g.fillRect(x,y-15*u,u,5*u)}
+function dogS(x,y,u,d,wl,col){g.fillStyle="rgba(30,40,20,.16)";g.beginPath();g.ellipse(x,y,6*u,1.8*u,0,0,6.283);g.fill();const f=mkf(x,y,u,d),s=Math.sin(wl)>0?1:0,dk="#5a3a22";f(-4,-5,7,3,col);f(2,-7,3,3,col);f(4,-6,2,1,"#2b1a10");f(3,-8,1,2,dk);f(-4,-2,1,2-s,dk);f(-2,-2,1,1+s,dk);f(1,-2,1,2-s,dk);f(3,-2,1,1+s,dk);f(-5,-7-s,1,3,col)}
+function duckS(x,y,u,d,dv,dl){const f=mkf(x,y,u,d);if(dl){f(-2,-2,4,2,"#ffd84d");f(1,-4,2,2,"#ffd84d");f(3,-3,1,1,"#f08a20");return}
+  f(-4,-2-dv*2,7,3,"#c9a77c");f(-4,-1,7,1,"#a8855a");f(-5,-3-dv*3,2,2,"#7a5a38");f(2,-5,3,3,"#2f8f5a");f(5,-4,2,1,"#f0a030");f(3,-4,1,1,"#fff")}
+
+const qd=(y,fn)=>DQ.push([y,fn]),HT=(x,y,k)=>hits.push({x,y,dk:k,e:curE}),U=y=>.85+.9*Math.min(1,Math.max(0,(y-hz)/(yb-hz)));
+const heartAt=(e,x,y)=>{if(t>(e.nx||0)){hearts.push({x,y,t:0,s:Math.random()*6,c:"#ff8fb1"});e.nx=t+4+Math.random()*4}};
+const EF={
+ duck(e){const a=e.a0+t*e.sp,x=PD.x+Math.cos(a)*PD.rx*e.ra,y=PD.y+Math.sin(a)*PD.ry*e.rb,d=-Math.sign(Math.sin(a)*e.sp)||1,dv=Math.pow(Math.max(0,Math.sin(t*.6+e.a0*4)),14);
+  qd(y,()=>{g.fillStyle="rgba(255,255,255,.35)";g.fillRect(x-9,y,18,1);duckS(x,y,2,d,dv)});HT(x,y-6,"duck")},
+ swan(e){const a=e.a0+t*e.sp,x=PD.x+Math.cos(a)*PD.rx*e.ra,y=PD.y+Math.sin(a)*PD.ry*e.rb,d=-Math.sign(Math.sin(a)*e.sp)||1;
+  qd(y,()=>{const f=mkf(x,y,2,d);g.fillStyle="rgba(255,255,255,.35)";g.fillRect(x-12,y,24,1);f(-5,-3,10,4,"#fff");f(-5,0,10,1,"#dfe6ee");f(4,-10,2,8,"#fff");f(4,-12,3,2,"#fff");f(7,-11,2,1,"#f0a030");f(-6,-4,2,2,"#fff")});HT(x,y-8,"swan")},
+ dl(e){const L=e.lead,a=L.a0+(t-e.i*.9)*L.sp,x=PD.x+Math.cos(a)*PD.rx*L.ra,y=PD.y+Math.sin(a)*PD.ry*L.rb,d=-Math.sign(Math.sin(a)*L.sp)||1;qd(y,()=>duckS(x,y,2,d,0,1))},
+ owner(e){const x=e.x,y=e.y;qd(y,()=>{person(x,y,2,1,0,"#6a8fd8","#3a2a20");mkf(x,y,2,1)(2,-8-(Math.sin(t*2)>.7?3:0),3,1,SKN)})},
+ dog(e){const x=e.x0+tri(t*e.sp)*e.len,d=trd(t*e.sp),y=e.y;qd(y,()=>dogS(x,y,2,d,t*8,e.col));HT(x,y-6,"dog");
+  qd(y+1,()=>{const bx=e.x0+tri(t*e.sp+.5)*e.len,by=y-Math.abs(Math.sin(t*5))*8;g.fillStyle="#ff5a5a";g.fillRect(bx|0,(by-3)|0,3,3)})},
+ walk(e){const ph=t*e.sp,x=e.cx+tri(ph)*e.amp,d=trd(ph),y=e.y,u=U(y),p=e.pal;
+  qd(y,()=>{person(x-3*u,y,u,d,t*6,p[0],p[1],{scarf:p[4]});person(x+3*u,y,u,d,t*6+1,p[2],p[3],{dress:1,long:1,scarf:p[4]});g.fillStyle=SKN;g.fillRect(x-u,y-6*u,2*u,u);if(WX.rain>.25)umbrella(x,y,u,"#ff9ac2")});HT(x,y-8*u,"couple")},
+ bench(e){const x=e.x,y=e.y,u=U(y),p=e.pal,warm=SEAS=="autumn"||SEAS=="winter"||snowy;
+  qd(y,()=>{g.fillStyle="#8a5a34";g.fillRect(x-9*u,y-4*u,18*u,2*u);g.fillRect(x-9*u,y-8*u,18*u,2*u);g.fillRect(x-8*u,y-2*u,u,2*u);g.fillRect(x+7*u,y-2*u,u,2*u);
+   sitter(x-3*u,y-2*u,u,1,p[0],p[1]);sitter(x+3*u,y-2*u,u,-1,p[2],p[3],{long:1});
+   if(warm){for(let i=0;i<3;i++){const k=(t*7+i*4)%12;g.fillStyle=`rgba(255,255,255,${.5-k/24})`;g.fillRect(x+(i-1)*u,y-12*u-k,u,u)}g.fillStyle="#fff";g.fillRect(x-u,y-6*u,2*u,2*u)}
+   if(WX.rain>.25)umbrella(x,y,u,"#9ad0ff")});heartAt(e,x,y-18*u);HT(x,y-8*u,"couple")},
+ picnic(e){const x=e.x,y=e.y,u=U(y),p=e.pal;qd(y,()=>{for(let i=0;i<14;i++)for(let j=0;j<6;j++){g.fillStyle=(i+j)&1?"#e0463c":"#fff";g.fillRect(x-14*u+i*2*u,y-4*u+j*u,2*u,u)}
+   sitter(x-4*u,y-3*u,u,1,p[0],p[1]);sitter(x+4*u,y-3*u,u,-1,p[2],p[3],{long:1});g.fillStyle="#b07a48";g.fillRect(x-u,y-3*u,4*u,3*u);
+   g.fillStyle="#ff9ac2";g.fillRect(x-10*u,y-17*u,20*u,u);g.fillRect(x-8*u,y-18*u,16*u,u);g.fillRect(x-5*u,y-19*u,10*u,u);g.fillStyle="#fff";g.fillRect(x-4*u,y-17*u,3*u,u);g.fillRect(x+2*u,y-17*u,3*u,u);g.fillStyle="#6b4a2a";g.fillRect(x,y-16*u,u,12*u)});heartAt(e,x,y-24*u);HT(x,y-8*u,"couple")},
+ dance(e){const x=e.x,y=e.y,u=U(y),s=Math.sin(t*3)*u,p=e.pal;qd(y,()=>{person(x-3*u+s,y,u,1,t*3,p[0],p[1]);person(x+3*u+s,y,u,-1,t*3+2,p[2],p[3],{dress:1,long:1})});heartAt(e,x,y-18*u);HT(x,y-8*u,"couple")},
+ boat(e){const a=t*.15+1,x=PD.x+Math.cos(a)*PD.rx*.5,y=PD.y+Math.sin(a)*PD.ry*.45,d=-Math.sign(Math.sin(a))||1;
+  qd(y+3,()=>{const f=mkf(x,y,2,d);g.fillStyle="rgba(255,255,255,.35)";g.fillRect(x-14,y+1,28,1);f(-9,-3,18,3,"#8a5a34");f(-9,-3,18,1,"#b07a48");sitter(x-6,y-6,2,d,"#fff","#3a2a20");sitter(x+6,y-6,2,-d,"#ffd24d","#6b3a1c",{long:1});g.fillStyle="#c9a77c";g.fillRect(x-14,y-4+Math.sin(t*3)*2,7,1);g.fillRect(x+8,y-4-Math.sin(t*3)*2,7,1)});HT(x,y-10,"couple")},
+ skate(e){const a=t*e.sp+e.a0,x=PD.x+Math.cos(a)*PD.rx*.7,y=PD.y+Math.sin(a)*PD.ry*.7,d=-Math.sign(Math.sin(a)*e.sp)||1,p=e.pal;
+  qd(y,()=>{person(x-6,y,2,d,t*5,p[0],p[1],{scarf:p[4]});person(x+6,y,2,d,t*5+1,p[2],p[3],{dress:1,long:1,scarf:p[4]});g.fillStyle="#dfe9f5";g.fillRect(x-10,y,20,1)});HT(x,y-16,"couple")},
+ watch(e){const x=e.x,y=e.y,u=U(y),p=e.pal;qd(y,()=>{person(x-3*u,y,u,1,0,p[0],p[1],{scarf:p[4]});person(x+3*u,y,u,1,0,p[2],p[3],{dress:1,long:1,scarf:p[4]});g.fillStyle=SKN;g.fillRect(x-u,y-6*u,2*u,u)});heartAt(e,x,y-16*u);HT(x,y-8*u,"couple")},
+ jog(e){const x=mod(t*e.sp+e.ph,LW+60)-30,y=e.y,u=U(y);qd(y,()=>person(x,y,u,1,t*14,"#ff5a5a","#2a1a10",{hat:"#fff"}));HT(x,y-8*u,"jog")},
+ shop(e){const x=e.x+Math.sin(t*.4+e.ph)*10,y=e.y,d=Math.cos(t*.4+e.ph)>0?1:-1;qd(y,()=>person(x,y,1,d,t*4,["#c9507a","#4a8fd8","#8a6ad8"][e.ph%3],"#3a2418",{long:e.ph%2==0}));HT(x,y-8,"couple")},
+ pig(e){const x=e.x+Math.sin(t*.3+e.ph)*14,y=e.y,d=Math.cos(t*.3+e.ph)>0?1:-1,pk=Math.sin(t*5+e.ph)>.5?1:0;
+  qd(y,()=>{const f=mkf(x,y,2,d);f(-3,-3,5,3,"#8d93a0");f(1,-5+pk*2,2,2,"#6a7080");f(3,-4+pk*2,1,1,"#f0a030");f(-4,-2,2,1,"#6a7080");f(-1,0,1,1,"#c05050");f(1,0,1,1,"#c05050")});HT(x,y-6,"pig")},
+ sq(e){const x=e.x0+tri(t*.12+e.ph)*e.len,d=trd(t*.12+e.ph),y=e.y,hop=Math.abs(Math.sin(t*6))*2;
+  qd(y,()=>{const f=mkf(x,y-hop,2,d);f(-2,-3,4,3,"#b5651d");f(2,-5,2,3,"#b5651d");f(3,-4,1,1,"#222");f(-4,-7,2,5,"#c9782a");f(-3,-8,2,2,"#c9782a")});HT(x,y-6,"sq")},
+ stag(e){const x=mod(t*5,LW+90)-45,y=e.y;qd(y,()=>{const f=mkf(x,y,2,1);f(-8,-9,16,6,"#8a5a34");f(-8,-4,16,1,"#b58a60");[-7,-4,3,6].forEach(o=>f(o,-3,1,3,"#5a3a22"));f(6,-16,3,8,"#8a5a34");f(7,-18,5,3,"#8a5a34");f(11,-17,1,1,"#222");f(8,-24,1,6,"#e0d2a8");f(10,-24,1,6,"#e0d2a8");f(7,-24,3,1,"#e0d2a8");f(10,-23,3,1,"#e0d2a8")});HT(x,y-10,"stag")},
+ kite(e){const x=e.x,y=e.y,kx=x+30+WX.wx*40+Math.sin(t*1.7)*8,ky=y-90+Math.sin(t*1.3)*6;
+  qd(y,()=>{person(x,y,2,1,0,"#ffb347","#3a2a20");mkf(x,y,2,1)(2,-9,3,1,SKN);for(let i=0;i<=24;i++){const k=i/24;g.fillStyle="rgba(255,255,255,.7)";g.fillRect(x+6+(kx-x-6)*k,y-18+(ky-y+18)*k+Math.sin(k*3+t*2)*2*k,1,1)}
+   for(let i=-5;i<=5;i++){const w=5-Math.abs(i);g.fillStyle=i%2?"#ff5a8a":"#ffd24d";g.fillRect(kx-w,ky+i,w*2,1)}for(let i=1;i<7;i++){g.fillStyle=i%2?"#ff5a8a":"#6bc7ff";g.fillRect(kx+Math.sin(t*5+i)*3,ky+6+i*3,2,2)}});HT(kx,ky,"kite")},
+ fire(e){const x=e.x,y=e.y;if(!(SUN[0]<14||LD.h>=16))return;
+  qd(y,()=>{g.globalAlpha=.16;g.fillStyle="#ffb86b";g.beginPath();g.arc(x,y-8,34+Math.sin(t*9)*2,0,6.283);g.fill();g.globalAlpha=1;g.fillStyle="#5a3a22";g.fillRect(x-8,y-3,16,3);g.fillRect(x-6,y-5,12,2);
+   for(let i=0;i<5;i++){const h=8+4*Math.sin(t*10+i*1.7)+(i==2?6:0),cx=x-5+i*2.5;g.fillStyle="#ff8c1a";g.fillRect(cx,y-5-h,3,h);g.fillStyle="#ffd24d";g.fillRect(cx,y-5-h*.55,3,h*.55)}
+   for(let i=0;i<5;i++){const k=(t*18+i*9)%30;g.fillStyle=`rgba(255,200,80,${1-k/30})`;g.fillRect(x-6+i*3+Math.sin(t*3+i)*3,y-12-k,1,1)}
+   sitter(x-16,y,2,1,"#7a4a2a","#2a1a10");sitter(x+16,y,2,-1,"#b5532a","#3a2418",{long:1})});HT(x,y-10,"fire")},
+ van(e){const x=e.x,y=e.y;qd(y,()=>{const f=mkf(x,y,2,1);f(-10,-9,20,8,"#ffb6c8");f(-10,-9,20,2,"#fff");f(-8,-7,6,3,"#cfe9ff");f(-9,-1,5,2,"#333");f(4,-1,5,2,"#333");f(0,-13,4,4,SKN);f(1,-15,2,2,"#ff5a8a");f(-1,-5,9,1,"#fff")});HT(x,y-9,"van")},
+ bf(e){const x=e.bx+Math.sin(t*.8+e.ph)*40,y=e.by+Math.sin(t*1.3+e.ph*2)*16,fl=Math.sin(t*14+e.ph)>0;qd(y+50,()=>{g.fillStyle=e.c;g.fillRect(x|0,y|0,fl?3:1,2);g.fillStyle="#222";g.fillRect((x|0)+1,y|0,1,2)});HT(x,y,"bf")}
+};
+
+// ----- sky, sun, clouds -----
+const SKYS=[[-18,[3,4,22],[14,16,50]],[-6,[16,12,52],[200,90,110]],[0,[60,84,170],[255,160,110]],[8,[86,148,230],[255,214,170]],[25,[64,158,255],[186,226,255]]];
+function skyCols(al){const S=SKYS;if(al<=S[0][0])return[S[0][1],S[0][2]];for(let i=1;i<S.length;i++)if(al<=S[i][0]){const k=(al-S[i-1][0])/(S[i][0]-S[i-1][0]);return[mixc(S[i-1][1],S[i][1],k),mixc(S[i-1][2],S[i][2],k)]}return[S[3][1],S[3][2]]}
+function drawSky(dt){const al=SUN[0],gr=Math.max(WX.cloud*.55,WX.rain*.8,WX.snow*.7,WX.fog*.6);let [tp,bt]=skyCols(al);tp=mixc(tp,[150,158,170],gr);bt=mixc(bt,[190,196,204],gr);
+  const lg=g.createLinearGradient(0,0,0,hz);lg.addColorStop(0,rgbs(tp));lg.addColorStop(1,rgbs(bt));g.fillStyle=lg;g.fillRect(0,0,LW,hz+2);
+  if(al<6){g.fillStyle="#fff";for(let i=0;i<90;i++){g.globalAlpha=Math.min(1,(6-al)/10)*(1-gr)*(.35+.65*Math.abs(Math.sin(t*1.4+i*1.7)));g.fillRect(hashf(i,3)*LW,hashf(i,9)*hz*.75,1.2,1.2)}g.globalAlpha=1}
+  const XY=(a,H)=>[CX+Math.sin(H)*LW*.42,hz-14-Math.max(0,a)/62*(hz-60)];
+  for(let i=0;i<=48;i++){const u=LD.utc+(i-24)*1800000,q=sunPos(u),m=moonPos(u);if(q[0]>0){const P=XY(q[0],q[1]);g.globalAlpha=.2*(1-gr);g.fillStyle="#fff3a0";g.fillRect(P[0],P[1],1.5,1.5)}if(m[0]>0){const P=XY(m[0],m[1]);g.globalAlpha=.16*(1-gr);g.fillStyle="#cfd8ff";g.fillRect(P[0],P[1],1.5,1.5)}}g.globalAlpha=1;
+  const mp=moonPos(LD.utc);if(mp[0]>-3){const [mx,my]=XY(mp[0],mp[1]),age=mod((LD.utc/86400000+2440587.5-2451550.26)/29.530588853,1),ph=age*6.2832,r=9,ma=(al<-3?1:Math.max(.3,Math.min(1,(8-al)/10)))*(1-gr*.6),cx=Math.round(mx),cy=Math.round(my);
+    const rg2=g.createRadialGradient(cx,cy,3,cx,cy,48);rg2.addColorStop(0,`rgba(200,215,255,${.34*ma})`);rg2.addColorStop(1,"rgba(200,215,255,0)");g.fillStyle=rg2;g.fillRect(cx-48,cy-48,96,96);
+    for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.hypot(dx,dy)>r)continue;const nx=dx/r,ny=dy/r,tt=Math.cos(ph)*Math.sqrt(Math.max(0,1-ny*ny)),lit=age<.5?nx>tt:nx<-tt;g.globalAlpha=ma;g.fillStyle=lit?"#fff6d0":"rgba(58,64,108,.92)";g.fillRect(cx+dx,cy+dy,1,1)}g.globalAlpha=1}
+  if(al>-3){const [sx,sy]=XY(al,SUN[1]),a=1-gr*.8,k=Math.min(1,Math.max(0,al/14)),sc=mixc([255,128,60],[255,248,205],k),R=90+30*(1-k),cs=`${sc[0]|0},${sc[1]|0},${sc[2]|0}`;
+    const rg=g.createRadialGradient(sx,sy,2,sx,sy,R);rg.addColorStop(0,`rgba(${cs},${.85*a})`);rg.addColorStop(.3,`rgba(${cs},${.28*a})`);rg.addColorStop(1,`rgba(${cs},0)`);g.fillStyle=rg;g.fillRect(sx-R,sy-R,R*2,R*2);
+    g.globalAlpha=a;g.fillStyle=rgbs(mixc(sc,[255,255,255],.5));g.beginPath();g.arc(sx,sy,10+2*(1-k),0,6.283);g.fill();g.globalAlpha=1}
+  const rainy=WX.rain>.25,cc=al<10?mixc([255,196,168],[255,255,255],Math.max(0,al)/10):[255,255,255];
+  CL.forEach(c=>{c.x+=(5+Math.abs(WX.wx)*30)*c.s*dt*(WX.wx<0?-1:1);const w=c.w*1.4,x=mod(c.x,LW+w+40)-w,y=c.y;g.fillStyle=rainy?"rgba(132,142,158,.92)":`rgba(${cc[0]|0},${cc[1]|0},${cc[2]|0},.94)`;
+    [[.18,.62,.17],[.36,.4,.26],[.58,.5,.22],[.78,.64,.16],[.5,.7,.2]].forEach(([a,b,r])=>{g.beginPath();g.arc(x+w*a,y+w*b*.5,r*w*.5,0,6.283);g.fill()})});
+  if(!rainy&&al>5)for(let i=0;i<3;i++){const x=mod(t*22+i*60,LW+40)-20,y=36+i*14+Math.sin(t*2+i)*4,f=Math.sin(t*9+i)>0?1:-1;g.fillStyle="#2a2a3a";g.fillRect(x-3,y+f,3,1);g.fillRect(x,y,2,1);g.fillRect(x+2,y+f,3,1)}
+  if(WX.wind>.45)for(let k=0;k<6;k++){g.fillStyle="rgba(255,255,255,.4)";g.fillRect(mod(t*90*(WX.wx<0?-1:1)+k*97,LW+30)-15,40+(k*37)%(hz+100),14,1)}}
+function drawPond(){const {x:cx,y:cy,rx,ry}=PD,ice=snowy||SEAS=="winter";
+  for(let dy=-ry;dy<=ry;dy++){const w=rx*Math.sqrt(1-(dy/ry)**2);g.fillStyle=ice?"#cfe6f5":rgbs(mixc([64,132,196],[110,180,226],(dy+ry)/(2*ry)));g.fillRect(cx-w,cy+dy,w*2,1)}
+  g.fillStyle=ice?"rgba(255,255,255,.7)":"rgba(255,255,255,.4)";for(let k=0;k<26;k++){const dy=((k*37)%((2*ry)|0))-ry,w=rx*Math.sqrt(Math.max(0,1-(dy/ry)**2));g.fillRect(cx-w+((k*53+t*(ice?0:14)*(k%3+1))%(2*w||1)),cy+dy,5,1)}
+  if(WX.rain>.25)for(let k=0;k<6;k++){const ph=(t*1.5+k*.37)%1,i=Math.floor(t*1.5+k*.37),X=cx+(hashf(k,i)-.5)*rx*1.6,Y=cy+(hashf(i,k)-.5)*ry*1.4,r=ph*6;g.fillStyle=`rgba(255,255,255,${1-ph})`;g.fillRect(X-r,Y,2,1);g.fillRect(X+r,Y,2,1);g.fillRect(X,Y-r*.4,1,1);g.fillRect(X,Y+r*.4,1,1)}}
+function drawLights(){if(!LIGHTS.length||!(SUN[0]<12||WX.cloud>.6))return;const cs=["#ff4d6d","#ffd24d","#6bd1ff","#7cff9a"];LIGHTS.forEach((l,i)=>{const c=cs[(i+((t*2)|0))%4];g.globalAlpha=.25;g.fillStyle=c;g.fillRect(l.x-2,l.y-2,5,5);g.globalAlpha=1;g.fillRect(l.x,l.y,2,2)})}
+function drawParticles(dt){const wx=WX.wx*30+Math.sin(t*.5)*6;
+  if(!snowy&&(SEAS=="autumn"||SEAS=="spring")&&TREES.length){const n=Math.min(46,Math.round(16+WX.wind*30)),cs=SEAS=="autumn"?[[222,90,30],[200,50,35],[240,180,50]]:[[255,190,214],[255,224,236],[255,160,200]];
+    for(let i=0;i<n;i++){const p=PT[i];if(p.y<-50||p.y>p.gy){const T=TREES[(rnd()*TREES.length)|0];p.x=T.x+(rnd()-.5)*T.r*2;p.y=T.y+(rnd()-.5)*T.r;p.gy=hz+30+rnd()*(yb-hz)}
+      p.y+=p.vy*dt;p.x+=(wx+Math.sin(t*1.5+p.ph)*10)*dt;const c=cs[(p.c*3)|0];g.fillStyle=rgbs(c);g.fillRect(p.x|0,p.y|0,Math.sin(t*4+p.ph)>0?3:2,2)}}
+  if(WX.snow>.05){const n=Math.floor(220*Math.min(1,WX.snow*1.3));g.fillStyle="#fff";for(let i=0;i<n;i++){const s=SNW[i];s.y+=(18+s.s*28)*dt;s.x+=(wx+Math.sin(t+s.ph)*8)*dt;if(s.y>LH-dockLog){s.y=-4;s.x=rnd()*LW}s.x=mod(s.x,LW);g.fillRect(s.x|0,s.y|0,s.s>.6?2:1,s.s>.6?2:1)}}
+  if(WX.rain>.05){const n=Math.floor(320*WX.rain);g.fillStyle="rgba(210,225,255,.6)";for(let i=0;i<n;i++){const r=RN[i];r.y+=360*dt;r.x+=(WX.wx*70+25)*dt;if(r.y>LH-dockLog){r.y=-6;r.x=rnd()*LW}r.x=mod(r.x,LW);g.fillRect(r.x|0,r.y|0,1,3);g.fillRect((r.x|0)+1,(r.y|0)+3,1,2)}}}
+// ----- day messages (none repeat until the whole list was used) -----
+const DM={duck:["Quack! The ducks voted, and you're the prettiest princess in all of London. 🦆","This duck asked who I love most. I said Ashka. It quacked in agreement.","Quack quack! That's duck for 'you deserve every good thing'.","Waddle, waddle... I'd follow you anywhere, even into a pond. 🦆","These ducks swim in perfect circles, just like my thoughts around you.","The pond is calm, but my heart goes quack-quack-quack when I see you."],
+swan:["A swan chooses one partner forever. I'm taking notes, princess. 🦢","Graceful like you. The swan told me so."],
+dog:["Woof! That's dog for 'Ashka is the best human in London'. 🐶","This good boy wants cuddles. So do I, from you.","Tail wagging detected. Cause: you.","Woof woof! Translation: I love you to the moon and back.","Even the dogs run to catch happiness. I already caught mine: you."],
+couple:["These two look just like us, holding hands and giggling. 💕","Look at them! That's us in a few years, still smiling like fools.","Love is two people walking the same way. I'm walking with you, always.","Every couple here wishes they had what we have. 💗","I bet they're whispering sweet things. I have a whole list for you.","Someday we'll be the couple everyone smiles at in the park.","Take my hand, princess. Let's walk through every season together.","If I could pause one moment in this park, it would be you laughing."],
+jog:["Running won't get me closer to you than I already am: right next to your heart. 🏃","Go go go! Just like my heart whenever you text."],
+kite:["Let's fly kites someday. You hold my string; I'll hold yours. 🪁","The wind can't carry away what I feel for you."],
+sq:["This squirrel is hoarding nuts. I'm hoarding every memory of you. 🐿️","Tiny, fast and adorable. Reminds me of you in the morning."],
+stag:["A real stag in the mist. Magical, like you walking into a room. 🦌","Quiet and majestic. That's how you make my world feel."],
+fire:["This fire is warm, but nothing warms me like your smile. 🔥","Let's sit by the bonfire, drink cider, and talk about everything."],
+van:["Ice cream for my princess? Any flavor, any time. 🍦","You're sweeter than every flavor in that van."],
+pig:["Coo coo! Even the pigeons are in love in London. 🕊️","Pigeons bob their heads for crumbs. I'd bob mine for your smile."],
+bf:["A butterfly landed on my heart the day I met you. 🦋","Butterflies everywhere. Same as my stomach when you call."]};
+const DT={duck:"🦆 a duck says",swan:"🦢 a swan says",dog:"🐶 a good dog says",couple:"💕 a couple in the park",jog:"🏃 a jogger",kite:"🪁 a kite",sq:"🐿️ a squirrel",stag:"🦌 a stag",fire:"🔥 the bonfire",van:"🍦 the ice-cream van",pig:"🕊️ a pigeon",bf:"🦋 a butterfly"};
+function dayTap(h){
+  if(royalTapHook(h))return;
+  if(h.dk==="plane"){const a=h.ac,K=["Yogesh asked this flight to carry a kiss to you, Ashka. 💋","Somewhere up there a pilot is flying a little wish from Yogesh, just for you.","Yogesh says every light in the sky is a tiny reminder that he is thinking of you. ✨"];showMsg(`${a.cat==7?"🚁":"✈️"} ${a.cs} · ${Math.round(a.alt*3.281)} ft · ${Math.round(a.v*1.944)} kt`,K[(Math.random()*K.length)|0]);charHearts();return}const L=DM[h.dk],i=DMi[h.dk]=(DMi[h.dk]||0);DMi[h.dk]++;
+  const k=h.dk+(h.id||0),m=PM[k]=PM[k]||{v:0,mem:[]},nm=NAMES[Math.abs([...k].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7))%NAMES.length],lv=Math.min(3,m.v>>1),c=m.v%3;
+  let ln=L[i%L.length],txt=ln.includes("Yogesh")?ln:"Yogesh says: "+ln;
+  if(m.v==0)txt=`Hi Princess Ashka, I'm ${nm}! Yogesh asked me to look after you today. 💕`;
+  else if(c==1){const r=m.mem[m.v%m.mem.length];txt=`${r.d}, ${r.w}: Your Highness stopped to say hi. I told Yogesh, he smiled all day. 🤍`}
+  else if(c==2)txt=`${nm} ${LRN[(m.v+(m.v/3|0))%LRN.length]}.`;
+  m.mem.push({d:LD.d+" "+MN[LD.mo-1],w:WX.label||"mild"});if(m.mem.length>6)m.mem.shift();m.v++;try{localStorage.setItem("park-mem",JSON.stringify(PM))}catch(e){}
+  showMsg(`${DT[h.dk]} · ${nm} · ${LVL[lv]}`,txt);charHearts()}
+
+// ----- sun / moon button, mode UI -----
+function drawSun(){const x=$("#moonCv").getContext("2d"),c=20;x.clearRect(0,0,40,40);
+  for(let k=0;k<8;k++){const a=k/8*6.283;for(let r=14;r<=18;r++){x.fillStyle="#ffb300";x.fillRect(Math.round(c+Math.cos(a)*r),Math.round(c+Math.sin(a)*r),2,2)}}
+  for(let y=-12;y<=12;y++)for(let X=-12;X<=12;X++){const d=Math.hypot(X,y);if(d>12)continue;x.fillStyle=d>10.6?"#ffb300":(X+y<-6?"#fff3a0":"#ffd24d");x.fillRect(X+c,y+c,1,1)}
+  [[-4,-2,"#5a3000"],[4,-2,"#5a3000"],[-2,3,"#e0507f"],[-1,4,"#e0507f"],[0,4,"#e0507f"],[1,4,"#e0507f"],[2,3,"#e0507f"],[-8,2,"#ff9aa8"],[-7,2,"#ff9aa8"],[7,2,"#ff9aa8"],[8,2,"#ff9aa8"]].forEach(([X,y,col])=>{x.fillStyle=col;x.fillRect(X+c,y+c,1,1);if(Math.abs(X)==4)x.fillRect(X+c,y+c+1,1,1)})}
+function applyMode(){document.body.classList.toggle("day",MODE==="day");if(lastM!==MODE){setRes(lastM!==null);lastM=MODE}MODE==="day"&&SUN[0]>-2?drawSun():drawMoon();
+  const o=typeof openAt!=="undefined"&&openAt!==null;
+  $("#hint").textContent=!o?"tap the box to open it":MODE==="day"?"tap London's little friends & landmarks · sun = letter · ⚖ = laws":"drag any way · pinch to zoom · tap a star · tap the moon ♥";
+  if(o){dT.textContent=MODE==="day"?"london park":"for you, princess";dM.textContent=MODE==="day"?"tap the ducks, dogs & couples ✦":"tap any star in the sky ✦"}}
+// ----- fireworks: New Year's Eve + Bonfire Night (night sky) -----
+let FW=[],fwNext=0;
+const fwOn=()=>UP.get("fw")||(LD&&((LD.mo==12&&LD.d==31&&LD.h>=23)||(LD.mo==1&&LD.d==1&&LD.h<1)||(LD.mo==11&&LD.d==5&&LD.h>=18&&LD.h<23)));
+function fireworks(dt){if(!fwOn())return;fwNext-=dt;if(fwNext<0){fwNext=.5+Math.random()*1.1;const x=LW*(.15+Math.random()*.7),y=H0*(.12+Math.random()*.4),col=["#ff6b9d","#ffd24d","#7cf0ff","#b78bff","#fff"][(Math.random()*5)|0];for(let i=0;i<36;i++){const a=i/36*6.283,v=30+Math.random()*30;FW.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:0,c:col})}}
+  FW=FW.filter(p=>{p.l+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=40*dt;p.vx*=.99;g.globalAlpha=Math.max(0,1-p.l/1.6);g.fillStyle=p.c;g.fillRect(p.x|0,p.y|0,2,2);g.globalAlpha=1;return p.l<1.6})}
+function nyeCouple(){if(!fwOn())return;const X=LAMP.x+44,Y=LAMP.base-2;person(X-3,Y,2,1,0,"#d9507a","#3a2a20",{scarf:[255,255,255],dress:1,long:1});person(X+3,Y,2,-1,0,"#4a6fd8","#2a1a10",{scarf:[255,255,255]});if(Math.random()<.02)hearts.push({x:X-2,y:Y-34,t:0,s:Math.random()*6,c:"#ff8fb1"})}
+
+
+DM.lamp=["Yogesh lit this lamp for you, princess. He never wants you to walk in the dark. 🏮","Every lamp along this river was Yogesh's idea, so your path always glows.","This lamp stays on all night because Yogesh asked it to wait for you. 💛"];DT.lamp="🏮 a lamp";
+DM.boat=["Yogesh booked this little river cruise for you, princess. Next stop: forever. 🚤","The captain says Yogesh asked for the slowest, prettiest route, just for you."];DT.boat="🚤 the river boat";
+const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),LX=[.1,.3,.5,.7,.9];let lastDk=null,lastSun=null,nxB=0;
+const lampAt=x=>Math.max(...LX.map(f=>cl(1-Math.abs(x-LW*f)/(LW*.13))));
+const dimC=x=>{const k=nf*.72*(1-lampAt(x)*.55);return a=>rgbs(mixc(a,[12,14,44],k))};
+function glow(x,y,R,col,a){g.globalCompositeOperation="lighter";const r=g.createRadialGradient(x,y,1,x,y,R);r.addColorStop(0,`rgba(${col},${a})`);r.addColorStop(1,`rgba(${col},0)`);g.fillStyle=r;g.fillRect(x-R,y-R,R*2,R*2);g.globalCompositeOperation="source-over"}
+function human(x,y,s,col,hair,d,ph,o){o=o||{};const C=dimC(x),L=lampAt(x),sw=o.sit?0:Math.sin(ph),bob=o.sit?0:Math.abs(Math.cos(ph))*1.1*s;
+ g.fillStyle=`rgba(0,0,0,${.16+.1*nf})`;g.beginPath();g.ellipse(x,y,7*s,2*s,0,0,6.283);g.fill();
+ g.lineCap="round";g.lineJoin="round";g.lineWidth=3*s;g.strokeStyle=C([44,46,78]);g.beginPath();
+ if(o.sit){g.moveTo(x,y-9*s);g.lineTo(x+d*7*s,y-9*s);g.lineTo(x+d*7*s,y-s)}else{g.moveTo(x,y-13*s-bob);g.lineTo(x+sw*5*s,y);g.moveTo(x,y-13*s-bob);g.lineTo(x-sw*5*s,y)}g.stroke();
+ const by=y-(o.sit?25:27)*s-bob,bh=(o.dress?10:15)*s;g.fillStyle=C(col);g.beginPath();g.roundRect(x-4.6*s,by,9.2*s,bh,4*s);g.fill();
+ if(o.dress){g.beginPath();g.moveTo(x-4.4*s,by+9*s);g.lineTo(x-7*s,by+19*s);g.lineTo(x+7*s,by+19*s);g.lineTo(x+4.4*s,by+9*s);g.fill()}
+ g.lineWidth=2.4*s;g.strokeStyle=C(col);g.beginPath();g.moveTo(x,by+3*s);g.lineTo(x-d*sw*5*s+d*2*s,by+10*s);g.stroke();
+ if(o.scarf){g.fillStyle=C(o.scarf);g.fillRect(x-4*s,by-.5*s,8*s,2.4*s)}
+ g.fillStyle=C([245,206,182]);g.beginPath();g.arc(x+d*.6*s,by-4.2*s,3.9*s,0,6.283);g.fill();
+ g.fillStyle=C(hair);g.beginPath();g.arc(x+d*.2*s,by-5*s,4.1*s,3.3,6.1);g.fill();if(o.long){g.beginPath();g.roundRect(x-4.4*s,by-6*s,3*s,12*s,1.5*s);g.fill()}
+ if(o.band){g.fillStyle=C(o.band);g.fillRect(x-4*s,by-6.4*s,8*s,1.5*s)}
+ if(L*nf>.03){g.fillStyle=`rgba(255,196,110,${L*nf*.22})`;g.beginPath();g.roundRect(x-4.6*s,by,9.2*s,bh,4*s);g.fill()}}
+function dogD(x,y,s,d,ph,col){const C=dimC(x),sw=Math.sin(ph);g.fillStyle="rgba(0,0,0,.18)";g.beginPath();g.ellipse(x,y,8*s,2*s,0,0,6.283);g.fill();
+ g.lineCap="round";g.lineWidth=2*s;g.strokeStyle=C([90,60,36]);g.beginPath();[[-4,1],[-3,-1],[4,-1],[5,1]].forEach(([o,k])=>{g.moveTo(x+d*o*s,y-6*s);g.lineTo(x+d*o*s+sw*k*3*s,y)});g.moveTo(x-d*7*s,y-9*s);g.lineTo(x-d*10*s,y-13*s+sw*2*s);g.stroke();
+ g.fillStyle=C(col);g.beginPath();g.ellipse(x,y-8*s,7*s,3.6*s,0,0,6.283);g.fill();g.beginPath();g.arc(x+d*7.5*s,y-11*s,3.3*s,0,6.283);g.fill();g.fillStyle=C([90,60,36]);g.beginPath();g.ellipse(x+d*6*s,y-14*s,1.4*s,2.2*s,d*.4,0,6.283);g.fill()}
+function duckD(x,y,s,d,ph){const C=dimC(x),b=Math.sin(ph)*.8;g.fillStyle="rgba(255,255,255,.22)";g.beginPath();g.ellipse(x,y+2*s,9*s,2*s,0,0,6.283);g.fill();
+ g.fillStyle=C([201,170,124]);g.beginPath();g.ellipse(x,y+b,6*s,3.6*s,0,0,6.283);g.fill();g.fillStyle=C([44,140,90]);g.beginPath();g.arc(x+d*5*s,y-4*s+b,2.7*s,0,6.283);g.fill();
+ g.fillStyle=C([240,160,48]);g.beginPath();g.moveTo(x+d*7.4*s,y-4.4*s+b);g.lineTo(x+d*10*s,y-3.4*s+b);g.lineTo(x+d*7.4*s,y-2.6*s+b);g.fill()}
+function boatD(x,y,s){const C=a=>rgbs(mixc(a,[10,12,40],nf*.7));g.fillStyle="rgba(255,255,255,.28)";g.fillRect(x-36*s,y+2*s,74*s,1);
+ g.fillStyle=C([236,236,240]);g.beginPath();g.moveTo(x-30*s,y-6*s);g.lineTo(x+32*s,y-6*s);g.lineTo(x+24*s,y+2*s);g.lineTo(x-24*s,y+2*s);g.fill();g.fillStyle=C([200,70,70]);g.fillRect(x-28*s,y-2*s,54*s,2*s);g.fillStyle=C([220,224,232]);g.fillRect(x-18*s,y-15*s,32*s,9*s);
+ for(let i=0;i<6;i++){g.fillStyle=nf>.2?"#ffd58a":"#7fa6d8";g.fillRect(x-16*s+i*5*s,y-13*s,3.2*s,4*s)}if(nf>.1)glow(x,y-9*s,44*s,"255,200,120",.35*nf)}
+function lamp(x,y,i){const top=y-46*Math.min(1.2,LW/380);g.fillStyle=rgbs(mixc([58,56,70],[16,14,34],nf));g.fillRect(x-1,top,2,y-top);g.fillRect(x-4,y-3,8,3);g.beginPath();g.moveTo(x-5,top);g.lineTo(x+5,top);g.lineTo(x+3,top-7);g.lineTo(x-3,top-7);g.fill();
+ g.fillStyle=nf>.08?"#ffe7b0":"#b8b4a8";g.fillRect(x-3,top-5,6,5);
+ if(nf>.02){const f=.94+.06*Math.sin(t*3+i*2);glow(x,top-3,80*f,"255,200,120",.7*nf);g.globalCompositeOperation="lighter";g.fillStyle=`rgba(255,190,110,${.16*nf})`;g.beginPath();g.ellipse(x,y+6,54,10,0,0,6.283);g.fill();g.globalCompositeOperation="source-over"}}
+// ---- tiny real-3D mesh engine (shared with the park scene): lathe solids, faces, depth sort, Lambert shading ----
+const v3s=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],v3x=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],v3d=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+function ring(x,r,n,oy,oz){const o=[];for(let i=0;i<n;i++){const a=i/n*6.2832;o.push([x,(oy||0)+Math.cos(a)*r,(oz||0)+Math.sin(a)*r])}return o}
+function lathe(xs,rs,n,col,oy,oz){const R=xs.map((x,i)=>ring(x,rs[i],n,oy,oz)),F=[];for(let i=0;i<xs.length-1;i++)for(let j=0;j<n;j++){const k=(j+1)%n;F.push({v:[R[i][j],R[i][k],R[i+1][k],R[i+1][j]],c:col,ax:[(xs[i]+xs[i+1])/2,oy||0,oz||0]})}return F}
+const MD={};
+MD.air=[...lathe([.5,.47,.42,.3,-.2,-.38,-.5],[.004,.03,.05,.062,.062,.04,.012],10,[236,239,246]),...lathe([.16,.12,0],[.028,.03,.026],8,[150,156,170],.17,-.05),...lathe([.16,.12,0],[.028,.03,.026],8,[150,156,170],-.17,-.05),
+ {v:[[.12,.04,0],[-.04,.04,0],[-.2,.47,.02],[-.1,.47,.02]],c:[214,220,232]},{v:[[.12,-.04,0],[-.04,-.04,0],[-.2,-.47,.02],[-.1,-.47,.02]],c:[214,220,232]},
+ {v:[[-.4,0,.03],[-.5,0,.03],[-.5,.17,.02],[-.44,.17,.02]],c:[214,220,232]},{v:[[-.4,0,.03],[-.5,0,.03],[-.5,-.17,.02],[-.44,-.17,.02]],c:[214,220,232]},{v:[[-.3,0,.055],[-.5,0,.04],[-.5,0,.22],[-.44,0,.22]],c:[190,40,70]}];
+MD.heli=[...lathe([.5,.38,.12,-.12,-.25],[.02,.09,.12,.09,.04],10,[205,50,62]),...lathe([-.25,-.8],[.035,.012],6,[200,50,62]),{v:[[-.72,0,0],[-.82,0,0],[-.86,0,.15],[-.78,0,.15]],c:[170,40,52]},
+ {v:[[.3,.1,-.15],[-.2,.1,-.15],[-.2,.108,-.15],[.3,.108,-.15]],c:[40,40,46]},{v:[[.3,-.1,-.15],[-.2,-.1,-.15],[-.2,-.108,-.15],[.3,-.108,-.15]],c:[40,40,46]}];
+const rotorF=t=>{const F=[];for(let k=0;k<4;k++){const b=t*38+k*1.5708,c=Math.cos(b),s=Math.sin(b);F.push({v:[[0,0,.17],[.55*c-.02*s,.55*s+.02*c,.17],[.55*c+.02*s,.55*s-.02*c,.17]],c:[48,52,60]})}return F};
+function drawMesh(g,F,pos,f,r,u,sc,proj,shade){const out=[],T=p=>[pos[0]+sc*(p[0]*f[0]+p[1]*r[0]+p[2]*u[0]),pos[1]+sc*(p[0]*f[1]+p[1]*r[1]+p[2]*u[1]),pos[2]+sc*(p[0]*f[2]+p[1]*r[2]+p[2]*u[2])];
+ F.forEach(fc=>{const Wv=fc.v.map(T),Q=Wv.map(proj);if(Q.some(q=>!q))return;let n=v3x(v3s(Wv[1],Wv[0]),v3s(Wv[2],Wv[0]));const m=Math.hypot(n[0],n[1],n[2])||1;n=[n[0]/m,n[1]/m,n[2]/m];
+  if(fc.ax){const c=[0,1,2].map(i=>Wv.reduce((s,p)=>s+p[i],0)/Wv.length),o=v3s(c,T(fc.ax));if(v3d(n,o)<0)n=[-n[0],-n[1],-n[2]]}
+  out.push({Q,n,fc,d:Q.reduce((s,q)=>s+q[2],0)/Q.length})});
+ out.sort((a,b)=>b.d-a.d).forEach(o=>{g.fillStyle=shade(o.n,o.fc.c,!!o.fc.ax);g.beginPath();o.Q.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]));g.closePath();g.fill();g.strokeStyle=g.fillStyle;g.lineWidth=.6;g.stroke()});return T}
+
+// ===== AIR TRAFFIC over London: live ADS-B (OpenSky) or the real Heathrow-style schedule =====
+let lhT=0,lh=12,ACN=0,ACOK=false;const AC=new Map(),LAT0=51.5074,LON0=-.1278,MPD=111320,AL=["BAW","VIR","EZY","AAL","DLH","UAE","SIA","QTR","KLM","AFR","IBE","SWR"];
+const ldnH=()=>{try{return +new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/London",hour:"numeric",hour12:false}).format(new Date())%24}catch(e){return 12}};
+function loadAC(){try{fetch("https://opensky-network.org/api/states/all?lamin=51.25&lomin=-0.75&lamax=51.75&lomax=0.45").then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{const n=Date.now();(j.states||[]).forEach(a=>{const alt=a[13]??a[7];if(a[8]||a[5]==null||a[6]==null||!alt||alt<40)return;AC.set(a[0],{id:a[0],cs:(a[1]||"").trim()||a[0],lon:a[5],lat:a[6],alt,v:a[9]||0,trk:a[10]||0,vr:a[11]||0,cat:a[17]||0,at:n})});ACOK=true}).catch(()=>{})}catch(e){}setTimeout(loadAC,60000)}
+function simAC(utc){const out=[],h=lh,cs=Math.cos(LAT0*rad),add=(kind,I,dur,mk)=>{for(let n=Math.floor((utc-dur*1000)/(I*1000));n<=Math.floor(utc/(I*1000));n++){const age=(utc-n*I*1000)/1000;if(age<0||age>dur)continue;const a=mk(n,age);a.id=kind+n;a.cs=a.cs||AL[n%AL.length]+(100+(n*37)%890);out.push(a)}};
+ add("A",h>=6&&h<22?90:(h==5||h==22)?200:1500,640,(n,age)=>{const E=22000-75*age,N=-2400-(n%2)*300;return {lat:LAT0+N/MPD,lon:LON0+E/(MPD*cs),alt:Math.max(60,(E+24000)*.0524),v:75,trk:270,vr:-3.9,cat:3,land:1}});
+ add("O",h>=6&&h<23?420:1200,600,(n,age)=>{const e=n%2,E=e?-70000+240*age:70000-240*age,N=-9000+hashf(n,3)*22000;return {lat:LAT0+N/MPD,lon:LON0+E/(MPD*cs),alt:10500,v:240,trk:e?90:270,vr:0,cat:3}});
+ add("H",600,480,(n,age)=>{const e=n%2,E=e?-12000+50*age:12000-50*age;return {lat:LAT0-350/MPD,lon:LON0+E/(MPD*cs),alt:300,v:50,trk:e?90:270,vr:0,cat:7,cs:"G-LPOL"}});return out}
+function acProj(a){const E=(a.lon-LON0)*MPD*Math.cos(LAT0*rad),N=(a.lat-LAT0)*MPD,d=Math.hypot(E,N);if(d<200)return null;let dA=Math.atan2(E,N)-Math.PI;dA=Math.atan2(Math.sin(dA),Math.cos(dA));if(Math.abs(dA)>1.6)return null;const el=Math.atan2(a.alt-8,d)/rad;return {x:CX+Math.sin(dA)*LW*.42,y:hz-14-Math.max(0,el)/62*(hz-60),d,E,N,el}}
+function drawAC(gr){const now=Date.now();if(now-lhT>30000){lhT=now;lh=ldnH()}let list=[];
+ if(ACOK){AC.forEach((a,k)=>{const dt=(now-a.at)/1000;if(dt>150){AC.delete(k);return}const r=a.trk*rad,b=Object.assign({},a);b.lat=a.lat+a.v*dt*Math.cos(r)/MPD;b.lon=a.lon+a.v*dt*Math.sin(r)/(MPD*Math.cos(a.lat*rad));b.alt=Math.max(20,a.alt+a.vr*dt);b.land=a.vr<-1.5&&b.alt<3500;list.push(b)})}else list=simAC(LD.utc);
+ ACN=list.length;const day=1-nf,al0=SUN[0],mpA=moonPos(LD.utc),useSun=al0>-3,LI=useSun?cl((al0+3)/20)*1.05:(mpA[0]>0?.28:0),
+  Ld=useSun?[-Math.sin(SUN[1])*Math.cos(al0*rad),-Math.cos(SUN[1])*Math.cos(al0*rad),Math.sin(al0*rad)]:[-Math.sin(mpA[1])*Math.cos(mpA[0]*rad),-Math.cos(mpA[1])*Math.cos(mpA[0]*rad),Math.sin(mpA[0]*rad)];
+ list.map(a=>({a,p:acProj(a)})).filter(o=>o.p&&o.p.y<hz-2&&o.p.y>-30).sort((u,v)=>v.p.d-u.p.d).forEach(({a,p})=>{
+  const r=a.trk*rad,q=acProj(Object.assign({},a,{lat:a.lat+a.v*2*Math.cos(r)/MPD,lon:a.lon+a.v*2*Math.sin(r)/(MPD*Math.cos(a.lat*rad)),alt:a.alt+a.vr*2})),ang=q?Math.atan2(q.y-p.y,q.x-p.x):0,heli=a.cat==7,
+   th=((Math.atan2(-p.E,-p.N)-r)/rad+540)%360-180,ph=hashf(String(a.id).split("").reduce((u,c)=>u+c.charCodeAt(0),0),7),dm=(.2+.8*nf)*(1-gr*.4),
+   sep=Math.max(0,(heli?12:38)/p.d*LW*.42*5),px=-Math.sin(ang)*sep/2,py=Math.cos(ang)*sep/2,near=Math.min(1,6000/p.d),
+   Lt=(x,y,col,al,R)=>{if(al<=.02)return;glow(x,y,R,col,al);g.fillStyle=`rgba(${col},${Math.min(1,al+.25)})`;g.fillRect(x-.8,y-.8,1.6,1.6)};
+  if(a.alt>7500&&day>.1){g.globalAlpha=.45*day;g.strokeStyle="#fff";g.lineWidth=1.4;g.lineCap="round";g.beginPath();g.moveTo(p.x,p.y);g.lineTo(p.x-Math.cos(ang)*70,p.y-Math.sin(ang)*70);g.stroke();g.globalAlpha=1}
+  {const Lm=heli?15:60,Lt0=Math.min(70,Math.max(16,Lm/p.d*LW*.42*7)),sc=Lm*Lt0/(Lm/p.d*LW*.42),wd=[p.E/p.d,p.N/p.d],rg=[wd[1],-wd[0]],kk=LW*.42/p.d,pos=[p.E,p.N,a.alt-8],f=[Math.sin(r),Math.cos(r),0],rr=[Math.cos(r),-Math.sin(r),0],
+   proj=w=>{const qx=w[0]-pos[0],qy=w[1]-pos[1],qz=w[2]-pos[2];return [p.x+(qx*rg[0]+qy*rg[1])*kk,p.y-qz*kk,qx*wd[0]+qy*wd[1]]},
+   shade=(n,col,solid)=>{let d=n[0]*Ld[0]+n[1]*Ld[1]+n[2]*Ld[2];if(!solid)d=Math.abs(d);d=Math.max(0,d)*LI;const amb=.12+.42*day,gl=n[2]<-.3?nf*.1:0,c=mixc(col,[170,185,215],Math.min(.6,p.d/50000)*(1-nf*.6));return rgbs(c.map(v=>v*(amb+d+gl)))};
+   const T=drawMesh(g,heli?MD.heli.concat(rotorF(t)):MD.air,pos,f,rr,[0,0,1],sc,proj,shade),an=v=>{const q=proj(T(v));return [q[0],q[1]]},
+   wl=heli?[.1,.12,0]:[-.1,.46,.02],tl=heli?[-.86,0,.15]:[-.5,0,.1],bc=heli?[-.1,0,.14]:[0,0,.07];
+   // ICAO navigation lights on the real 3D wingtips: red port / green starboard (110° arcs), white tail (140° arc), strobes, beacon, landing lights
+   if(th>=-4&&th<=110){const q=an(wl);Lt(q[0],q[1],"60,255,110",dm*near*.9,5)}
+   if(th<=4&&th>=-112){const q=an([wl[0],-wl[1],wl[2]]);Lt(q[0],q[1],"255,50,50",dm*near*.9,5)}
+   if(Math.abs(th)>=110){const q=an(tl);Lt(q[0],q[1],"255,250,235",dm*near*.8,4)}
+   const sf=(t*.9+ph)%1;if(!heli&&(sf<.07||(sf>.17&&sf<.24))){const q1=an(wl),q2=an([wl[0],-wl[1],wl[2]]);Lt(q1[0],q1[1],"255,255,255",(.4+.6*nf)*near,9);Lt(q2[0],q2[1],"255,255,255",(.4+.6*nf)*near,9)}
+   if(((t*.75+ph*2)%1)<.12){const q=an(bc);Lt(q[0],q[1],"255,40,40",(.5+.5*nf)*near,7)}
+   if(a.land&&!heli&&Math.abs(th)<18){const k=(1-Math.abs(th)/18)*Math.min(1,(3500/p.d)**2),q=an([.45,0,-.03]);Lt(q[0],q[1],"255,250,225",Math.min(1,k*dm*1.3),11)}}
+  hits.push({x:p.x,y:p.y,dk:"plane",id:30,ac:a})})}
+function dayFrame(dt){
+ const HB=LH-dockLog,al=SUN[0];nf=cl((4-al)/14);const gh=cl(1-Math.abs(al-3)/9)*(1-nf*.6),gr=cl(Math.max(WX.cloud*.5,WX.rain*.8,WX.snow*.6,WX.fog*.6)),
+  s=Math.min(1.25,LW/380),HZ=hz=Math.round(HB*.5);yb=HB;const RB=HZ+(HB-HZ)*.4,sc=Math.min(1.1,HZ/300);hits=[];TREES.length=0;
+ const dk=nf<.5;if(dk!==lastDk){lastDk=dk;document.body.classList.toggle("day",dk)}const su=al>-2;if(su!==lastSun){lastSun=su;su?drawSun():drawMoon()}
+ drawSky(dt);drawAC(gr);
+ const grey=[150,156,168],far=mixc(mixc(mixc([158,176,212],[238,168,132],gh),[14,16,42],nf),grey,gr*.5*(1-nf)),nr=mixc(mixc(mixc([112,132,172],[196,122,104],gh),[8,9,28],nf),grey,gr*.4*(1-nf)),N=rgbs(nr);
+ const B=[];g.fillStyle=rgbs(far);for(let i=0,X=-4;X<LW+10;i++){const h=(14+hashf(i,3)*34)*sc,w=9+hashf(i,4)*5;g.fillRect(X,HZ-h,w,h);B.push([X,w,h,i]);X+=w+1+hashf(i,1)*3}
+ if(nf>.12){g.fillStyle="#ffd58a";B.forEach(([X,w,h,i])=>{for(let r=4;r<h-2;r+=5)for(let c=2;c<w-1;c+=4){const k=hashf(i*13+r,c);if(k>.5){g.globalAlpha=nf*(k>.8?.95:.55);g.fillRect(X+c,HZ-h+r,1.6,1.9)}}});g.globalAlpha=1}
+ // landmarks: Big Ben + Parliament, London Eye, Shard, Gherkin, St Paul's
+ g.fillStyle=N;{const bx=LW*.12,bw=14*sc,bh=84*sc;g.fillRect(bx-bw/2,HZ-bh,bw,bh);g.fillRect(bx-bw*.62,HZ-bh-22*sc,bw*1.24,24*sc);g.beginPath();g.moveTo(bx-bw*.62,HZ-bh-22*sc);g.lineTo(bx,HZ-bh-54*sc);g.lineTo(bx+bw*.62,HZ-bh-22*sc);g.fill();g.fillRect(bx+bw/2,HZ-26*sc,62*sc,26*sc);for(let k=0;k<5;k++)g.fillRect(bx+bw/2+6*sc+k*12*sc,HZ-32*sc,4*sc,7*sc);
+  g.fillStyle=nf>.1?"#ffe9a8":"#e4dfcc";g.beginPath();g.arc(bx,HZ-bh-10*sc,4.6*sc,0,6.283);g.fill();if(nf>.05){glow(bx,HZ-bh-10*sc,30*sc,"255,215,130",.55*nf);glow(bx,HZ-bh*.5,50*sc,"255,170,90",.16*nf)}}
+ {const ex=LW*.4,cy=HZ-58*sc,r=46*sc,a0=t*.03;g.strokeStyle=N;g.lineWidth=1.6;g.beginPath();g.arc(ex,cy,r,0,6.283);g.stroke();g.lineWidth=.7;g.beginPath();for(let k=0;k<16;k++){const a=a0+k/16*6.283;g.moveTo(ex,cy);g.lineTo(ex+Math.cos(a)*r,cy+Math.sin(a)*r)}g.stroke();g.lineWidth=2;g.beginPath();g.moveTo(ex,cy);g.lineTo(ex-16*sc,HZ);g.moveTo(ex,cy);g.lineTo(ex+16*sc,HZ);g.stroke();
+  for(let k=0;k<16;k++){const a=a0+k/16*6.283,px=ex+Math.cos(a)*r,py=cy+Math.sin(a)*r;g.fillStyle=nf>.1?"#ffe0a0":N;g.beginPath();g.arc(px,py,2*sc,0,6.283);g.fill();if(nf>.1)glow(px,py,8*sc,"255,200,120",.5*nf)}}
+ g.fillStyle=N;{const sx=LW*.62;g.beginPath();g.moveTo(sx-10*sc,HZ);g.lineTo(sx-6*sc,HZ-70*sc);g.lineTo(sx-1*sc,HZ-128*sc);g.lineTo(sx,HZ-142*sc);g.lineTo(sx+1*sc,HZ-128*sc);g.lineTo(sx+6*sc,HZ-70*sc);g.lineTo(sx+10*sc,HZ);g.fill();if(Math.sin(t*3)>0){g.fillStyle="#ff4d4d";g.fillRect(sx-1,HZ-144*sc,2,2)}if(nf>.1){g.strokeStyle=`rgba(255,220,150,${nf*.5})`;g.lineWidth=.8;for(let k=1;k<9;k++){const y=HZ-k*14*sc,w=(10-k*1.05)*sc;g.beginPath();g.moveTo(sx-w,y);g.lineTo(sx+w,y);g.stroke()}}}
+ g.fillStyle=N;{const gx=LW*.77;g.beginPath();g.moveTo(gx-9*sc,HZ);g.bezierCurveTo(gx-15*sc,HZ-30*sc,gx-12*sc,HZ-58*sc,gx,HZ-72*sc);g.bezierCurveTo(gx+12*sc,HZ-58*sc,gx+15*sc,HZ-30*sc,gx+9*sc,HZ);g.fill();if(nf>.1){g.strokeStyle=`rgba(255,215,140,${nf*.55})`;g.lineWidth=.9;[[9,8],[12,20],[12.5,32],[11,44],[8,56],[4,66]].forEach(([w,h])=>{g.beginPath();g.moveTo(gx-w*sc,HZ-h*sc);g.lineTo(gx+w*sc,HZ-h*sc-4*sc);g.stroke()})}}
+ g.fillStyle=N;{const px=LW*.92;g.fillRect(px-26*sc,HZ-24*sc,52*sc,24*sc);g.fillRect(px-26*sc,HZ-38*sc,8*sc,16*sc);g.fillRect(px+18*sc,HZ-38*sc,8*sc,16*sc);g.fillRect(px-11*sc,HZ-40*sc,22*sc,16*sc);g.beginPath();g.arc(px,HZ-40*sc,11*sc,3.14159,6.28319);g.fill();g.fillRect(px-2*sc,HZ-58*sc,4*sc,8*sc);g.fillRect(px-.8*sc,HZ-70*sc,1.6*sc,14*sc);if(nf>.05)glow(px,HZ-44*sc,40*sc,"255,190,110",.3*nf)}
+ // river (curved banks, wavy reflections, ripples)
+ const bk=x=>RB+Math.sin(x*.018+.6)*5+Math.sin(x*.045)*2,tp0=x=>HZ-1+(Math.sin(x*.011+.8)+1)*2.5;
+ const [tp,bt]=skyCols(al),wt=mixc(bt,[60,96,136],.45*(1-nf)),wb=mixc(bt,[16,32,66],.7),wg=g.createLinearGradient(0,HZ,0,RB+6);wg.addColorStop(0,rgbs(wt));wg.addColorStop(1,rgbs(wb));
+ g.fillStyle=wg;g.beginPath();g.moveTo(0,tp0(0));for(let x=8;x<=LW+8;x+=8)g.lineTo(x,tp0(x));for(let x=LW+8;x>=0;x-=8)g.lineTo(x,bk(x)+2);g.closePath();g.fill();
+ {const D=RB-HZ,ro=1+WX.rain*2+WX.wind*1.2;g.save();g.beginPath();g.moveTo(0,tp0(0));for(let x=8;x<=LW+8;x+=8)g.lineTo(x,tp0(x));for(let x=LW+8;x>=0;x-=8)g.lineTo(x,bk(x)+2);g.closePath();g.clip();g.imageSmoothingEnabled=true;
+  for(let d=0;d<D+8;d+=2){if(HZ-d-2<0)break;const k=d/D,R=Math.max(.15,.82-.45*k)*(1-gr*.25)*(1-WX.rain*.2),amp=(.3+d*.028)*ro,dx=Math.sin(d*.31+t*1.1)*amp+Math.sin(d*.13-t*.7)*amp*.6;g.globalAlpha=R;g.drawImage(cv,0,(HZ-d-2)*RS,LW*RS,2*RS,dx-3,HZ+d-1,LW+6,2.2)}
+  g.globalAlpha=.2;g.fillStyle=wg;g.fillRect(0,HZ-2,LW,D+10);g.globalAlpha=1;g.imageSmoothingEnabled=false;g.restore()}
+ g.lineWidth=1;for(let k=0;k<6;k++){g.strokeStyle=`rgba(255,255,255,${.11*(1-nf*.6)})`;g.beginPath();for(let x=0;x<=LW;x+=6){const y=HZ+(RB-HZ)*(.12+.15*k)+Math.sin(x*.045+t*.7+k*1.7)*1.4;x?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()}
+ g.lineWidth=.8;for(let k=0;k<12;k++){const ph=(t*.25+k*.37)%1,x=hashf(k,31)*LW,y=HZ+8+hashf(k,32)*(RB-HZ-20),r=3+ph*10;g.strokeStyle=`rgba(255,255,255,${.22*(1-ph)*(1-nf*.5)})`;g.beginPath();g.ellipse(x,y,r,r*.22,0,0,6.283);g.stroke()}
+ // curved embankment
+ const pg=g.createLinearGradient(0,RB-6,0,HB);pg.addColorStop(0,rgbs(mixc(mixc([140,132,124],[200,150,120],gh*.5),[34,32,60],nf)));pg.addColorStop(1,rgbs(mixc(mixc([108,104,98],[160,120,100],gh*.5),[12,12,32],nf)));
+ g.fillStyle=pg;g.beginPath();g.moveTo(0,bk(0));for(let x=8;x<=LW+8;x+=8)g.lineTo(x,bk(x));g.lineTo(LW+8,LH+2);g.lineTo(0,LH+2);g.closePath();g.fill();
+ g.lineJoin="round";g.lineWidth=4;g.strokeStyle=rgbs(mixc([150,142,132],[40,36,66],nf));g.beginPath();for(let x=0;x<=LW+8;x+=8){const y=bk(x);x?g.lineTo(x,y):g.moveTo(x,y)}g.stroke();
+ g.lineWidth=1.2;g.strokeStyle=`rgba(255,255,255,${.3*(1-nf)})`;g.beginPath();for(let x=0;x<=LW+8;x+=8){const y=bk(x)-1.2;x?g.lineTo(x,y):g.moveTo(x,y)}g.stroke();
+ const tc=snowy||SEAS=="winter"?null:{spring:[238,170,200],summer:[58,138,70],autumn:[214,122,40]}[SEAS];
+ [.2,.6,.82].forEach((f,i)=>{const x=LW*f,y=bk(x)+4,r=17*s,C=dimC(x);g.strokeStyle=C([70,48,30]);g.lineWidth=3*s;g.lineCap="round";g.beginPath();g.moveTo(x,y);g.lineTo(x,y-24*s);g.stroke();
+  if(tc){[[0,-34,1],[-12,-28,.8],[12,-29,.85],[-4,-44,.75]].forEach(([a,b,k])=>{g.fillStyle=C(tc);g.beginPath();g.arc(x+a*s,y+b*s,r*k,0,6.283);g.fill()});g.fillStyle=C(mixc(tc,[255,255,255],.3));g.globalAlpha=.5;g.beginPath();g.arc(x-5*s,y-40*s,r*.5,0,6.283);g.fill();g.globalAlpha=1}
+  else{g.lineWidth=1.6*s;g.beginPath();[[-14,-40],[12,-42],[-6,-50],[8,-34]].forEach(([a,b])=>{g.moveTo(x,y-22*s);g.lineTo(x+a*s,y+b*s)});g.stroke()}});
+ LX.forEach((f,i)=>{lamp(LW*f,bk(LW*f)+10,i);hits.push({x:LW*f,y:bk(LW*f)-34,dk:"lamp",id:20+i})});
+ // life on the river and promenade
+ const pr=(f,x)=>bk(x)+8+(HB-RB-8)*f;
+ const E={HZ,RB,HB,bk,pr,s,sc};royalGround(E);cuteGround(E);
+ boatD(mod(t*9,LW+200)-100,HZ+(RB-HZ)*.3,s*.9);hits.push({x:mod(t*9,LW+200)-100,y:HZ+(RB-HZ)*.3-10,dk:"boat",id:8});
+ for(let i=0;i<2;i++){const a=t*.15+i*2,x=LW*(.25+i*.35)+Math.sin(a)*28,y=HZ+(RB-HZ)*(.55+.2*i),d=Math.cos(a)>0?1:-1;duckD(x,y,s,d,t*1.6+i);hits.push({x,y:y-4,dk:"duck",id:5+i})}
+ {const x=LW*.5,y=pr(.2,x),C=dimC(x);g.fillStyle=C([120,80,48]);g.fillRect(x-17*s,y-9*s,34*s,3*s);g.fillRect(x-17*s,y-19*s,34*s,2.4*s);g.fillRect(x-15*s,y-6*s,2*s,6*s);g.fillRect(x+13*s,y-6*s,2*s,6*s);
+  human(x-6*s,y-3*s,s,[216,92,130],[42,28,20],1,0,{sit:1,dress:1,long:1});human(x+6*s,y-3*s,s,[70,104,196],[30,22,16],-1,0,{sit:1});hits.push({x,y:y-22*s,dk:"couple",id:1});if(t>nxB){hearts.push({x,y:y-34*s,t:0,s:Math.random()*6,c:"#ff8fb1"});nxB=t+4+Math.random()*3}}
+ {const ph=t*.045,x=LW*.5+tri(ph)*LW*.3,d=trd(ph),y=pr(.5,x);human(x-6*s*d,y,s,[216,92,130],[42,28,20],d,t*5,{dress:1,long:1,scarf:[255,255,255]});human(x+6*s*d,y,s,[70,104,196],[30,22,16],d,t*5+1,{scarf:[255,255,255]});g.strokeStyle=rgbs([245,206,182]);g.lineWidth=1.6*s;g.beginPath();g.moveTo(x-1*s*d,y-17*s);g.lineTo(x+2*s*d,y-17*s);g.stroke();hits.push({x,y:y-26*s,dk:"couple",id:2})}
+ {const ph=t*.025+.3,x=LW*.22+tri(ph)*34,d=trd(ph),y=pr(.72,x);human(x,y,s,[180,110,60],[40,28,20],d,t*4,{});dogD(x+d*24*s,y,s,d,t*8,[176,122,72]);hits.push({x:x+d*24*s,y:y-8*s,dk:"dog",id:3})}
+ if(nf<.6){const x=mod(t*34,LW+60)-30,y=pr(.92,x);human(x,y,s*1.05,[255,90,90],[30,20,14],1,t*11,{band:[255,255,255]});hits.push({x,y:y-26*s,dk:"jog",id:4})}
+ // weather, light, mood
+ royalLife(E,dt);TREES.length=0;drawParticles(dt);if(WX.fog>.05){g.fillStyle=`rgba(225,230,238,${WX.fog*.3})`;g.fillRect(0,HZ-40,LW,LH)}
+ if(nf>.1){g.globalCompositeOperation="lighter";flies.forEach(f=>{const X=f.x*LW+Math.sin(t*.4+f.ph)*8,Y=RB+10+f.y*(HB-RB-20)+Math.cos(t*.5+f.ph)*4,a=nf*(.2+.8*Math.max(0,Math.sin(t*1.8+f.ph)));g.globalAlpha=a*.4;g.fillStyle="#d9ff8a";g.fillRect(X-2,Y-2,5,5);g.globalAlpha=a;g.fillRect(X,Y,1.5,1.5)});g.globalAlpha=1;g.globalCompositeOperation="source-over"}
+ fireworks(dt);g.fillStyle=`rgba(255,140,60,${gh*.07})`;g.fillRect(0,0,LW,LH);g.fillStyle=`rgba(120,130,150,${WX.cloud*.06+WX.rain*.1})`;g.fillRect(0,0,LW,LH);
+ {const vg=g.createRadialGradient(LW/2,LH*.55,LH*.3,LW/2,LH*.55,LH*.85);vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,`rgba(8,6,26,${.22+.18*nf})`);g.fillStyle=vg;g.fillRect(0,0,LW,LH)}
+ if(LD.mo==2&&LD.d==14&&Math.random()<.04)hearts.push({x:Math.random()*LW,y:LH*.75,t:0,s:Math.random()*6,c:"#ff8fb1"});
+ $("#chip").innerHTML=`London · ${String(LD.h).padStart(2,"0")}:${String(LD.mi).padStart(2,"0")}<br>${SE_L[SEAS]} ${Math.round(WX.temp)}°C<br>${WX.label}<br>↑${hm(ST[0])} ↓${hm(ST[1])}${HOL[LD.mo+"-"+LD.d]?"<br>"+HOL[LD.mo+"-"+LD.d]:""}<br>✈ ${ACN} ${ACOK?"live":"scheduled"}`}
+// ================= PRINCESS ASHKA: royal touches, hourly love notes, more animals, Laws of London =================
+const pad2=n=>String(n).padStart(2,"0");
+const HOURLY=["Midnight in London. Big Ben is whispering goodnight, and so am I. Sleep softly, princess. 🌙","1 a.m. The foxes are out and the city sleeps. Dream of me, Princess Ashka. 🦊","2 a.m. If you're awake, know that someone is thinking of you right now. Always.","3 a.m. The quietest hour. Even the Thames is hugging the city. I'm hugging you in my thoughts. 🤍","4 a.m. The river is still. Hold on, princess: the sun is coming back for you.","5 a.m. The first Tube trains are waking, the first birds are singing. Good morning, my love. ☀️","6 a.m. The parakeets are loud and the sky is pink. Wake up gently, Princess Ashka. 🦜","7 a.m. Good morning, my princess. The ducks asked about you already. 🦆","8 a.m. Rush hour: everyone hurries. You never have to rush for me. 🚇","9 a.m. Go and shine today. I'm cheering for you from every lamp post on the river.","10 a.m. Tea break? A tiny reminder that you're my favourite person. ☕","11 a.m. Almost lunch. Eat something delicious for me. 🍓","Noon. Big Ben rings twelve times and every single bong says: I love you. 🔔","1 p.m. I hope today is treating you softly, princess. I'm thinking of you in the sunshine.","2 p.m. A little wish is floating down the Thames to you: be happy today. 🛶","3 p.m. Afternoon dip? Take a deep breath. You're doing so well, Princess Ashka.","4 p.m. The light over the river turns golden. It looks exactly like you. ✨","5 p.m. Rush hour again. Nobody hurries like I do when I'm coming to see you. 🚌","6 p.m. The lamps are waking up along the river. Every one of them glows for you. 🏮","7 p.m. Dinner time. Whatever you eat, I'd love to share it with you. 🍽️","8 p.m. Good evening, my princess. The London Eye is lighting up just for you. 🎡","9 p.m. Soft blanket, warm tea, calm heart. You deserve all of it. 🫖","10 p.m. The stars are coming out. Count them with me, in your heart. ⭐","11 p.m. Almost midnight. Thank you for being you today. Goodnight soon. I love you. 💌"];
+let hrSeen={};try{hrSeen=JSON.parse(localStorage.getItem("hrs")||"{}")}catch(e){}
+let lastHr=-1,noteT=0,NQ=[],UNREAD=false,bong=null,SUR=[],nextSur=28,pTaps=0,welcomed=false,TIDE=0,TIDEX=null,tideK="";
+const hrKey=()=>LD.y+"-"+LD.mo+"-"+LD.d+" "+LD.h;
+function queueNote(head,text){NQ.push([head,text])}
+function hourCheck(){if(!LD)return;cuteTick();if(LD.h!==lastHr){const first=lastHr<0;lastHr=LD.h;hrSeen[hrKey()]=1;try{localStorage.setItem("hrs",JSON.stringify(hrSeen))}catch(e){}
+  if(!first&&LD.mi<3&&MODE==="day")startBong(LD.h);
+  queueNote(`💌 from ${CFG.from} · ${pad2(LD.h)}:00`,HOURLY[LD.h]);UNREAD=true;petYawn=t;$("#moon").classList.add("dot")}}
+function startBong(h){bong={n:h%12||12,t0:t};bellSeq(bong.n)}
+function notesHTML(){let o="";for(let h=0;h<=LD.h;h++)if(hrSeen[LD.y+"-"+LD.mo+"-"+LD.d+" "+h]||h==LD.h)o+=`<div class="law"><b>${pad2(h)}:00</b> ${HOURLY[h]}</div>`;return `<h2 style="margin-top:14px">today's little notes</h2>`+o}
+function markRead(){UNREAD=false;$("#moon").classList.remove("dot")}
+// ----- real London rules -----
+const dowL=()=>new Date(Date.UTC(LD.y,LD.mo-1,LD.d)).getUTCDay();
+const hrNow=()=>LD.h+LD.mi/60;
+const rushNow=()=>{const d=dowL(),h=hrNow();return d>=1&&d<=5&&((h>=7.5&&h<9.5)||(h>=16.5&&h<18.5))};
+function tubeState(){const h=hrNow(),d=dowL();if(h>=5||h<.5)return ["running","The Tube is running. "+(rushNow()?"Rush hour: commuters hurry along the river.":"A calm service.")];if(d===6||d===0)return ["night","Night Tube is on tonight (selected lines): the city never fully sleeps."];return ["asleep","The Tube is asleep until about 5 a.m. Night buses carry the city home."]}
+const tideAt=u=>Math.cos(2*(moonPos(u)[1]+(-.1278-LON)*rad-.85));
+const clk=ms=>{const m=Math.round(((ms/60000)%1440+1440)%1440);return pad2(m/60|0)+":"+pad2(m%60)};
+function tideInfo(){const off=Date.UTC(LD.y,LD.mo-1,LD.d,LD.h,LD.mi)-LD.utc;let hw=null,lw=null,p=tideAt(LD.utc),q=tideAt(LD.utc+3e5);for(let i=1;i<=150;i++){const u=LD.utc+i*3e5,n=tideAt(u+3e5);if(q>p&&q>n&&hw==null)hw=u;if(q<p&&q<n&&lw==null)lw=u;p=q;q=n}
+  return {now:tideAt(LD.utc),rising:tideAt(LD.utc+3e5)>tideAt(LD.utc),hw:hw&&clk(hw+off),lw:lw&&clk(lw+off)}}
+const moonAge=()=>mod((JD()-2451550.26)/29.530588853,1);
+function events(){const m=LD.mo,d=LD.d,k=m*100+d,o={flags:{},list:[]};
+  const add=(f,l)=>{o.flags[f]=1;o.list.push(l)};
+  if(k>=1201||k<=106)add("xmas","Christmas lights are strung along the river. 🎄");
+  if(k>=1024&&k<=1031)add("pump","Halloween week: pumpkins guard the lamp posts. 🎃");
+  if(k>=1028&&k<=1111)add("poppy","Remembrance poppies bloom along the embankment. (Two minutes' silence on 11 Nov, 11:00.) 🌺");
+  if(k>=301&&k<=331)add("daff","March: daffodils line the bank, a London spring tradition. 🌼");
+  if(k>=628&&k<=705)add("pride","Pride month in London: rainbow bunting flies over the Thames. 🌈");
+  if(k>=629&&k<=712)add("wimb","Wimbledon fortnight: a tennis ball bounces along the river walk. 🎾");
+  if(k>=823&&k<=831)add("carn","Notting Hill Carnival weekend: music and confetti are in the air. 🥁");
+  if(k===1105)add("bonf","Bonfire Night: fireworks over the Thames after dark. 🎆");
+  if(k===1231||k===101)add("nye","New Year: the sky above the London Eye erupts in fireworks. 🎆");
+  if(k===214)add("val","Valentine's Day: love is literally in the air. 💕");
+  return o}
+function lawsHTML(){const E=events(),T=tideInfo(),tb=tubeState(),age=moonAge(),ph=age<.03||age>.97?"new moon":age<.22?"waxing crescent":age<.28?"first quarter":age<.47?"waxing gibbous":age<.53?"full moon":age<.72?"waning gibbous":age<.78?"last quarter":"waning crescent";
+  const nextBong=LD.mi===0?"now":(60-LD.mi)+" min",wd=Math.round(WX.wind*35),gl=[];
+  const act=[];if(nf>.25)act.push("foxes");if(nf>.35&&LD.mo>=4&&LD.mo<=10)act.push("bats");if(nf>.2&&LD.mo>=3&&LD.mo<=10)act.push("hedgehogs");if(nf<.4)act.push("parakeets","gulls","squirrels");if(LD.mo>=10||LD.mo<=3)act.push("robins");act.push("ravens","a heron");
+  const L=[["👑","Law of the Princess","Everything in this London belongs to Princess Ashka. Every duck, lamp, landmark and little animal has sworn to love her."],
+   ["🔔","Law of the Hour","Big Ben chimes on the hour. Next chime in "+nextBong+". It rings "+((LD.h+(LD.mi?1:0))%12||12)+" times."],
+   ["🌊","Law of the Tide (approximate)","The Thames is "+(T.rising?"rising":"falling")+(T.now<-.25?", low enough for mudlarks on the foreshore":"")+". Next high water ≈ "+(T.hw||"--")+", low ≈ "+(T.lw||"--")+"."],
+   ["🌤","Law of the Sky","Sunrise "+hm(ST[0])+", sunset "+hm(ST[1])+". The moon is a "+ph+". Live weather: "+(WX.label||"mild")+", "+Math.round(WX.temp)+"°C, wind "+wd+" km/h."],
+   ["🚇","Law of the Tube",tb[1]],
+   ["🚌","Law of the Buses",nf>.5?"Night buses only: red double-deckers keep crossing the river for sleepy Londoners.":"Red buses cross the bridge every few minutes"+(rushNow()?", packed at rush hour.":".")],
+   ["🦊","Law of the Wild","Out and about now: "+act.join(", ")+". Foxes love dusk, parakeets love mornings, hedgehogs sleep through winter."],
+   ["📅","Law of the Calendar",E.list.length?E.list.join(" "):"No big London event today, but every day is a festival for Princess Ashka."],
+   ["🐦‍⬛","Law of the Ravens","Legend says if the Tower's ravens ever leave, the kingdom will fall. Two ravens sit on the river railing. They are staying."],
+   ["✈️","Law of the Sky Roads",ACN+" aircraft "+(ACOK?"seen live":"on the real timetable")+" over London right now."],
+   ["💗","Higher Law of Ashka","Above every law of nature: when Ashka smiles, London brightens."]];
+  return L.map(([i,h,t])=>`<div class="law"><b>${i} ${h}</b><br>${t}</div>`).join("")}
+function openLaws(){paper.innerHTML=`<h2>⚖ laws of london · live</h2>${lawsHTML()}<button id="cl">close ♥</button>`;ov.classList.add("show");$("#cl").onclick=()=>ov.classList.remove("show")}
+// ----- messages for the new elements -----
+Object.assign(DM,{bigben:["Big Ben chimes for you, Princess Ashka. Every bong is Yogesh saying I love you. 🔔","The Great Bell weighs about 13 tonnes. Yogesh's love for you weighs more.","Elizabeth Tower has kept time for over 160 years. Yogesh will keep time with you forever."],
+eye:["The London Eye turns once every 30 minutes. Yogesh wants to spend every rotation holding your hand. 🎡","135 metres up the whole city looks tiny, except you."],
+shard:["The Shard is the tallest building in the UK. Still shorter than the leap Yogesh's heart takes when you smile. 🏙️","From the top you can see about 40 miles. Yogesh only sees you."],
+gherkin:["Officially 30 St Mary Axe, but everyone calls it the Gherkin. Cute nicknames, like Princess. 🥒","Yogesh would climb all 41 floors just to see you smile."],
+stpaul:["St Paul's dome hides a Whispering Gallery. Yogesh whispers: I love you, Ashka. 🤫","Sir Christopher Wren built this dome. Yogesh would build you a whole city."],
+bus:["A red London bus. The number 11 runs right past Big Ben. Yogesh would ride it anywhere with you. 🚌","Top deck, front seat, you and Yogesh. That's his favourite plan."],
+cab:["A black cab: every driver spends years learning The Knowledge. Yogesh knows only one route: the one to you. 🚕","Taxi! Take Princess Ashka wherever she wants. Yogesh pays."],
+commuter:["Mind the gap, Princess Ashka. The only gap Yogesh minds is the one when you're far away. 🚇","Rush hour! Everyone hurries, but the princess is never late: the whole city waits for her."],
+fox:["An urban fox, one of London's real night-time residents. Even the foxes are loyal to you, Princess Ashka. 🦊","Foxes roam London after dark. This one promised Yogesh to guard your dreams."],
+hedgehog:["A hedgehog! They're getting rare in London, just like someone as special as you. 🦔","Tiny, spiky and sweet. Yogesh says it's the shy kind of cute, like you when you blush."],
+robin:["A robin, Britain's favourite bird. It sings only for you, Princess Ashka. 🐦","Robins are bold and friendly. This one asked Yogesh if you'd like some company."],
+parakeet:["London's green parakeets rule the parks, loud and colourful, a bit like Yogesh's love for you. 🦜","They squawk 'Ashka! Ashka!' (Yogesh taught them.)"],
+goose:["Canada geese honk along the Thames. This one honks: Long live Princess Ashka! 🪿","Geese stay with one partner for life. Yogesh is taking notes."],
+heron:["A grey heron fishing in the Thames shallows. Patient, calm and elegant, like you. 🐦","Herons wait quietly for what they love. Yogesh would wait forever for you."],
+cat:["A London cat on a garden wall. It purred when you walked past, Princess Ashka. 🐈","Cats choose their people. Yogesh chose you, and the cat approves."],
+gull:["Thames gulls cry over the river. They're singing your name, Ashka. 🕊️","The gulls follow the boats. Yogesh would follow you anywhere."],
+bat:["Bats come out at dusk over the Thames. Even they know a princess when they see one. 🦇","Bats find their way by sound; Yogesh finds his way by your laugh."],
+raven:["Legend says if the Tower's ravens ever leave, the kingdom falls. They stay, like Yogesh. 🐦‍⬛","The ravens have a royal decree to guard you, princess."],
+mudlark:["A mudlark searching the Thames shore at low tide. Yogesh already found his treasure: you. 💎","Mudlarks find Roman coins and Tudor pins in the mud. Someone like you is rarer."],
+guard:["A royal guard stands at attention for you, Princess Ashka. They never smile, but Yogesh does, always, because of you. 💂","Guard of honour, by order of Yogesh. Nobody passes without bowing to the princess."],
+duckling:["Ducklings follow their mum in a line. Yogesh would follow you anywhere. 🐥","Cheep cheep! That means 'you're the best princess ever'."],
+tennis:["Wimbledon fortnight! Yogesh serves you an ace of love every time. 🎾","Love-love. In tennis it means zero, but ours is infinite."]});
+Object.assign(DT,{bigben:"🔔 Big Ben",eye:"🎡 the London Eye",shard:"🏙️ the Shard",gherkin:"🥒 the Gherkin",stpaul:"⛪ St Paul's",bus:"🚌 a red bus",cab:"🚕 a black cab",commuter:"🚇 a commuter",fox:"🦊 a London fox",hedgehog:"🦔 a hedgehog",robin:"🐦 a robin",parakeet:"🦜 a parakeet",goose:"🪿 a goose",heron:"🐦 a heron",cat:"🐈 a cat",gull:"🕊️ a gull",bat:"🦇 a bat",raven:"🐦‍⬛ a raven",mudlark:"💎 a mudlark",guard:"💂 a royal guard",duckling:"🐥 a duckling",tennis:"🎾 a tennis ball"});
+let salute=0;
+function royalTapHook(h){if(h.dk==="bigben")startBong(LD.h);if(h.dk==="guard")salute=2.5;return cuteTapHook(h)}
+function princessTap(){pTaps++;if(pTaps%5===0){for(let i=0;i<36;i++)hearts.push({x:Math.random()*LW,y:LH*(.35+Math.random()*.5),t:-Math.random()*.8,s:Math.random()*6,c:["#ff8fb1","#ff4d79","#fff1f3","#ffd24d"][i%4]});queueNote("👑 royal decree","All of London bows to you, Princess Ashka. Every duck, lamp and landmark loves you.")}}
+// ----- little animals (vector style matching the scene) -----
+const ell=(x,y,rx,ry,col,rot)=>{g.fillStyle=col;g.beginPath();g.ellipse(x,y,Math.max(.2,rx),Math.max(.2,ry),rot||0,0,6.283);g.fill()},seg=(a,b,c,d,w,col)=>{g.lineCap="round";g.lineWidth=w;g.strokeStyle=col;g.beginPath();g.moveTo(a,b);g.lineTo(c,d);g.stroke()};
+function squirrelD(x,y,s,d,ph){const C=dimC(x),h=Math.abs(Math.sin(ph))*2*s;ell(x,y,5*s,1.3*s,"rgba(0,0,0,.15)");ell(x-d*6*s,y-9*s-h,2.6*s,6.5*s,C([178,112,56]),-d*.45);ell(x,y-5*s-h,5*s,3.4*s,C([146,96,52]));ell(x+d*4.6*s,y-8*s-h,2.8*s,2.8*s,C([160,106,58]));ell(x+d*5.6*s,y-9.2*s-h,.7*s,.7*s,"#111");ell(x+d*3.4*s,y-11*s-h,1*s,1.6*s,C([120,78,44]))}
+function foxD(x,y,s,d,ph){const C=dimC(x),sw=Math.sin(ph);ell(x,y,9*s,1.8*s,"rgba(0,0,0,.18)");g.lineWidth=2*s;g.strokeStyle=C([58,34,22]);g.lineCap="round";g.beginPath();[[-5,1],[-3,-1],[4,-1],[6,1]].forEach(([o,k])=>{g.moveTo(x+d*o*s,y-6*s);g.lineTo(x+d*o*s+sw*k*3*s,y)});g.stroke();
+ ell(x-d*12*s,y-9*s+sw*s,6*s,2.8*s,C([226,114,40]),d*.3);ell(x-d*16*s,y-9.6*s+sw*s,2*s,1.6*s,C([250,244,236]),d*.3);ell(x,y-9*s,8.5*s,3.8*s,C([226,114,40]));ell(x+d*3*s,y-8*s,5*s,2.4*s,C([250,240,228]));ell(x+d*9*s,y-12*s,3.5*s,3.2*s,C([232,120,44]));
+ g.fillStyle=C([250,240,228]);g.beginPath();g.moveTo(x+d*11*s,y-13*s);g.lineTo(x+d*15*s,y-11*s);g.lineTo(x+d*11*s,y-9.6*s);g.fill();g.fillStyle=C([40,26,20]);g.beginPath();g.moveTo(x+d*8*s,y-14*s);g.lineTo(x+d*8.4*s,y-19*s);g.lineTo(x+d*10.6*s,y-14.4*s);g.fill();ell(x+d*10.4*s,y-12.4*s,.7*s,.7*s,"#111")}
+function hogD(x,y,s,d,ph){const C=dimC(x);ell(x,y,7*s,1.4*s,"rgba(0,0,0,.18)");ell(x,y-4*s,6*s,4*s,C([96,66,42]));for(let i=0;i<9;i++){const a=3.5+i*.33;seg(x-d*.5*s+Math.cos(a)*5*s,y-4*s+Math.sin(a)*3.4*s,x-d*.5*s+Math.cos(a)*8*s,y-4*s+Math.sin(a)*6*s,1*s,C([60,40,26]))}ell(x+d*5.4*s,y-3*s,2.6*s,2*s,C([226,196,160]));ell(x+d*6.4*s,y-3.4*s,.6*s,.6*s,"#111");seg(x-2*s,y-1*s,x-2*s+Math.sin(ph)*s,y,1*s,C([60,40,26]));seg(x+2*s,y-1*s,x+2*s-Math.sin(ph)*s,y,1*s,C([60,40,26]))}
+function robinD(x,y,s,d){const C=dimC(x);ell(x,y-3*s,3.4*s,3*s,C([128,98,70]));ell(x+d*1.4*s,y-2.4*s,2.2*s,2.4*s,C([222,96,50]));ell(x+d*2.4*s,y-5.6*s,2*s,2*s,C([128,98,70]));ell(x+d*3.2*s,y-5*s,1.2*s,1.4*s,C([222,96,50]));seg(x+d*4.2*s,y-5.6*s,x+d*5.6*s,y-5.2*s,.8*s,"#d9a040");ell(x+d*3*s,y-6*s,.5*s,.5*s,"#111");seg(x-d*3*s,y-3*s,x-d*6.4*s,y-1.6*s,1*s,C([100,76,54]))}
+function parakeetD(x,y,s,d,ph){const C=dimC(x),w=Math.sin(ph)*5*s;seg(x,y,x-d*11*s,y+3*s,1.4*s,C([60,170,70]));ell(x,y,4.4*s,2.4*s,C([96,200,84]));ell(x+d*4*s,y-1.4*s,2.2*s,2.2*s,C([110,212,96]));seg(x+d*5.8*s,y-1.4*s,x+d*7.2*s,y-.8*s,1.2*s,"#e5483a");g.fillStyle=C([60,160,70]);g.beginPath();g.moveTo(x,y-1*s);g.lineTo(x-d*4*s,y-6*s-w);g.lineTo(x-d*5*s,y-1*s);g.fill()}
+function gooseD(x,y,s,d,ph,gl){const C=dimC(x),k=gl?.5:1;ell(x,y,8*s*k,1.6*s*k,"rgba(0,0,0,.16)");seg(x-1*s*k,y-3*s*k,x-1*s*k+Math.sin(ph)*2*s*k,y,1.2*s*k,C([40,36,32]));seg(x+2*s*k,y-3*s*k,x+2*s*k-Math.sin(ph)*2*s*k,y,1.2*s*k,C([40,36,32]));
+ ell(x,y-6*s*k,7*s*k,4*s*k,C(gl?[210,196,120]:[150,126,100]));ell(x-d*5*s*k,y-7*s*k,2.4*s*k,1.6*s*k,C(gl?[210,196,120]:[90,72,56]));if(gl){ell(x+d*5*s*k,y-9*s*k,2.2*s*k,2.2*s*k,C([210,196,120]));return}
+ seg(x+d*5*s,y-8*s,x+d*7*s,y-15*s,2.4*s,C([30,28,28]));ell(x+d*7.6*s,y-16*s,2.4*s,2*s,C([30,28,28]));ell(x+d*8*s,y-14.6*s,1.4*s,.9*s,C([245,245,245]));seg(x+d*9.6*s,y-16*s,x+d*11.4*s,y-15.4*s,1.2*s,C([30,28,28]))}
+function heronD(x,y,s,d,ph){const C=dimC(x),dip=Math.pow(Math.max(0,Math.sin(t*.35+ph)),20);seg(x,y-14*s,x,y,1.2*s,C([120,110,90]));seg(x+d*3*s,y-14*s,x+d*3*s,y,1.2*s,C([120,110,90]));ell(x+d*1.5*s,y-18*s,6*s,4*s,C([150,160,176]),-d*.3);ell(x+d*1.5*s,y-17*s,3.6*s,2.4*s,C([214,220,230]),-d*.3);
+ g.strokeStyle=C([176,184,198]);g.lineWidth=2*s;g.lineCap="round";g.beginPath();g.moveTo(x+d*5*s,y-20*s);g.quadraticCurveTo(x+d*9*s,y-26*s,x+d*6*s+d*dip*8*s,y-31*s+dip*20*s);g.stroke();ell(x+d*6*s+d*dip*8*s,y-31*s+dip*20*s,2*s,1.8*s,C([210,216,226]));seg(x+d*7.4*s+d*dip*8*s,y-31*s+dip*20*s,x+d*13*s+d*dip*8*s,y-29.6*s+dip*20*s,1.2*s,"#e0b040");seg(x+d*4*s,y-33*s,x-d*3*s,y-33*s,.8*s,C([20,20,30]))}
+function catD(x,y,s,d,ph){const C=dimC(x);ell(x,y,7*s,1.5*s,"rgba(0,0,0,.18)");seg(x-d*5*s,y-2*s,x-d*10*s,y-6*s+Math.sin(t*1.7+ph)*3*s,2.4*s,C([120,100,84]));ell(x,y-6*s,5.6*s,5.4*s,C([142,118,96]));ell(x+d*1*s,y-14*s,3.6*s,3.2*s,C([150,126,102]));g.fillStyle=C([150,126,102]);[-1,1].forEach(k=>{g.beginPath();g.moveTo(x+d*1*s+k*3.4*s,y-13*s);g.lineTo(x+d*1*s+k*2.6*s,y-19*s);g.lineTo(x+d*1*s+k*.4*s,y-16*s);g.fill()});
+ [-1,1].forEach(k=>seg(x+d*1*s+k*1.4*s,y-14.6*s,x+d*1*s+k*1.4*s,y-13.4*s,.9*s,"#9be07a"));for(let i=0;i<3;i++)seg(x-2*s+i*2*s,y-9*s,x-2*s+i*2*s,y-5*s,.8*s,C([100,82,66]))}
+function gullD(x,y,s,d,ph){const w=Math.sin(ph)*6*s;ell(x,y,5*s,2.2*s,"#f4f6f8");ell(x+d*4.4*s,y-1*s,2*s,1.8*s,"#f4f6f8");seg(x+d*6*s,y-1*s,x+d*8*s,y-.4*s,1*s,"#e8b030");g.strokeStyle="#c9ced6";g.lineWidth=1.6*s;g.lineCap="round";g.beginPath();g.moveTo(x,y-1*s);g.lineTo(x-4*s,y-6*s-w);g.lineTo(x-9*s,y-4*s-w*.4);g.moveTo(x,y-1*s);g.lineTo(x+3*s,y-6*s+w*.8);g.lineTo(x+8*s,y-3*s);g.stroke();seg(x-9*s,y-4*s-w*.4,x-11*s,y-3.6*s-w*.4,1.6*s,"#555")}
+function batD(x,y,s,ph){const w=Math.sin(ph)*4*s;g.fillStyle="#0a0814";g.beginPath();g.ellipse(x,y,2*s,1.6*s,0,0,6.283);g.fill();[-1,1].forEach(k=>{g.beginPath();g.moveTo(x,y);g.lineTo(x+k*8*s,y-3*s-w);g.lineTo(x+k*5*s,y+1*s);g.lineTo(x+k*2.5*s,y+3*s);g.fill()})}
+function ravenD(x,y,s,d){const C=a=>rgbs(mixc(a,[6,6,14],nf*.3));ell(x,y-4*s,4.6*s,3.2*s,C([26,26,40]),-d*.4);ell(x+d*3.4*s,y-7.4*s,2.4*s,2.2*s,C([22,22,34]));seg(x+d*5*s,y-7.4*s,x+d*8*s,y-6.6*s,1.6*s,C([14,14,22]));seg(x-d*3*s,y-3*s,x-d*8*s,y-1*s,2*s,C([20,20,32]));ell(x+d*3.8*s,y-7.8*s,.55*s,.55*s,"#e8e0ff");seg(x,y-1.5*s,x,y,1*s,C([40,40,50]))}
+function guardD(x,y,s,d,sal){const C=dimC(x);ell(x,y,6*s,1.6*s,"rgba(0,0,0,.2)");seg(x-1.8*s,y-12*s,x-1.8*s,y,2.4*s,C([30,34,70]));seg(x+1.8*s,y-12*s,x+1.8*s,y,2.4*s,C([30,34,70]));g.fillStyle=C([200,32,40]);g.beginPath();g.roundRect(x-5*s,y-26*s,10*s,15*s,3*s);g.fill();g.fillStyle=C([245,240,224]);g.fillRect(x-5*s,y-17*s,10*s,1.6*s);ell(x,y-29*s,3.6*s,3.8*s,C([245,206,182]));
+ g.fillStyle=C([24,22,28]);g.beginPath();g.roundRect(x-4.6*s,y-40*s,9.2*s,10*s,3*s);g.fill();seg(x+d*6*s,y-30*s,x+d*6*s,y-2*s,1.2*s,C([60,60,64]));seg(x+d*4*s,y-24*s,x+d*(sal>0?7:6)*s,y-(sal>0?36:22)*s,2.2*s,C([200,32,40]))}
+function busD(x,y,s,d){const C=a=>rgbs(mixc(a,[12,10,28],nf*.55));g.fillStyle=C([214,40,48]);g.beginPath();g.roundRect(x-12*s,y-12*s,24*s,12*s,2*s);g.fill();for(let i=0;i<5;i++)for(let r=0;r<2;r++){g.fillStyle=nf>.15?"#ffe7a8":"#cfe3f5";g.fillRect(x-10*s+i*4.4*s,y-11*s+r*5*s,3*s,3*s)}g.fillStyle=C([30,30,38]);g.fillRect(x-12*s,y-1*s,24*s,1.2*s);[-7,7].forEach(k=>ell(x+k*s,y,1.8*s,1.8*s,"#111"));if(nf>.1)glow(x+d*12*s,y-3*s,12*s,"255,230,160",.5*nf)}
+function cabD(x,y,s,d){g.fillStyle="#0e0e14";g.beginPath();g.roundRect(x-7*s,y-7*s,14*s,7*s,2*s);g.fill();g.fillStyle=nf>.15?"#ffe7a8":"#9fb8d0";g.fillRect(x-4*s,y-6*s,5*s,3*s);g.fillStyle="#ffd24d";g.fillRect(x-1*s,y-8.4*s,3*s,1.4*s);[-4,4].forEach(k=>ell(x+k*s,y,1.4*s,1.4*s,"#222"))}
+function brolly(x,y,s,col){g.fillStyle=col;g.beginPath();g.arc(x,y-33*s,9*s,Math.PI,0);g.fill();seg(x,y-33*s,x,y-22*s,1*s,"#444")}
+// ----- ground-level royal touches: bunting, garlands, event decorations -----
+function royalGround(E){const {HZ,RB,HB,bk,pr,s}=E,E2=events().flags;
+  // pennant garland spelling ASHKA, strung between the first and last lamp
+  const x0=LW*.1,x1=LW*.9,yy=x=>bk(x)-88*Math.min(1.2,LW/380)+Math.sin((x-x0)/(x1-x0)*3.14)*18;
+  g.strokeStyle=rgbs(mixc([90,70,70],[20,16,36],nf));g.lineWidth=1;g.beginPath();for(let x=x0;x<=x1;x+=6){const y=yy(x);x==x0?g.moveTo(x,y):g.lineTo(x,y)}g.stroke();
+  const col=E2.pride?["#e40303","#ff8c00","#ffed00","#008026","#24408e","#732982"]:["#ff8fb1","#fff1f3","#ffd24d","#ff4d79","#fff1f3","#ff8fb1"],ch=" A S H K A ".split(" ").filter(Boolean);
+  for(let i=0;i<14;i++){const x=x0+(x1-x0)*(i+.5)/14,y=yy(x),L=i>=4&&i<9?ch[i-4]:"♥";g.fillStyle=rgbs(mixc(hex2(col[i%col.length]),[30,26,60],nf*.6));g.beginPath();g.moveTo(x-6*s,y);g.lineTo(x+6*s,y);g.lineTo(x,y+14*s);g.fill();g.fillStyle=nf>.5?"#fff":"#5a2a44";g.font=`bold ${Math.round(8*s)}px "Press Start 2P",monospace`;g.textAlign="center";g.fillText(L,x,y+7*s)}
+  if(E2.xmas)for(let i=0;i<30;i++){const x=x0+(x1-x0)*i/29,y=yy(x)+16*s+Math.sin(i*1.7)*2,c=["#ff4d6d","#ffd24d","#6bd1ff","#7cff9a"][(i+((t*2)|0))%4];g.globalAlpha=.3+.4*nf;g.fillStyle=c;g.fillRect(x-2,y-2,5,5);g.globalAlpha=1;g.fillRect(x-1,y-1,2,2)}
+  LX.forEach((f,i)=>{const x=LW*f,y=bk(x)+10;if(E2.pump){ell(x+10,y-4,5*s,4*s,"#e8862b");ell(x+10,y-4,2*s,3.6*s,"#d9731c");g.fillStyle="#2a1a10";g.fillRect(x+8,y-6,1.6,1.6);g.fillRect(x+11.4,y-6,1.6,1.6)}
+    if(E2.poppy){for(let k=0;k<3;k++){const px=x-14+k*6;ell(px,y-3,2.2*s,2.2*s,"#d62828");ell(px,y-3,.7*s,.7*s,"#111")}}if(E2.daff){for(let k=0;k<4;k++){ell(x-18+k*5,y-3,2*s,2*s,"#ffd93d");ell(x-18+k*5,y-3,.8*s,.8*s,"#ff9f1c")}}});
+  if(E2.carn)for(let i=0;i<24;i++){const x=hashf(i,5)*LW,y=HZ-30+((t*20+hashf(i,6)*300)%(HB-HZ+40));g.fillStyle=["#ff4d6d","#ffd24d","#6bd1ff","#7cff9a","#b78bff"][i%5];g.fillRect(x,y,3,2)}}
+const hex2=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+// ----- the living London layer: landmarks, bridge & buses, animals, guards, commuters -----
+function royalLife(E,dt){const {HZ,RB,HB,bk,pr,s,sc}=E,day=nf<.45,rain=WX.rain>.25,hh=hrNow(),mo=LD.mo,H=hit=>hits.push(hit),F=events().flags;let id=40;
+  // tap targets on the skyline
+  [[.12,HZ-84*sc-10,"bigben"],[.4,HZ-58*sc,"eye"],[.62,HZ-70*sc,"shard"],[.77,HZ-40*sc,"gherkin"],[.92,HZ-34*sc,"stpaul"]].forEach(([f,y,k])=>H({x:LW*f,y,dk:k,id:0}));
+  // far bridge with red buses and a black cab (more at rush hour, night buses only after midnight)
+  {const by=HZ+(RB-HZ)*.2,deck=rgbs(mixc([104,108,128],[14,16,40],nf));g.fillStyle=deck;g.fillRect(0,by,LW,4*s);for(let x=20;x<LW;x+=46){g.fillRect(x,by,5*s,(RB-HZ)*.14);ell(x+20,by+4*s,18,6,deck)}g.fillStyle=rgbs(mixc([150,154,170],[30,32,60],nf));g.fillRect(0,by-3*s,LW,1.2);
+   const nb=rushNow()?4:nf>.5?(hh>=1&&hh<5?1:2):3;for(let k=0;k<nb;k++){const dir=k%2?1:-1,x=mod(t*13*dir+k*LW*.37,LW+80)-40;busD(x,by,s*.9,dir);if(k==0)H({x,y:by-8,dk:"bus",id:0})}
+   if(nf<.8){const x=mod(-t*17+LW*.5,LW+60)-30;cabD(x,by,s*.9,-1);H({x,y:by-6,dk:"cab",id:0})}}
+  // guards of honour flank the royal path (and salute when tapped)
+  salute=Math.max(0,salute-dt);[LW*.05].forEach((x,i)=>{const y=pr(.1,x);guardD(x,y,s,i?-1:1,salute);H({x,y:y-24*s,dk:"guard",id:i+1})});
+  {const bx=LW*.93,by=pr(.1,bx);boothD(bx,by,s*1.05,t-BR<2);H({x:bx,y:by-26*s,dk:"booth",id:0});const px=LW*.12,py=pr(.1,px);postD(px,py,s);H({x:px,y:py-12*s,dk:"post",id:0})}
+  // ravens on the river railing (Tower legend)
+  [.3,.72].forEach((f,i)=>{const x=LW*f,y=bk(x)+3;ravenD(x,y,s,i?-1:1);H({x,y:y-8*s,dk:"raven",id:i+1})});
+  // heron in the shallows (dawn, dusk, quiet days)
+  if(!rain&&(nf>.05||hh<10||hh>16)){const x=LW*.14,y=bk(x)-2;heronD(x,y,s,1,1.3);H({x:x+4,y:y-20*s,dk:"heron",id:0})}
+  // gulls over the river
+  if(day)for(let i=0;i<3;i++){const x=mod(t*(26+i*5)+i*130,LW+60)-30,y=HZ+14+i*22+Math.sin(t*1.4+i)*6;gullD(x,y,s*.85,1,t*8+i);if(i==0)H({x,y,dk:"gull",id:0})}
+  // parakeet flock in the morning/day
+  if(day&&!rain)for(let i=0;i<4;i++){const x=mod(t*40-i*18+LW*.2,LW+80)-40,y=HZ*.45+Math.sin(t*.9+i*.6)*14+i*3;parakeetD(x,y,s*.9,1,t*14+i);if(i==0)H({x,y,dk:"parakeet",id:0})}
+  // bats at dusk (Apr–Oct)
+  if(nf>.35&&mo>=4&&mo<=10)for(let i=0;i<3;i++){const x=LW*.3+Math.cos(t*1.3+i*2)*30,y=bk(LW*.3)-44*s+Math.sin(t*1.9+i*2)*14;batD(x,y,s,t*16+i);if(i==0)H({x,y,dk:"bat",id:0})}
+  // ducklings follow the first duck (spring & summer)
+  if(LD.mo>=4&&LD.mo<=8){const a=t*.15,x0=LW*.25+Math.sin(a)*28,y0=HZ+(RB-HZ)*.55,d=Math.cos(a)>0?1:-1;for(let k=1;k<=3;k++){const xx=x0-d*(11+9*k)*s,yy=y0+Math.sin(t*2+k)*1;duckD(xx,yy,s*.5,d,t*2+k);if(k==1)H({x:xx,y:yy-4,dk:"duckling",id:0})}}
+  // everything on the promenade
+  if(day&&!rain&&!(mo>=11||mo<=2)&&true){const x=LW*.82+tri(t*.03)*16,d=trd(t*.03),y=pr(.1,x);squirrelD(x,y,s,d,t*7);H({x,y:y-8*s,dk:"sq",id:0})}
+  if(day&&mo>=1){const ph=t*.02,x=LW*.55+tri(ph)*LW*.22,d=trd(ph),y=pr(.12,x);gooseD(x,y,s,d,t*5);for(let k=1;k<=3&&mo>=4&&mo<=7;k++)gooseD(x-d*(10+8*k)*s,y+k%2,s,d,t*5+k,1);H({x:x+d*6*s,y:y-14*s,dk:"goose",id:0})}
+  if(nf>.2&&mo>=3&&mo<=10&&!rain){const x=LW*.34+tri(t*.05)*14,d=trd(t*.05),y=pr(.2,x);hogD(x,y,s,d,t*5);H({x,y:y-6*s,dk:"hedgehog",id:0})}
+  if(nf>.25||hh<7.5){const ph=t*.035,x=LW*.5+tri(ph)*LW*.35,d=trd(ph),y=pr(.18,x);foxD(x,y,s,d,t*7);H({x,y:y-10*s,dk:"fox",id:0})}
+  if((mo>=10||mo<=3)&&day){const x=LW*.5,y=bk(x)+10+(HB-RB-8)*.2-19*s;robinD(x+10*s,y,s,-1);H({x:x+10*s,y:y-6*s,dk:"robin",id:0})}
+  if(day&&!rain){const x=LW*.9,y=pr(.04,x);catD(x,y,s,-1,2);H({x,y:y-10*s,dk:"cat",id:0})}
+  // mudlark on the foreshore at low tide
+  if(TIDE<-.25){const x=LW*.28,y=bk(x)-1;g.fillStyle="rgba(92,72,52,.55)";g.fillRect(0,y-4,LW,5);human(x,y,s*.9,[70,100,130],[40,30,22],1,0,{sit:1});g.fillStyle="#caa24a";g.fillRect(x+9*s,y-3,3*s,3*s);if(Math.sin(t*5)>.7){g.fillStyle="#fff";g.fillRect(x+14*s,y-5,2,2)}H({x,y:y-14*s,dk:"mudlark",id:0})}
+  // rush-hour commuters with briefcases (and umbrellas in rain)
+  const nc=rushNow()?5:nf>.5?((dowL()>=5||dowL()==0)&&hh<5?1:0):2;
+  for(let k=0;k<nc;k++){const sp=(16+k*3)*(k%2?1:-1),x=mod(t*sp+k*97,LW+60)-30,d=sp>0?1:-1,y=pr(.06+.04*k,x),cols=[[200,70,70],[70,100,160],[90,150,100],[150,110,70],[110,90,160]];human(x,y,s,cols[k%5],[36,28,22],d,t*5+k,{});g.fillStyle=rgbs(mixc([90,60,36],[20,16,30],nf));g.fillRect(x+d*5*s-2*s,y-12*s,4*s,3.4*s);if(rain)brolly(x,y,s,["#ff9ac2","#9ad0ff","#ffd24d"][k%3]);if(k==0)H({x,y:y-24*s,dk:"commuter",id:0})}
+  // Wimbledon tennis ball
+  if(F.wimb&&day){const x=mod(t*30,LW+20)-10,y=pr(.3,x)-Math.abs(Math.sin(t*4))*26*s;ell(x,y-3,3*s,3*s,"#d9f24a");g.strokeStyle="#fff";g.lineWidth=.8;g.beginPath();g.arc(x,y-3,2.4*s,.6,2.4);g.stroke();H({x,y:y-3,dk:"tennis",id:0})}
+}
+// ----- surprises, hourly chime, crown and notes (drawn above everything, both day and night) -----
+// Surprise texts are built from five lists (24 x 8 x 40 x 30 x 12 = 2,764,800 different messages per surprise),
+// walked in a scrambled order that never repeats, with the position saved on the phone, and the header carries a running number.
+const SUR_ICON={balloon:"🎈",plane:"✈️",rainbow:"🌈",confetti:"🎉",petals:"🌸",lanterns:"🏮",wish:"🌠"};
+const SU_O=["Psst, Your Highness.", "Hello, my love.", "Look up, princess!", "Special delivery for Ashka.", "Dear Ashka, this one is for you.", "Guess what, my queen.", "By royal decree, pay attention.", "Hey beautiful.", "Breaking news from your kingdom.", "Surprise, my princess!", "Quick, look!", "Hey, my favourite person.", "Sweet Ashka, listen.", "Listen closely, love.", "For the girl I adore.", "A secret just for you.", "Right now, in London.", "Hi, gorgeous.", "Attention, Your Majesty.", "Princess of my heart.", "Just so you know.", "Hello, sunshine.", "Attention, Princess Ashka!", "One little thing."],SU_E={"balloon": ["A hot-air balloon is drifting over London with your name on it.", "Look at that balloon: it's carrying a message just for you.", "A pink balloon floats above the Thames, and it's all yours.", "High above the river, a balloon is waving at you.", "The balloon says ASHKA in big letters, and everyone in London can see.", "A little balloon drifts by, trailing wishes behind it.", "A balloon sails over the skyline, carrying a thousand kisses.", "Up there a balloon is delivering a hug straight to you."], "plane": ["A banner plane is crossing the sky with your name on it.", "A tiny plane just flew past, towing ASHKA ♥ YOGESH across London.", "Look up: the sky itself is spelling out your name.", "A plane is writing a love letter across the clouds.", "Even the pilots know your name today.", "A little plane buzzes over the Thames with a banner just for you.", "That banner behind the plane? It's for you.", "A propeller plane just carried a kiss over the rooftops to you."], "rainbow": ["London just painted a rainbow across the sky for you.", "A rainbow arcs over the city, made in your honour.", "The sky blushed in seven colours the moment you looked up.", "A rainbow is stretching over the river, just for you.", "Seven colours, one princess: that rainbow is yours.", "The clouds parted to show you a rainbow.", "That rainbow ends right where you are.", "Even the weather wants to impress you with a rainbow."], "confetti": ["It's raining confetti over London, just because you exist.", "Confetti is falling from the sky in your honour.", "A little party just burst open above the park, for you.", "Colourful confetti is drifting down like tiny kisses.", "Someone threw a surprise party across the whole sky.", "Confetti! Because every ordinary day with you is a celebration.", "The sky is throwing you a party right now.", "A shower of confetti is falling, and every piece says I love you."], "petals": ["A shower of petals is drifting down for the princess of this world.", "Soft petals are falling over London, just for you.", "Pink petals are dancing down around you.", "The wind is carrying petals straight to you.", "Petals are raining softly, like gentle kisses from the sky.", "A cloud of petals just blew across the river toward you.", "Flower petals are showering the park in your honour.", "Petals are falling like a quiet little red carpet from the sky."], "lanterns": ["Sky lanterns are floating up over the river, each carrying a wish for you.", "Little lanterns are rising into the night, glowing for you.", "Warm lanterns drift upward, carrying my wishes to you.", "The night sky has a few extra lights tonight, just for you.", "Glowing lanterns are floating over London like tiny stars.", "A row of lanterns is lighting your way across the sky.", "Each lantern up there holds one thing I love about you.", "Lanterns are rising slowly, as gentle as your smile."], "wish": ["A shooting star just crossed the sky. Make a wish.", "Quick, a shooting star! Make your wish now.", "A star fell across the night for you.", "The sky just sent a falling star your way.", "A shooting star streaked past, and I wished on it for you.", "Did you see that star? It was carrying a wish.", "Somewhere a star let go, just to light your night.", "A falling star, and every wish on it is already yours."]},SU_L=["I'm so lucky it's you.", "You're my favourite part of every day.", "I love you more than words can say.", "You make everything softer.", "I'd choose you in every lifetime.", "Thinking of you is my favourite habit.", "Your smile is my favourite view in London.", "You're the best thing that ever happened to me.", "Being yours is my favourite place to be.", "You turn ordinary moments into magic.", "My heart still skips when I think of you.", "You're my safe place.", "I adore everything about you.", "You're the reason I believe in good things.", "I'd wait forever for one more smile from you.", "You are loved, always and completely.", "No distance can make me love you less.", "My whole world feels warmer because of you.", "You're my calm, my joy and my home.", "I fall for you a little more each day.", "You deserve every beautiful thing.", "There's nobody like you, and I'm so grateful.", "You're enough, exactly as you are.", "I'm proud of you, always.", "You make my heart feel at home.", "Every day with you feels like a gift.", "You're my favourite person in the whole universe.", "I still get butterflies when I see your name.", "You're everything I never knew I needed.", "Loving you is the easiest thing I've ever done.", "You make the whole city shine.", "I'd hold your hand through every storm.", "You're my best friend and my greatest love.", "My heart is yours, forever.", "You're even more beautiful than the sunset.", "You're the princess of my whole heart.", "I could never run out of reasons to love you.", "You're the sweetest thing in my life.", "I'm yours, today and every day.", "You make me happier than you'll ever know."],SU_W=["I wish you a soft, golden day.", "I hope something wonderful finds you today.", "May your heart feel light today.", "I wish you laughter that lasts all day.", "May every little thing go your way today.", "I hope you feel as loved as you are.", "May tonight bring you the gentlest dreams.", "I wish you endless happy moments.", "May today be kind to you, my love.", "I hope you smile at least once more today.", "May your worries float far away.", "I wish I could hug you right now.", "May you feel my love wherever you are.", "I hope you know how special you are.", "May peace follow you all day.", "I wish you tea, warm blankets and cosy dreams.", "May your day sparkle like the Thames at sunset.", "I hope you eat something delicious today.", "May you always feel safe and cherished.", "I wish you a day full of tiny joys.", "May luck follow you everywhere.", "I hope you rest well and feel strong.", "May every star tonight shine for you.", "I wish you all the sweetness in the world.", "May you never feel alone, not even for a second.", "I hope you dance a little today.", "May your dreams come true, one by one.", "I wish I could send you a thousand kisses.", "May this moment make you smile.", "I hope you remember how deeply you're adored."],SU_C=["Always yours.", "Forever, Ashka.", "With all my heart.", "Yours, always.", "Love, endlessly.", "Hugs and kisses.", "Your biggest fan.", "More tomorrow.", "Cheers, my queen.", "Thinking of you.", "Keep shining.", "Love you, always."];
+let surK={},surN=0;try{surK=JSON.parse(localStorage.getItem("surK")||"{}");surN=+localStorage.getItem("surN")||0}catch(e){}
+function surMsg(k){const L=[SU_O,SU_E[k],SU_L,SU_W,SU_C],sz=L.map(a=>a.length),N=sz.reduce((a,b)=>a*b,1);
+  if(surK[k]==null)surK[k]=Math.floor(Math.random()*N);const n=surK[k]++;surN++;
+  try{localStorage.setItem("surK",JSON.stringify(surK));localStorage.setItem("surN",surN)}catch(e){}
+  let idx=(n*1000003+7919)%N;const parts=L.map((a,i)=>{const v=idx%sz[i];idx=Math.floor(idx/sz[i]);return a[v]});
+  return [`${SUR_ICON[k]} surprise #${surN} · from ${CFG.from}`,parts.join(" ")]}
+function spawnSur(){const day=MODE==="day"&&nf<.5,pool=day?["balloon","plane","rainbow","confetti","petals"]:["lanterns","wish","confetti"];if(day&&(WX.rain>.2||WX.snow>.2))pool.push("rainbow");
+  const k=pool[(Math.random()*pool.length)|0],S={k,t:0,x:-40,y:50+Math.random()*60,seed:Math.random()};SUR.push(S);
+  const m=surMsg(k);queueNote(m[0],m[1]);
+  if(k==="confetti")for(let i=0;i<70;i++)S["c"+i]=[Math.random()*LW,-Math.random()*200,20+Math.random()*30,Math.random()*6]}
+function royalOverlay(dt){
+  if(!LD)return;
+  // welcome + queued notes
+  if(!welcomed&&t>1.6){welcomed=true;NQ.unshift(["👑 welcome","Welcome to your London, Princess Ashka. Everyone here has been waiting for you."])}
+  const n=$("#note");if(noteT>0){noteT-=dt;if(noteT<=0)n.classList.remove("show")}else if(NQ.length&&t>1.4){const [h,x]=NQ.shift();n.innerHTML=`<small>${h}</small><p>${x}</p>`;n.classList.add("show");chime();noteT=Math.min(11,5+x.length*.045)}
+  // surprise scheduler
+  nextSur-=dt;if(nextSur<0){spawnSur();nextSur=70+Math.random()*70}
+  // royal crown + name tag on the little princess
+  {const cx=CH.x-22,cy=CH.foot-58+Math.round(Math.sin(t*1.6)),X=cx+22,Y=cy+8;g.fillStyle="#ffd24d";g.fillRect(X-7,Y,14,3);[[-7,-4,2,4],[-1,-6,2,6],[5,-4,2,4]].forEach(([a,b,w,h])=>g.fillRect(X+a,Y+b,w,h));g.fillStyle="#ff4d6d";g.fillRect(X-1,Y,2,2);g.fillStyle="#7cd6ff";g.fillRect(X-5,Y,1.6,2);g.fillRect(X+3,Y,1.6,2);if(Math.sin(t*4)>.6){g.fillStyle="#fff";g.fillRect(X-1,Y-8,2,2);g.fillRect(X-2,Y-7,4,1)}
+   g.font='6px "Press Start 2P",monospace';g.textAlign="right";g.fillStyle="rgba(0,0,0,.55)";g.fillText("PRINCESS ASHKA",LW-5,cy-5);g.fillStyle="#ffd9ec";g.fillText("PRINCESS ASHKA",LW-6,cy-6)}
+  // hourly Big Ben chime rings (day scene)
+  if(bong&&MODE==="day"){const bx=LW*.12,by=hz-84*Math.min(1.1,hz/300)-10;for(let k=0;k<bong.n;k++){const a=t-bong.t0-k*2.2;if(a<0||a>1.8)continue;g.strokeStyle=`rgba(255,226,140,${1-a/1.8})`;g.lineWidth=1.4;g.beginPath();g.arc(bx,by,6+a*30,0,6.283);g.stroke();if(a<.1)for(let i=0;i<3;i++)hearts.push({x:bx+Math.random()*30-10,y:by,t:0,s:Math.random()*6,c:"#ffd24d"})}if(t-bong.t0>bong.n*2.2+2)bong=null}
+  // surprises
+  SUR=SUR.filter(S=>{S.t+=dt;const T=S.t,k=S.k;
+    if(k==="balloon"){const x=-30+T*22,y=S.y+Math.sin(T*.8)*6;if(x>LW+40)return false;ell(x,y,13,16,"#ff6b9d");ell(x,y,5,16,"#fff1f3");ell(x,y,10,15,"rgba(255,255,255,.12)");g.fillStyle="#8a5a34";g.fillRect(x-4,y+20,8,5);seg(x-8,y+13,x-3,y+20,.8,"#6a4a2a");seg(x+8,y+13,x+3,y+20,.8,"#6a4a2a");g.fillStyle="#fff1f3";g.fillRect(x-22,y+27,44,9);g.fillStyle="#d9507a";g.font='6px "Press Start 2P",monospace';g.textAlign="center";g.fillText("ASHKA ♥",x,y+34);return true}
+    if(k==="plane"){const x=-120+T*40,y=S.y;if(x>LW+140)return false;g.fillStyle="#fff";g.fillRect(x,y,16,4);g.fillRect(x+10,y-3,3,10);g.fillRect(x+14,y-2,5,3);seg(x,y+2,x-18,y+3,.8,"#555");g.fillStyle="#fff1f3";g.fillRect(x-100,y-2,82,9);g.strokeStyle="#d9507a";g.lineWidth=1;g.strokeRect(x-100,y-2,82,9);g.fillStyle="#d9507a";g.font='5px "Press Start 2P",monospace';g.textAlign="center";g.fillText("ASHKA ♥ YOGESH",x-59,y+5);return true}
+    if(k==="rainbow"){if(T>22)return false;const a=Math.min(1,T/3,(22-T)/4)*.32;["#ff4d4d","#ff9f1c","#ffe14d","#5ad66f","#4aa8ff","#7a5cff","#c06bff"].forEach((c,i)=>{g.strokeStyle=c;g.globalAlpha=a;g.lineWidth=4;g.beginPath();g.arc(LW*.5,hz*1.02,LW*.46-i*4,Math.PI,6.283);g.stroke()});g.globalAlpha=1;return true}
+    if(k==="confetti"){if(T>8)return false;for(let i=0;i<70;i++){const c=S["c"+i];if(!c)continue;const y=c[1]+T*c[2]*3,x=c[0]+Math.sin(T*2+c[3])*10;g.fillStyle=["#ff4d6d","#ffd24d","#6bd1ff","#7cff9a","#b78bff"][i%5];g.fillRect(x,y,3,2)}return true}
+    if(k==="petals"){if(T>9)return false;for(let i=0;i<40;i++){const x=hashf(i,S.seed*9)*LW+Math.sin(T+i)*14,y=-10+T*40*(.6+hashf(i,3));g.fillStyle=i%2?"#ffc2d4":"#fff1f3";g.fillRect(x,y,3,2)}return true}
+    if(k==="lanterns"){if(T>16)return false;for(let i=0;i<6;i++){const x=LW*(.15+i*.14)+Math.sin(T*.7+i)*8,y=LH*.72-T*26-i*14;if(y<-20)continue;glow(x,y,26,"255,190,110",.5);g.fillStyle="#ffcf87";g.fillRect(x-3,y-4,6,8);g.fillStyle="#ff8fb1";g.fillRect(x-1,y-2,2,2)}return true}
+    if(k==="wish"){if(T>2)return false;const x=LW*.8-T*LW*.5,y=40+T*80;for(let i=0;i<30;i++){g.fillStyle=`rgba(255,240,200,${1-i/30})`;g.fillRect(x+i*2,y-i,2,2)}return true}
+    return false})}
+
+// ----- night (star-sky view): the nocturnal London residents come out too -----
+function royalNight(dt){nf=1;const s=1.15,lx=LAMP.x,ty=LAMP.base-128;
+  {const bx=LW*.93,by=hill(bx)+34;boothD(bx,by,s*1.05,t-BR<2);hits.push({x:bx,y:by-26,dk:"booth",id:0});const px=LW*.12,py=hill(px)+36;postD(px,py,s);hits.push({x:px,y:py-12,dk:"post",id:0})}
+  ravenD(lx+10,ty,s,-1);hits.push({x:lx+10,y:ty-8,dk:"raven",id:1});
+  if(LD.mo>=4&&LD.mo<=10)for(let i=0;i<3;i++){const x=lx+20+Math.cos(t*1.3+i*2)*34,y=ty+34+Math.sin(t*1.9+i*2)*16;batD(x,y,s,t*16+i);if(i==0)hits.push({x,y,dk:"bat",id:0})}
+  {const ph=t*.03,x=LW*.5+tri(ph)*LW*.4,d=trd(ph),y=hill(x)+20;foxD(x,y,s*.9,d,t*7);hits.push({x,y:y-10,dk:"fox",id:0})}
+  if(LD.mo>=3&&LD.mo<=10){const ph=t*.05,x=LW*.2+tri(ph)*LW*.12,d=trd(ph),y=hill(x)+34;hogD(x,y,s,d,t*5);hits.push({x,y:y-6,dk:"hedgehog",id:0})}}
+
+// ================= CUTE EXTRAS: pet bunny, hug, growing peony, sticker book, wishing pond, miss-you, rough-day calm, weather outfits, polaroids, sounds, daily scratch card, countdowns, crowned ducks & bowing animals =================
+const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const waLink=txt=>"https://wa.me/"+CFG.whatsapp.replace(/\D/g,"")+"?text="+encodeURIComponent(txt);
+const todayKey=()=>LD.y+"-"+pad2(LD.mo)+"-"+pad2(LD.d),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function showHtmlNote(head,html,secs){const n=$("#note");n.innerHTML=`<small>${head}</small>${html}`;n.classList.add("show");noteT=secs||12}
+function confettiBurst(){const S={k:"confetti",t:0,x:0,y:0,seed:Math.random()};for(let i=0;i<70;i++)S["c"+i]=[Math.random()*LW,-Math.random()*200,20+Math.random()*30,Math.random()*6];SUR.push(S)}
+(CFG.photos=CFG.photos||[]).forEach(p=>{if(typeof Image!=="undefined"){p.img=new Image();p.img.src=p.src}});CFG.dates=CFG.dates||[];
+// ----- sounds (off until she taps 🔊; browsers need a tap first) -----
+const SND={on:lsGet("snd",0)===1,ctx:null,next:6};
+function aud(){if(!SND.on)return null;try{if(!SND.ctx){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;SND.ctx=new A()}if(SND.ctx.state==="suspended")SND.ctx.resume();return SND.ctx}catch(e){return null}}
+function tone(f,t0,d,v,type){const c=aud();if(!c)return;const o=c.createOscillator(),gn=c.createGain(),T=c.currentTime+t0;o.type=type||"sine";o.frequency.value=f;gn.gain.setValueAtTime(0,T);gn.gain.linearRampToValueAtTime(v,T+.01);gn.gain.exponentialRampToValueAtTime(.0001,T+d);o.connect(gn);gn.connect(c.destination);o.start(T);o.stop(T+d+.05)}
+const chime=()=>{tone(880,0,.9,.08);tone(1318.5,.14,1.1,.06)};
+function bellSeq(n){for(let k=0;k<n;k++){const d=k*2.2;tone(196,d,3,.14);tone(392,d,2.4,.07);tone(588,d,1.6,.04)}}
+function lullaby(){const S=[392,440,523.25,587.33,659.25,784];[0,2,4,2,3,1,2,0,1,3,2,1,0].forEach((i,k)=>tone(S[i],k*.55,1.2,.045,"triangle"))}
+function toggleSound(){SND.on=!SND.on;lsSet("snd",SND.on?1:0);$("#b-snd").textContent=SND.on?"🔊":"🔇";if(SND.on){aud();chime()}}
+// ----- bowing animals + crowned ducks -----
+let BOW={x:-999,t0:-99},lastTapT=-99;
+const bowOf=x=>{const a=t-BOW.t0;if(a<0||a>1.4)return 0;const dx=Math.abs(x-BOW.x);return dx>80?0:Math.sin(a/1.4*Math.PI)*(1-dx/80)};
+function crownAt(x,y,s){g.fillStyle="#ffd24d";g.fillRect(x-2.6*s,y,5.2*s,1.4*s);g.fillRect(x-2.6*s,y-1.8*s,1.1*s,1.8*s);g.fillRect(x-.55*s,y-2.6*s,1.1*s,2.6*s);g.fillRect(x+1.5*s,y-1.8*s,1.1*s,1.8*s);g.fillStyle="#ff4d6d";g.fillRect(x-.5*s,y+.2*s,1*s,.9*s)}
+["duckD","dogD","gooseD","squirrelD","foxD","hogD","robinD","catD","heronD","ravenD"].forEach(n=>{const f=window[n];if(typeof f!=="function")return;
+  window[n]=function(x,y,s,d){const b=bowOf(x);if(b>.02){g.save();g.translate(x,y);g.rotate((d||1)*b*.45);g.translate(-x,-y);f.apply(this,arguments);g.restore()}else f.apply(this,arguments);
+    if(n==="duckD"&&s>=.45)crownAt(x+(d||1)*5*s,y-7.6*s,s)}});
+// ----- pet bunny (follows her taps, sleeps at night, yawns on the hour) -----
+const PET={x:0,tx:-1,d:-1,mv:false};let petYawn=-99;
+function petD(x,y,s,d,sl,yw,mv){const C=dimC(x),hop=mv?Math.abs(Math.sin(t*11))*4*s:0,Y=y-hop;ell(x,y+1*s,7*s,1.6*s,"rgba(0,0,0,.2)");
+  if(sl){ell(x-4*s,Y-8*s,2*s,4*s,C([255,224,238]),-.9);ell(x+4*s,Y-8*s,2*s,4*s,C([255,224,238]),.9)}else{[-1,1].forEach(k=>{ell(x+k*3*s,Y-15*s,2*s,6*s,C([255,224,238]),k*.15);ell(x+k*3*s,Y-15*s,1*s,4.4*s,C([255,160,190]),k*.15)})}
+  ell(x,Y-4*s,sl?8*s:6*s,sl?3.6*s:4.6*s,C([255,236,244]));ell(x+d*2*s,Y-9*s,5*s,4.4*s,C([255,240,247]));ell(x-d*6*s,Y-4*s,2*s,2*s,"#fff");
+  if(sl)seg(x+d*3*s-1.5*s,Y-9*s,x+d*3*s+1.5*s,Y-9*s,.9*s,"#6a3a52");else ell(x+d*4*s,Y-9.6*s,.9*s,1.1*s,"#3a2030");
+  ell(x+d*5*s,Y-7.6*s,1.4*s,.9*s,"rgba(255,120,160,.6)");ell(x+d*6.6*s,Y-8.6*s,.7*s,.6*s,"#ff7fa6");if(yw)ell(x+d*6*s,Y-6.8*s,1.1*s,1.4*s,"#b0405f");
+  if(sl){g.fillStyle="rgba(255,255,255,.8)";g.font='7px "Press Start 2P",monospace';g.textAlign="center";g.fillText("z",x+8*s,Y-12*s-((t*6)%8))}}
+// ----- hug, calm mode, wish coin -----
+const HUG={on:false,t:0,n:lsGet("hugn",0),buzz:0},ROUGH={on:false,t:0,n:lsGet("roughn",0)};let COIN=null;
+const HUGM=["Yogesh felt that. He's hugging you back, tighter. 💞","A hug from Yogesh just crossed all of London to reach you. 🤗","That hug was delivered. Yogesh is smiling like an idiot right now.","Hug received, Princess Ashka. Return hug on its way, with extra squeeze.","Somewhere, Yogesh just felt a warm hug. Thank you, my love. 💗","The ducks felt that hug too. Everyone in London is smiling.","You hugged the whole kingdom. It hugs you back. 🤍","Hug stored safely in Yogesh's heart, next to all the others."];
+const COMFORT=["Rough days pass. You don't have to be strong right now. Yogesh is right here.","You are allowed to be tired. You are still loved, completely.","Breathe with the circle. In, and out. You're safe in this little kingdom.","Whatever happened today, it doesn't change how wonderful you are.","Be gentle with yourself, princess. Everyone in London is on your side.","You've survived every hard day so far. Yogesh is proud of you.","Nothing is expected of you right now. Just breathe, and rest.","You're not alone. The ducks, the lamps and Yogesh are all here for you.","This feeling will soften. Until then, lean on me.","You are my favourite person, on good days and on hard ones."];
+function startRough(){ROUGH.on=true;ROUGH.t=0;PET.tx=CH.x-30;lastTapT=t;queueNote("🥺 take a moment",COMFORT[ROUGH.n++%COMFORT.length]);lsSet("roughn",ROUGH.n);$("#menu").classList.remove("on")}
+function openWish(){paper.innerHTML=`<h2>🪙 wishing pond</h2><p style="animation-delay:.1s">Make a wish and toss a coin into the pond. Then send it to ${CFG.from}, and he'll make it come true.</p><textarea id="wwt" maxlength="300" placeholder="my wish is…"></textarea><button id="wtoss">toss the coin 🪙</button><button id="cl">close ♥</button>`;ov.classList.add("show");$("#cl").onclick=()=>ov.classList.remove("show");
+  $("#wtoss").onclick=()=>{const w=$("#wwt").value.trim()||"a wish I can't say out loud";ov.classList.remove("show");COIN={t:0,w,done:false};$("#menu").classList.remove("on")}}
+// ----- growing peony in a pot (one more stage for every day she visits) -----
+let VD=lsGet("vd",[]);const PEONY={days:1,stage:0};
+function potD(x,y,st){const s=1.15,h=(10+st*3)*s,fy=y-12*s-h;g.fillStyle="#c9683a";g.beginPath();g.moveTo(x-8*s,y-10*s);g.lineTo(x+8*s,y-10*s);g.lineTo(x+6*s,y);g.lineTo(x-6*s,y);g.fill();g.fillStyle="#e08a52";g.fillRect(x-9*s,y-12*s,18*s,3*s);
+  seg(x,y-12*s,x,fy,1.6*s,"#3f8a52");if(st>=1){ell(x-5*s,y-17*s,4*s,1.8*s,"#4fa563",-.5);ell(x+5*s,y-20*s,4*s,1.8*s,"#4fa563",.5)}
+  const r=(1.8+st*1.15)*s;if(st<2){ell(x,fy,r,r*1.2,"#7bbf6a");if(st==1)ell(x,fy-r*.6,r*.5,r*.6,"#ffb3cf")}else{const rings=Math.max(1,st-1),cs=["#ffc4da","#fff1f6","#ffe0ec","#ffffff","#fff1f6","#ffe9f1"];for(let i=0;i<rings;i++)ell(x,fy,r*(1-i*.17),r*(1-i*.17)*.92,cs[i%cs.length]);if(st>=4)ell(x,fy,r*.18,r*.18,"#ffe08a")}
+  if(st>=7&&Math.sin(t*4)>.5){g.fillStyle="#fff";g.fillRect(x+r,fy-r,2,2);g.fillRect(x-r-2,fy-r*.4,2,2)}}
+// ----- sticker book -----
+let STK=new Set(lsGet("stk",[]));const stkKinds=()=>Object.keys(DT);
+function openStickers(){const K=stkKinds();paper.innerHTML=`<h2>📒 sticker book · ${STK.size}/${K.length}</h2><div class="stk">${K.map(k=>{const f=STK.has(k);return `<div class="${f?"on":""}"><span>${f?DT[k].split(" ")[0]:"?"}</span><small>${f?DT[k].replace(/^\S+\s/,""):"???"}</small></div>`}).join("")}</div><p style="animation-delay:.1s">Tap the animals, landmarks and little friends to collect them all.</p><button id="cl">close ♥</button>`;ov.classList.add("show");$("#cl").onclick=()=>ov.classList.remove("show");$("#menu").classList.remove("on")}
+Object.assign(DM,{pet:["Mochi the bunny nuzzles you: you're the softest person I know. 🐰","Boop! Mochi says you're the best princess in the whole kingdom.","Mochi follows you everywhere because you're her favourite human.","Mochi does a happy little hop. That means: we love you.","Mochi sleeps best when she knows you're near. So does Yogesh."]});
+Object.assign(DT,{pet:"🐰 Mochi the bunny",peony:"🌸 your peony"});
+// ----- daily scratch-card royal decree (a different one for every date) -----
+const DEC_A=["By royal decree, Princess Ashka shall","Today the kingdom commands that Ashka","The royal court has agreed that Princess Ashka will","Let it be written: Her Highness shall","By order of Yogesh, the princess must","The ravens have announced that Ashka should","Big Ben strikes to declare that Ashka will","All of London decrees that Princess Ashka shall","The royal guards insist that Ashka","By the power of the Thames, Her Highness shall","The ducks have voted that Ashka will","Hear ye, hear ye: Princess Ashka shall","The royal bunny requests that Ashka","Under the stars it is decreed that Ashka shall","The lamp posts have petitioned that Ashka","By ancient London law, Princess Ashka must","The Tube drivers announce that Ashka will","The royal gardeners declare that Ashka shall","The parakeets proclaim that Princess Ashka will","Let all be informed that Her Majesty Ashka shall"];
+const DEC_B=["eat something delicious","drink a full glass of water","take three slow, deep breaths","smile at herself in the mirror","do something kind for herself","dance to one favourite song","text Yogesh something silly","stretch and feel proud","rest without any guilt","wear something that feels like her","have a cup of tea or cocoa","step outside for a little sunshine or starlight","forgive herself for one small thing","laugh really loudly at least once","tell someone she is grateful for them","take a tiny walk, even just to the window","write down one thing she's proud of","hug someone or something soft","compliment herself out loud","do absolutely nothing for ten minutes"];
+const DEC_C=[", and the whole kingdom will cheer.",", because she deserves it.",", and London will be better for it.",", by order of the royal ducks.",", and Yogesh will be so proud.",", for such is the law of love.",", and the stars will approve.",", and every lamp will glow brighter.",", with a crown on her head.",", and nobody may argue with this.",", as the ravens have witnessed.",", and Big Ben will chime for it.",", sealed with a kiss.",", and the Thames will sparkle.",", and so it shall be.",", with all of London watching lovingly.",", signed by the royal bunny.",", and heaven help anyone who objects.",", because she is the princess of this world.",", and then she shall be adored even more."];
+function decreeText(){const dn=Math.floor(Date.UTC(LD.y,LD.mo-1,LD.d)/864e5),N=8000;let i=(dn*7919+13)%N;const a=i%20;i=(i-a)/20;const b=i%20;i=(i-b)/20;return DEC_A[a]+" "+DEC_B[b]+DEC_C[i%20]}
+function openScratch(){const k="scr-"+todayKey(),done=lsGet(k,0);paper.innerHTML=`<h2>🎟 today's royal decree</h2><div class="scrw"><div class="dec">${decreeText()}</div>${done?"":'<canvas id="scr" width="300" height="130"></canvas>'}</div><p style="animation-delay:.1s">${done?"Come back tomorrow for a brand new decree. 💌":"Scratch with your finger to reveal it."}</p><button id="cl">close ♥</button>`;ov.classList.add("show");$("#cl").onclick=()=>ov.classList.remove("show");$("#menu").classList.remove("on");
+  const c=$("#scr");if(!c)return;const x=c.getContext("2d"),gr=x.createLinearGradient(0,0,300,130);gr.addColorStop(0,"#d9dce6");gr.addColorStop(.5,"#f4f5fa");gr.addColorStop(1,"#b9bdcc");x.fillStyle=gr;x.fillRect(0,0,300,130);x.fillStyle="#8a8fa6";x.font='bold 13px "Press Start 2P",monospace';x.textAlign="center";x.fillText("✨ scratch ✨",150,70);
+  let down=false,mv=0;const pos=e=>{const r=c.getBoundingClientRect();return [(e.clientX-r.left)*300/(r.width||300),(e.clientY-r.top)*130/(r.height||130)]};
+  const check=()=>{const d=x.getImageData(0,0,300,130).data;let n=0,tot=0;for(let i=3;i<d.length;i+=16){tot++;if(d[i]===0)n++}if(n/tot>.5){c.style.display="none";lsSet(k,1);confettiBurst();queueNote("🎟 decree revealed","Come back tomorrow for a new one, Princess Ashka.")}};
+  const sc=e=>{if(!down)return;const [px,py]=pos(e);x.globalCompositeOperation="destination-out";x.beginPath();x.arc(px,py,16,0,6.283);x.fill();if(++mv%6==0)check()};
+  c.addEventListener("pointerdown",e=>{down=true;try{c.setPointerCapture(e.pointerId)}catch(er){}sc(e)});c.addEventListener("pointermove",sc);c.addEventListener("pointerup",()=>{down=false;check()})}
+// ----- countdowns + party day -----
+let PARTY=null;
+function dateInfo(){const t0=Date.UTC(LD.y,LD.mo-1,LD.d);return CFG.dates.filter(d=>d.m>0&&d.d>0).map(d=>{let tg=Date.UTC(LD.y,d.m-1,d.d);if(tg<t0)tg=Date.UTC(LD.y+1,d.m-1,d.d);return Object.assign({},d,{n:Math.round((tg-t0)/864e5)})})}
+const _events=events;events=function(){const o=_events();dateInfo().forEach(d=>{if(d.n===0){o.flags.party=1;o.list.push(`Today is ${d.name}! 🎉`)}else if(d.n<=14)o.list.push(`${d.emoji||"💗"} ${d.n} day${d.n>1?"s":""} until ${d.name}.`)});return o};
+function cuteTick(){const k=todayKey();if(!VD.includes(k)){VD.push(k);lsSet("vd",VD)}PEONY.days=VD.length;const st=Math.min(7,VD.length-1);
+  if(st===7&&!lsGet("bloomed",0)){lsSet("bloomed",1);queueNote("🌸 your peony bloomed","Eight visits, one full peony. It grew because you kept coming back, Princess Ashka.");confettiBurst()}PEONY.stage=st;
+  const di=dateInfo();PARTY=di.find(x=>x.n===0)||null;const ck="cdn-"+k;if(!lsGet(ck,0)){const n=di.filter(x=>x.n<=30).sort((a,b)=>a.n-b.n)[0];if(n){lsSet(ck,1);queueNote((n.emoji||"💗")+" countdown",n.n===0?`🎉 Today is ${n.name}! Everything in London is celebrating with you, Princess Ashka.`:`${n.n} day${n.n>1?"s":""} until ${n.name}. The whole kingdom is already getting ready.`)}}}
+// ----- tap hooks -----
+function cuteTap(x,y){BOW={x,t0:t};lastTapT=t;if(y<LH-dockLog)PET.tx=clamp(x,16,LW-16)}
+function cuteTapHook(h){if(h.dk&&DT[h.dk]&&!STK.has(h.dk)){STK.add(h.dk);lsSet("stk",[...STK]);const n=stkKinds().length;queueNote("🏷️ new sticker!",`${DT[h.dk]} joined your sticker book (${STK.size}/${n}).`);if(STK.size===n)queueNote("🎖️ sticker book complete","You befriended all of London, Princess Ashka.")}
+  if(boothTap(h))return true;if(h.dk==="photo"){const p=CFG.photos[h.id];if(p){paper.innerHTML=`<h2>💞 ${p.cap||"us"}</h2><img src="${p.src}" alt="" style="width:100%;border:8px solid #fff;box-shadow:0 2px 8px #0004"><button id="cl">close ♥</button>`;ov.classList.add("show");$("#cl").onclick=()=>ov.classList.remove("show")}return true}
+  if(h.dk==="peony"){const d=PEONY.days,st=PEONY.stage;showHtmlNote("🌸 your peony",`<p>${st>=7?"Fully bloomed! It grew from "+d+" days of you coming back.":"Day "+Math.min(d,8)+" of 8. Visit again tomorrow and it opens a little more. 🌱"}</p>`,7);return true}
+  if(h.dk==="pet"){for(let i=0;i<4;i++)hearts.push({x:PET.x+Math.random()*14-7,y:LH-dockLog-30,t:-i*.1,s:Math.random()*6,c:"#ff8fb1"})}
+  return false}
+// ----- polaroids on the bunting + party banner (day scene) -----
+function cuteGround(E){const {bk,s,HZ}=E,x0=LW*.1,x1=LW*.9,yy=x=>bk(x)-88*Math.min(1.2,LW/380)+Math.sin((x-x0)/(x1-x0)*3.14)*18,P=CFG.photos.slice(0,5);
+  P.forEach((p,i)=>{const f=(i+1)/(P.length+1),x=x0+(x1-x0)*f,y=yy(x)+22*s,rot=Math.sin(i*2.1)*.12;g.save();g.translate(x,y);g.rotate(rot);g.fillStyle=nf>.5?"#d8d0d4":"#fffdf8";g.fillRect(-14*s,0,28*s,34*s);
+    if(p.img&&p.img.complete&&p.img.naturalWidth)g.drawImage(p.img,-11.5*s,3*s,23*s,23*s);else{g.fillStyle="#ffc2d4";g.fillRect(-11.5*s,3*s,23*s,23*s)}g.fillStyle="#d9a066";g.fillRect(-2*s,-5*s,4*s,8*s);g.restore();hits.push({x,y:y+16*s,dk:"photo",id:i})});
+  if(PARTY){const y=HZ*.2;g.fillStyle="#ff8fb1";g.fillRect(LW*.08,y,LW*.84,22);g.fillStyle="#fff";g.font='7px "Press Start 2P",monospace';g.textAlign="center";g.fillText("🎉 "+PARTY.name.toUpperCase()+" 🎉",LW/2,y+14);
+    for(let i=0;i<6;i++){const x=LW*(.1+i*.16),by=y+40+Math.sin(t*1.3+i)*6;seg(x,by+16,x,by+42,.8,"#999");ell(x,by,8,10,["#ff6b9d","#ffd24d","#6bd1ff","#7cff9a","#b78bff","#ff9f1c"][i]);ell(x-2,by-3,2,3,"rgba(255,255,255,.5)")}}}
+// ----- outfits for the weather -----
+function outfit(cx,cy){const se=SEAS,cold=se==="winter"||snowy||se==="autumn";
+  if(se==="summer"&&!snowy){ell(cx+22,cy+14,22,4,"#e8c76a");ell(cx+22,cy+13,12,3,"#f2d98a");g.fillStyle="#ff8fb1";g.fillRect(cx+12,cy+12,20,2)}
+  if(se==="spring"&&!snowy)for(let i=0;i<8;i++){const a=3.5+i*.35,fx=cx+22+Math.cos(a)*15,fy=cy+14+Math.sin(a)*8;ell(fx,fy,2.2,2.2,["#ffb3cf","#fff","#ffe08a","#ffb3cf"][i%4]);ell(fx,fy,.7,.7,"#ffd24d")}
+  if(cold){const c=se==="autumn"&&!snowy?"#e8862b":"#d33a3a";g.fillStyle=c;g.fillRect(cx+12,cy+40,20,4);g.fillRect(cx+26,cy+43,4,10);g.fillStyle="#ffffff55";g.fillRect(cx+12,cy+41,20,1)}
+  if(se==="winter"||snowy){ell(cx+8,cy+46,3.4,3.4,"#d33a3a");ell(cx+36,cy+46,3.4,3.4,"#d33a3a");for(let i=0;i<5;i++){g.fillStyle="#fff";g.fillRect(cx+12+i*4+Math.sin(t+i)*2,cy+4+(i%2)*3,2,2)}}
+  if(se==="autumn"&&!snowy){g.fillStyle="#d9731c";g.fillRect(cx+28+Math.sin(t*2)*2,cy+6,3,2)}
+  if(WX.rain>.25){g.fillStyle="#ff9ac2";g.beginPath();g.arc(cx+22,cy-2,30,Math.PI,0);g.fill();g.fillStyle="#ffc2d4";for(let k=-2;k<=2;k++)g.fillRect(cx+22+k*10-1,cy-8,2,6);seg(cx+22,cy-2,cx+22,cy+44,1.5,"#6a4a5a");duckD(cx+4,CH.foot,1.1,1,t*1.6)}}
+// ----- everything cute, drawn on top of both day and night -----
+function cuteOverlay(dt){if(!LD)return;lightFX(dt);
+  if(ROUGH.on){ROUGH.t+=dt;const T=ROUGH.t,a=Math.min(.38,T*.2)*(T>22?Math.max(0,(26-T)/4):1),ph=T/8*6.283-1.5708,r=34+22*Math.sin(ph);g.fillStyle=`rgba(60,30,80,${a})`;g.fillRect(0,0,LW,LH);glow(LW/2,LH*.4,r*2.2,"255,160,200",.4*(a/.38));g.fillStyle=`rgba(255,220,238,${.85*(a/.38)})`;g.beginPath();g.arc(LW/2,LH*.4,r,0,6.283);g.fill();
+    g.font='8px "Press Start 2P",monospace';g.textAlign="center";g.fillStyle=`rgba(255,255,255,${a/.38})`;g.fillText(Math.cos(ph)>0?"breathe in":"breathe out",LW/2,LH*.4+r+22);if(Math.random()<.08)hearts.push({x:Math.random()*LW,y:LH*.8,t:0,s:Math.random()*6,c:"#ffb3cf"});
+    if(T>26){ROUGH.on=false;showHtmlNote("🥺 feeling a bit better?",`<p>Do you want to tell ${CFG.from}? He'd love to listen.</p><button id="rsend" style="all:unset;cursor:pointer;background:#25d366;color:#052e16;font:8px 'Press Start 2P',monospace;padding:8px 10px;margin-top:6px;display:inline-block">tell ${CFG.from} on WhatsApp ↗</button>`,14);$("#rsend").onclick=()=>window.open(waLink(`🥺 I'm having a rough day, ${CFG.from}. Can we talk?\n— ${CFG.to}`),"_blank")}}
+  const gy=LH-dockLog-12,night=MODE==="night"||nf>.75;
+  if(PET.tx<0){PET.x=CH.x-40;PET.tx=PET.x}
+  if(night&&t-lastTapT>14)PET.tx=CH.x-40;
+  PET.mv=false;if(Math.abs(PET.tx-PET.x)>3){PET.d=PET.tx>PET.x?1:-1;PET.x+=PET.d*45*dt;PET.mv=true}
+  const sl=night&&!PET.mv;petD(PET.x,gy,1.5,PET.d,sl,t-petYawn<2.2,PET.mv);hits.push({x:PET.x,y:gy-10,dk:"pet",id:0});
+  {const px=LAMP.x+36,st=PEONY.stage;potD(px,LH-dockLog-4,st);hits.push({x:px,y:LH-dockLog-26-st*3,dk:"peony",id:0})}
+  {const cx=CH.x-22,cy=CH.foot-58+Math.round(Math.sin(t*1.6));outfit(cx,cy);
+   if(HUG.on){HUG.t+=dt;glow(CH.x,CH.foot-30,50+Math.min(HUG.t,3)*10,"255,140,180",.38);g.strokeStyle="#ffd6e4";g.lineWidth=5;g.lineCap="round";g.beginPath();g.moveTo(cx+8,cy+40);g.quadraticCurveTo(cx+22,cy+58+Math.sin(t*9)*1.5,cx+36,cy+40);g.stroke();
+     if(t-HUG.buzz>.18){HUG.buzz=t;hearts.push({x:CH.x+Math.random()*30-15,y:CH.foot-50,t:0,s:Math.random()*6,c:["#ff8fb1","#ff4d79","#fff1f3"][(Math.random()*3)|0]});if(typeof navigator!=="undefined"&&navigator.vibrate&&Math.random()<.4)navigator.vibrate(20)}}}
+  if(COIN){COIN.t+=dt;const u=Math.min(1,COIN.t/1.4),x0=CH.x-10,y0=CH.foot-40,tx=LW*.3,ty=MODE==="day"?hz+((LH-dockLog)-hz)*.28:LH*.52,x=x0+(tx-x0)*u,y=y0+(ty-y0)*u-Math.sin(u*Math.PI)*90;
+    if(u<1){g.fillStyle="#ffd24d";g.beginPath();g.ellipse(x,y,5,Math.max(1,Math.abs(Math.cos(COIN.t*14))*5),0,0,6.283);g.fill();g.fillStyle="#fff7c4";g.fillRect(x-1,y-1,2,2)}
+    else{const a=COIN.t-1.4;for(let k=0;k<3;k++){const r=(a*20+k*8)%26;g.strokeStyle=`rgba(255,255,255,${Math.max(0,.7-r/26)})`;g.lineWidth=1;g.beginPath();g.ellipse(tx,ty,r,r*.35,0,0,6.283);g.stroke()}
+      if(!COIN.done){COIN.done=true;for(let i=0;i<8;i++)hearts.push({x:tx+Math.random()*20-10,y:ty,t:-i*.1,s:Math.random()*6,c:"#ffd24d"});showHtmlNote("🪙 wish made",`<p>Splash! Your wish is floating on the water. Send it to ${CFG.from} so he can make it come true.</p><button id="wsend" style="all:unset;cursor:pointer;background:#25d366;color:#052e16;font:8px 'Press Start 2P',monospace;padding:8px 10px;margin-top:6px;display:inline-block">send my wish ↗</button>`,16);$("#wsend").onclick=()=>window.open(waLink(`🪙 My wish: ${COIN.w}\n— ${CFG.to}`),"_blank")}
+      if(a>5)COIN=null}}
+  if(PARTY&&nextSur>30)nextSur=30;
+  if(SND.on&&night&&t>SND.next){lullaby();SND.next=t+12}
+  boothFX(dt)
+}
+function hugEnd(){if(!HUG.on)return;HUG.on=false;if(HUG.t>1){queueNote("🤗 hug received",HUGM[HUG.n++%HUGM.length]);lsSet("hugn",HUG.n)}HUG.t=0}
+function cuteInit(){$("#b-call").onclick=openBooth;$("#fab").onclick=()=>$("#menu").classList.toggle("on");
+  $("#b-miss").onclick=()=>{window.open(waLink(`💗 I miss you, ${CFG.from}.\n— ${CFG.to}`),"_blank");for(let i=0;i<6;i++)hearts.push({x:LW*.5+Math.random()*60-30,y:LH*.6,t:-i*.1,s:Math.random()*6,c:"#ff4d79"})};
+  $("#b-rough").onclick=startRough;$("#b-wish").onclick=openWish;$("#b-decree").onclick=openScratch;$("#b-stk").onclick=openStickers;$("#b-snd").onclick=toggleSound;$("#b-snd").textContent=SND.on?"🔊":"🔇";
+  const hb=$("#b-hug");hb.addEventListener("pointerdown",e=>{e.preventDefault&&e.preventDefault();HUG.on=true;HUG.t=0});["pointerup","pointerleave","pointercancel"].forEach(n=>hb.addEventListener(n,hugEnd))}
+
+// ================= LONDON PHONE BOOTH + PILLAR BOX: call royal services, messages straight to Yogesh, letters, photo booth =================
+let lastSend=0,lastLite=0,BR=-99,FLASH=-99,TREAT=null,TAXI=null,POSTF=null,bubId=1;
+const FX={light:null,fw:null,met:null,bub:null},FP=[],ME=[],BUB=[];
+const sendRaw=(title,body)=>fetch("https://ntfy.sh",{method:"POST",body:JSON.stringify({topic:CFG.ntfy,title,message:body,tags:["crown"],priority:4})});
+async function sendHim(title,body){const now=Date.now();if(now-lastSend<1200){setTimeout(()=>sendHim(title,body),1300);return "queued"}lastSend=now;
+  if(CFG.ntfy){try{const r=await sendRaw(title,body);if(r&&r.ok){queueNote("📨 sent to "+CFG.from,"Delivered straight to "+CFG.from+"'s phone.");return "sent"}}catch(e){}}
+  showHtmlNote("📨 couldn't deliver directly",`<p>The direct line is busy. Send it on WhatsApp instead?</p><button id="fbsend" style="all:unset;cursor:pointer;background:#25d366;color:#052e16;font:8px 'Press Start 2P',monospace;padding:8px 10px;margin-top:6px;display:inline-block">send on WhatsApp ↗</button>`,14);
+  const b=$("#fbsend");if(b)b.onclick=()=>window.open(waLink(title+"\n"+body),"_blank");return "fallback"}
+function notifyLite(title,body){if(!CFG.ntfy||Date.now()-lastLite<20000)return;lastLite=Date.now();try{const p=sendRaw(title,body);p&&p.catch&&p.catch(()=>{})}catch(e){}}
+const phoneRing=()=>{[0,.5,1].forEach(d=>{tone(440,d,.2,.07);tone(480,d,.2,.07)})};
+function modal(html){paper.onclick=null;paper.innerHTML=html;ov.classList.add("show");const c=$("#cl");if(c)c.onclick=()=>ov.classList.remove("show")}
+// ----- sprites -----
+function boothD(x,y,s,call){const C=dimC(x),w=13*s,h=46*s,sh=call?Math.sin(t*40):0;x+=sh;ell(x,y,w*.95,2*s,"rgba(0,0,0,.22)");
+  g.fillStyle=C([200,32,43]);g.beginPath();g.roundRect(x-w,y-h,w*2,h,2*s);g.fill();g.fillStyle=C([150,18,30]);g.fillRect(x-w,y-h*.16,w*2,h*.16);
+  g.fillStyle=C([200,32,43]);g.beginPath();g.ellipse(x,y-h,w,5*s,0,Math.PI,0);g.fill();g.fillStyle=C([255,236,200]);g.fillRect(x-3*s,y-h-1*s,6*s,1.6*s);g.fillRect(x-3*s,y-h-3.4*s,1.2*s,2.4*s);g.fillRect(x-.6*s,y-h-4.4*s,1.2*s,3.4*s);g.fillRect(x+1.8*s,y-h-3.4*s,1.2*s,2.4*s);
+  g.fillStyle=C([255,250,235]);g.fillRect(x-w+2*s,y-h+2*s,2*w-4*s,3.4*s);
+  const pw=(2*w-6*s)/3;for(let r=0;r<5;r++)for(let c=0;c<3;c++){g.fillStyle=nf>.15?rgbs(mixc([190,222,236],[255,214,140],Math.min(1,nf*1.3))):C([190,222,236]);g.fillRect(x-w+3*s+c*pw,y-h+8*s+r*6.2*s,pw-1*s,5*s)}
+  if(nf>.15)glow(x,y-h*.5,w*2.4,"255,214,140",.38*nf);if(call&&Math.sin(t*20)>0){g.fillStyle="#fff";g.font='7px "Press Start 2P",monospace';g.textAlign="center";g.fillText("ring!",x,y-h-9*s)}}
+function postD(x,y,s){const C=dimC(x);ell(x,y,7*s,1.6*s,"rgba(0,0,0,.2)");g.fillStyle=C([200,32,43]);g.beginPath();g.roundRect(x-6*s,y-20*s,12*s,20*s,3*s);g.fill();ell(x,y-20*s,6*s,2.6*s,C([170,22,34]));g.fillStyle="#1a1014";g.fillRect(x-4*s,y-14*s,8*s,1.6*s);g.fillStyle=C([255,214,120]);g.fillRect(x-6*s,y-4*s,12*s,1*s);g.fillRect(x-6*s,y-18*s,12*s,1*s)}
+Object.assign(DT,{booth:"☎️ the phone booth",post:"📮 the pillar box"});
+// ----- the call menu -----
+const SVC=[["🎆","fireworks","fireworks"],["☄️","meteor shower","meteors"],["💡","change lights","lights"],["💌","I need you","attention"],["🍫","treats","treats"],["🎁","surprise","surprise"],["🚕","call a cab","taxi"],["🫧","bubbles","bubbles"],["🎶","song please","song"],["💐","flowers","flowers"],["🌙","goodnight","goodnight"],["📸","photo","photo"]];
+const LIGHTS_L=[["🌅","golden hour","golden"],["🌸","pink dusk","pink"],["🌙","moonlit","moon"],["🌌","aurora","aurora"],["🕯️","candlelight","candle"],["🪩","disco","disco"],["🔄","back to live London","live"]];
+const ATT=[["🥺","come here","Ashka wants you. Come here please 🥺"],["💬","talk to me","Ashka wants to talk to you right now 💬"],["🤗","I need a hug","Ashka needs a big hug 🤗"],["📞","call me","Ashka wants you to call her 📞"],["😴","stay with me","Ashka wants you to stay with her until she sleeps 😴"],["😘","kiss please","Ashka is asking for a kiss 😘"],["😋","I'm hungry","Ashka is hungry. Feed the princess! 😋"],["🎉","let's celebrate","Ashka wants to celebrate something with you 🎉"]];
+const TRE=[["🍫","chocolate"],["🍦","ice cream"],["🧋","bubble tea"],["🍓","strawberries"],["🌹","roses"],["🫖","a cup of tea"],["🍕","pizza"],["🥐","a croissant"],["🧁","a cupcake"],["🍩","a donut"]];
+const grid=rows=>`<div class="svcs">${rows.map(r=>`<button class="sv" data-s="${r[2]||r[1]}"><span>${r[0]}</span><small>${r[1]}</small></button>`).join("")}<button class="sv" data-s="__back"><span>↩</span><small>back</small></button></div>`;
+function openList(title,rows,fn){modal(`<h2>${title}</h2>${grid(rows)}<button id="cl">hang up ♥</button>`);paper.onclick=e=>{const b=e.target&&e.target.closest&&e.target.closest(".sv");if(!b)return;const k=b.dataset.s;if(k==="__back")openBooth();else fn(k)}}
+function openBooth(){BR=t;phoneRing();$("#menu").classList.remove("on");modal(`<h2>☎ royal london services</h2><p style="animation-delay:.1s">Operator: "Royal London Services, how may we help Princess Ashka today?" 👑</p><div class="svcs">${SVC.map(r=>`<button class="sv" data-s="${r[2]}"><span>${r[0]}</span><small>${r[1]}</small></button>`).join("")}</div><button id="cl">hang up ♥</button>`);
+  paper.onclick=e=>{const b=e.target&&e.target.closest&&e.target.closest(".sv");if(b)callSvc(b.dataset.s)}}
+function callSvc(k){const done=()=>ov.classList.remove("show");
+  if(k==="lights")return openList("💡 change the lights",LIGHTS_L,m=>{done();FX.light=m==="live"?null:{m,t:0};queueNote("💡 operator",m==="live"?"Back to London as it really is, Your Highness.":"Lights changed, Your Highness. Enjoy the mood.");notifyLite("💡 lights","Ashka changed the lighting: "+m)});
+  if(k==="attention")return openList("💌 message "+CFG.from,ATT,m=>{done();const a=ATT.find(x=>x[2]===m||x[1]===m);sendHim(a[0]+" Ashka needs you",a[2])});
+  if(k==="treats")return openList("🍫 what would you like?",TRE,m=>{done();const a=TRE.find(x=>x[1]===m);TREAT={e:a[0],label:a[1],t:0,landed:false};queueNote("🍬 operator",`One ${a[1]}, coming down by parachute!`);sendHim(a[0]+" treat request",`Ashka would like ${a[1]} ${a[0]}. Please deliver, the princess is waiting! 😘`)});
+  done();
+  if(k==="fireworks"){FX.fw={t:0,dur:24};queueNote("🎆 operator","Fireworks over the Thames, coming right up, Your Highness!");notifyLite("🎆 fireworks","Ashka ordered fireworks over the Thames!")}
+  else if(k==="meteors"){FX.met={t:0,dur:30};queueNote("☄️ operator","One meteor shower, freshly ordered. Make wishes, Your Highness.");notifyLite("☄️ meteor shower","Ashka ordered a meteor shower!")}
+  else if(k==="surprise"){spawnSur();notifyLite("🎁 surprise","Ashka ordered a surprise!")}
+  else if(k==="taxi"){TAXI={t:0};queueNote("🚕 operator","A black cab is on its way to you.");sendHim("🚕 taxi called","Ashka called a black cab. Come and pick her up? 💕")}
+  else if(k==="bubbles"){FX.bub={t:0,dur:25};queueNote("🫧 operator","Bubbles incoming! Tap them to pop.");notifyLite("🫧 bubbles","Ashka is playing with bubbles")}
+  else if(k==="song"){queueNote("🎶 operator","Message sent. Let's hope he sings in tune.");sendHim("🎶 song request","Ashka wants you to sing or play her a song right now 🎶")}
+  else if(k==="flowers"){SUR.push({k:"petals",t:0,x:0,y:0,seed:Math.random()});queueNote("💐 operator","A shower of petals for you, and the florist has been told.");sendHim("💐 flowers please","Ashka would like flowers 🌹 Princess's orders!")}
+  else if(k==="goodnight"){FX.light={m:"moon",t:0};if(SND.on)lullaby();queueNote("🌙 operator","Lights down. Sweet dreams, Princess Ashka.");sendHim("🌙 goodnight","Ashka says goodnight, "+CFG.from+". Sweet dreams 💤")}
+  else if(k==="photo")takePhoto()}
+// ----- photo booth -----
+function takePhoto(){FLASH=t;tone(1500,0,.05,.08);const W=cv.width,H=cv.height,c=document.createElement("canvas");c.width=W+24;c.height=H+64;const x=c.getContext("2d");x.fillStyle="#fffdf8";x.fillRect(0,0,c.width,c.height);x.drawImage(cv,12,12);x.fillStyle="#4a2b3d";x.textAlign="center";x.font='bold 14px "Press Start 2P",monospace';x.fillText("Princess Ashka · London",c.width/2,H+42);x.font='9px "Press Start 2P",monospace';x.fillText(`${pad2(LD.d)}/${pad2(LD.mo)}/${LD.y}  ${pad2(LD.h)}:${pad2(LD.mi)}`,c.width/2,H+58);
+  const url=c.toDataURL("image/png");setTimeout(()=>{modal(`<h2>📸 photo booth</h2><img src="${url}" alt="" style="width:100%;border:1px solid #ffc2d4"><a id="phs" download="ashka-london.png" href="${url}" style="display:block;text-align:center;margin:8px 0;font:8px 'Press Start 2P',monospace;color:#b4567a">save to phone ↓</a><button id="phsh">share ↗</button><button id="cl">close ♥</button>`);
+    $("#cl").onclick=()=>ov.classList.remove("show");$("#phsh").onclick=()=>{c.toBlob(b=>{try{const f=new File([b],"ashka-london.png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:"Princess Ashka's London"});else window.open(url,"_blank")}catch(e){window.open(url,"_blank")}})}},350)}
+// ----- pillar box letters -----
+function openPost(){modal(`<h2>📮 post a love letter</h2><p style="animation-delay:.1s">Write to ${CFG.from}. It goes into the pillar box and straight to his phone.</p><textarea id="plt" maxlength="500" placeholder="dear ${CFG.from}…"></textarea><button id="pls">post it 📮</button><button id="cl">close ♥</button>`);
+  $("#pls").onclick=()=>{const m=$("#plt").value.trim();if(!m){$("#plt").placeholder="write something first ♥";return}ov.classList.remove("show");POSTF={t:0,m}}}
+function boothTap(h){if(h.dk==="booth"){openBooth();return true}if(h.dk==="post"){openPost();return true}
+  if(h.dk==="bubble"){const i=BUB.findIndex(b=>b.id===h.id);if(i>=0){const b=BUB[i];for(let k=0;k<3;k++)hearts.push({x:b.x+Math.random()*10-5,y:b.y,t:-k*.06,s:Math.random()*6,c:"#ffb3cf"});BUB.splice(i,1)}return true}return false}
+// ----- effects: lights first (under characters), the rest on top -----
+function lightFX(dt){const L=FX.light;if(!L)return;L.t+=dt;if(L.t>900){FX.light=null;return}const k=Math.min(1,L.t/2.5),m=L.m,wash=(c,a)=>{g.fillStyle=`rgba(${c},${a*k})`;g.fillRect(0,0,LW,LH)};
+  if(m==="golden"){wash("255,170,60",.2);glow(LW*.8,LH*.3,220,"255,210,130",.3*k)}
+  else if(m==="pink"){wash("255,110,170",.2);glow(LW*.2,LH*.35,220,"255,170,210",.3*k)}
+  else if(m==="moon"){wash("30,50,130",.32);glow(LW*.82,LH*.14,180,"190,210,255",.35*k)}
+  else if(m==="candle"){const f=.5+.5*Math.sin(t*9)*Math.sin(t*3.1);wash("255,150,60",.16+.05*f);for(let i=0;i<4;i++)glow(LW*(.15+i*.23),LH*.55+Math.sin(t*5+i)*6,120,"255,190,100",.1+.05*f)}
+  else if(m==="aurora"){wash("10,20,60",.22);for(let b=0;b<4;b++)for(let x=0;x<LW;x+=5){const y=LH*(.12+b*.06)+Math.sin(x/38+t*.8+b)*22,h=46+Math.sin(x/21+t+b*2)*14;g.fillStyle=`rgba(${b%2?"150,90,255":"80,255,170"},${.12*k})`;g.fillRect(x,y,5,h)}}
+  else if(m==="disco"){wash(["255,60,140","60,200,255","255,220,60","140,255,120"][((t*2)|0)%4],.1);for(let i=0;i<3;i++){const a=t*1.3+i*2.1;g.fillStyle="rgba(255,255,255,.07)";g.beginPath();g.moveTo(LW/2,0);g.lineTo(LW/2+Math.cos(a)*LW*.9,LH*.85);g.lineTo(LW/2+Math.cos(a+.25)*LW*.9,LH*.85);g.fill()}}}
+function boothFX(dt){const PALF=["#ff6b9d","#ffd24d","#7cf0ff","#b78bff","#fff","#7cff9a"];
+  if(FX.fw){const F_=FX.fw;F_.t+=dt;if(F_.t<F_.dur&&t>(F_.nx||0)){F_.nx=t+.35+Math.random()*.5;const x=LW*(.12+Math.random()*.76),y=(MODE==="day"?hz:H0)*(.15+Math.random()*.4),c1=PALF[(Math.random()*6)|0],c2=PALF[(Math.random()*6)|0];for(let i=0;i<36;i++){const a=i/36*6.283,v=35+Math.random()*35;FP.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:0,c:i%2?c1:c2})}FP.push({x,y,flash:1,l:0});if(SND.on)tone(80+Math.random()*30,0,.5,.12,"sawtooth")}if(F_.t>F_.dur+2)FX.fw=null}
+  for(let i=FP.length-1;i>=0;i--){const p=FP[i];p.l+=dt;if(p.flash){if(p.l>.4){FP.splice(i,1);continue}glow(p.x,p.y,70,"255,225,170",.35*(1-p.l/.4));continue}if(p.l>1.7){FP.splice(i,1);continue}p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=45*dt;p.vx*=.992;g.globalAlpha=Math.max(0,1-p.l/1.7);g.fillStyle=p.c;g.fillRect(p.x|0,p.y|0,2,2);g.globalAlpha=1}
+  if(FX.met){const M=FX.met;M.t+=dt;if(M.t<M.dur&&t>(M.nx||0)){M.nx=t+.18+Math.random()*.3;ME.push({x:LW*(.2+Math.random()*.95),y:-8,vx:-(200+Math.random()*120),vy:130+Math.random()*90,l:0})}if(M.t>M.dur+2)FX.met=null}
+  for(let i=ME.length-1;i>=0;i--){const m=ME[i];m.l+=dt;m.x+=m.vx*dt;m.y+=m.vy*dt;if(m.x<-40||m.y>LH*.8){ME.splice(i,1);continue}for(let k=0;k<22;k++){g.fillStyle=`rgba(255,${240-k*6},${210-k*8},${(1-k/22)*.9})`;g.fillRect((m.x-m.vx*k*.012)|0,(m.y-m.vy*k*.012)|0,2,2)}}
+  if(FX.bub){const B=FX.bub;B.t+=dt;if(B.t<B.dur&&t>(B.nx||0)){B.nx=t+.28;BUB.push({id:bubId++,x:CH.x-30+Math.random()*20,y:CH.foot-50,r:6+Math.random()*8,vy:-(14+Math.random()*14),ph:Math.random()*6})}if(B.t>B.dur)FX.bub=null}
+  for(let i=BUB.length-1;i>=0;i--){const b=BUB[i];b.y+=b.vy*dt;b.x+=Math.sin(t*1.5+b.ph)*10*dt;if(b.y<-20){BUB.splice(i,1);continue}g.strokeStyle="rgba(255,255,255,.75)";g.lineWidth=1.2;g.beginPath();g.arc(b.x,b.y,b.r,0,6.283);g.stroke();g.fillStyle="rgba(190,225,255,.18)";g.beginPath();g.arc(b.x,b.y,b.r,0,6.283);g.fill();g.fillStyle="rgba(255,255,255,.6)";g.beginPath();g.arc(b.x-b.r*.35,b.y-b.r*.35,b.r*.22,0,6.283);g.fill();hits.push({x:b.x,y:b.y,dk:"bubble",id:b.id})}
+  if(TREAT){const T_=TREAT;T_.t+=dt;const u=Math.min(1,T_.t/5),x=CH.x-30+Math.sin(T_.t*1.2)*8*(1-u),land=CH.foot-12,y=-30+(land+30)*Math.pow(u,.85);
+    if(u<1){g.fillStyle="#ff9ac2";g.beginPath();g.arc(x,y-18,14,Math.PI,0);g.fill();g.fillStyle="#fff";g.fillRect(x-3,y-27,6,2);seg(x-14,y-18,x-2,y-5,.8,"#ccc");seg(x+14,y-18,x+2,y-5,.8,"#ccc")}
+    g.font='22px "Apple Color Emoji","Segoe UI Emoji",sans-serif';g.textAlign="center";g.fillStyle="#fff";g.fillText(T_.e,x,y+(u<1?0:Math.sin(T_.t*3)*1.5));
+    if(u>=1&&!T_.landed){T_.landed=true;for(let i=0;i<6;i++)hearts.push({x:x+Math.random()*20-10,y:land-10,t:-i*.08,s:Math.random()*6,c:"#ff8fb1"});queueNote(T_.e+" delivered",`Your ${T_.label} has arrived, Princess Ashka! ${CFG.from} has been told, so he'll make it real. 😘`)}if(T_.t>16)TREAT=null}
+  if(TAXI){TAXI.t+=dt;const T_=TAXI.t,stopX=CH.x-70,gy=LH-dockLog-4;let x=T_<3?LW+50+(stopX-LW-50)*(T_/3):T_<6.5?stopX:stopX-(T_-6.5)*120;if(x<-60)TAXI=null;else{cabD(x,gy,2.6,-1);if(T_>3&&T_<6.5){g.font='7px "Press Start 2P",monospace';g.textAlign="center";g.fillStyle="#fff";g.fillText("beep beep!",x,gy-32);if(!TAXI.h){TAXI.h=1;for(let i=0;i<4;i++)hearts.push({x:x+Math.random()*30-15,y:gy-20,t:-i*.1,s:Math.random()*6,c:"#ffd24d"})}}}}
+  if(POSTF){const P=POSTF;P.t+=dt;const u=Math.min(1,P.t/1.6),px=LW*.12,py=MODE==="day"?hz+((LH-dockLog)-hz)*.4+((LH-dockLog)-hz)*.1:hill(px)+30,x0=CH.x-10,y0=CH.foot-40,x=x0+(px-x0)*u,y=y0+(py-y0)*u-Math.sin(u*Math.PI)*70;
+    g.font='16px "Apple Color Emoji","Segoe UI Emoji",sans-serif';g.textAlign="center";g.fillStyle="#fff";if(u<1)g.fillText("✉️",x,y);else if(!P.done){P.done=true;for(let i=0;i<6;i++)hearts.push({x:px+Math.random()*16-8,y:py-20,t:-i*.08,s:Math.random()*6,c:"#ff4d79"});sendHim("📮 love letter from Ashka",P.m)}if(P.t>3)POSTF=null}
+  if(t-FLASH<.35){g.fillStyle=`rgba(255,255,255,${1-(t-FLASH)/.35})`;g.fillRect(0,0,LW,LH)}}
+
+// ===== world =====
+const cv=$("#sky"),g=cv.getContext("2d");
+let openAt=null;
+let RS=1,xf=null,xfT=0,lastM=null;
+function setRes(keep){const r=MODE==="day"?Math.min(3,Math.max(2,Math.ceil(devicePixelRatio||1))):1;
+  if(keep){xf=document.createElement("canvas");xf.width=cv.width;xf.height=cv.height;xf.getContext("2d").drawImage(cv,0,0);xfT=1}
+  RS=r;cv.width=LW*r;cv.height=LH*r;g.setTransform(r,0,0,r,0,0);g.imageSmoothingEnabled=false}
+function fit(){
+  S=innerWidth>700?1.5:1;LW=Math.ceil(innerWidth/S);LH=Math.ceil(innerHeight/S);Z=Math.min(2.4,LW/170);
+  dockLog=$("#dock").offsetHeight/S;
+  const q=Math.min(LW*.78/400,LH*.3/300);BW=Math.round(400*q);BH=Math.round(300*q);
+  H0=LH-dockLog-BH*.52;LAMP={x:Math.round(LW*.065)+6,base:Math.round(LH-dockLog-14)};CH={x:LW-26,foot:Math.round(LH-dockLog-12)};
+  CX=LW/2;CY=(H0-14)*.52;
+  setRes(false);seed=5;
+  bg=makeScene();if(!MW)makeSkyData();
+  F=makeFlowers();boxCv=makeBox();lidCv=makeLid();charCv=makeChar();
+  if(a0===undefined){a0=lstDeg()*rad;d0=35*rad}setCam();
+  if(openAt!==null&&t-openAt>6)F.fin=true;dayDirty=true;
+}
+let vx=0,vy=0,drag=null,t=0,last=performance.now(),hits=[],shoots=[],hearts=[],petals=[],flies=Array.from({length:10},(_,i)=>({x:Math.random(),y:Math.random(),ph:i*1.7})),nextShoot=1.2,nextHeart=1,nextPetal=1;
+addEventListener("resize",fit);fit();
+document.fonts&&document.fonts.ready.then(()=>{boxCv=makeBox()});
+const spark=(x,y,col,a=1,arm=0)=>{x|=0;y|=0;g.globalAlpha=a;g.fillStyle=col;g.fillRect(x,y,1,1);if(arm){g.fillRect(x-arm,y,2*arm+1,1);g.fillRect(x,y-arm,1,2*arm+1)}g.globalAlpha=1};
+const dotLine=(x0,y0,x1,y1)=>{const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0))|0;g.globalAlpha=.4;g.fillStyle="#e6c8ff";
+  for(let i=0;i<=n;i+=3)g.fillRect((x0+(x1-x0)*i/n)|0,(y0+(y1-y0)*i/n)|0,1,1);g.globalAlpha=1};
+const HEART=["01010","11111","11111","01110","00100"];
+
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
+  if(!drag&&!pinch){setCam();rotView(vx*dt,vy*dt);vx*=Math.pow(.04,dt);vy*=Math.pow(.04,dt);a0+=.5*rad*dt}
+  if(now-lastTick>1000){lastTick=now;tick()}
+  if(dayDirty&&MODE==="day"){buildDay();dayDirty=false}
+  if(MODE==="day"){dayFrame(dt)}else{
+  g.drawImage(bg,0,0);
+  setCam();g.save();clipSky();drawBackSky();
+  nextShoot-=dt;if(nextShoot<0){shoots.push({x:LW*(.4+Math.random()*.7),y:Math.random()*LH*.3,l:0});nextShoot=3+Math.random()*4}
+  shoots=shoots.filter(s=>{s.l+=dt;const x=s.x-s.l*260,y=s.y+s.l*130,f=Math.max(0,1-s.l/1.2);
+    for(let k=0;k<34;k++){const a=(1-k/34)*f;spark(x+k*1.25,y-k*.63,k<3?"#fff":"#ffc2d4",a);if(k<18)spark(x+k*1.25,y-k*.63+1,"#ffc2d4",a*.5)}return s.l<1.2});
+  // constellations at true RA/Dec, planets at today's positions
+  hits=[];let near=0,nd=1e9;g.font='7px "Press Start 2P",monospace';g.textAlign="center";
+  C.forEach((c,ci)=>{
+    const P=c.p.map(p=>pj(p.v[0],p.v[1],p.v[2]));if(P.some(p=>!p))return;
+    if(!P.some(p=>p[0]>-30&&p[0]<LW+30&&p[1]>-30&&p[1]<H0+30))return;
+    const mx=P.reduce((a,p)=>a+p[0],0)/P.length,my=P.reduce((a,p)=>a+p[1],0)/P.length,d=Math.hypot(mx-CX,my-CY);
+    if(d<nd){nd=d;near=ci}
+    c.l.forEach(([a,b])=>dotLine(P[a][0],P[a][1],P[b][0],P[b][1]));
+    P.forEach((p,si)=>{star(p[0],p[1],c.p[si].m,c.p[si].col,ci*7+si*3.1,found.has(ci+"-"+si));hits.push({x:p[0],y:p[1],ci,si})});
+    g.globalAlpha=.55;g.fillStyle="#cdb8ff";g.fillText(c.n,mx,Math.max(...P.map(p=>p[1]))+16);g.globalAlpha=1});
+  PL.forEach((p,i)=>{const q=pj(p.v[0],p.v[1],p.v[2]);if(!q||q[0]<-14||q[0]>LW+14||q[1]<-14||q[1]>H0)return;drawPlanet(q[0],q[1],p);hits.push({x:q[0],y:q[1],pl:i});
+    g.globalAlpha=found.has("p-"+i)?1:.8;g.fillStyle=found.has("p-"+i)?"#ff9fc0":"#ffe0a8";g.fillText(p.n,q[0],q[1]+p.r+13);g.globalAlpha=1});
+  fireworks(dt);
+  g.restore();nyeCouple();royalNight(dt);
+  const c=C[near],fc=c.p.filter((_,i)=>found.has(near+"-"+i)).length;
+  $("#chip").innerHTML=`${c.n} ${fc==c.p.length?"✓":fc+"/"+c.p.length}<br>♥ ${found.size}/${TOTAL}`;
+  // lamp: flickering halftone halo + glass, fireflies
+  {const lx=LAMP.x,top=LAMP.base-122,ly=top+21,fl=t>1.4?.9+.1*Math.sin(t*3.3):(Math.sin(t*38)>.2?.8:.1);
+   g.fillStyle="#ffb86b";g.globalAlpha=.6;
+   for(let dy=-46;dy<=46;dy++)for(let dx=-46;dx<=46;dx++){const dd=Math.hypot(dx,dy);if(dd>46)continue;const i=Math.pow(1-dd/46,1.6)*fl;if(i>.04&&ht(lx+dx,ly+dy,i*.95))g.fillRect(lx+dx,ly+dy,1,1)}
+   g.globalAlpha=1;g.fillStyle=`rgb(${120+135*fl|0},${90+124*fl|0},${60+78*fl|0})`;g.fillRect(lx-11,top+13,22,16);g.fillStyle="#08041a";g.fillRect(lx,top+13,1,16);
+   flies.forEach(f=>{const X=f.x*LW+Math.sin(t*.4+f.ph)*8,Y=H0+24+f.y*(LH-dockLog-14-H0-24)+Math.cos(t*.5+f.ph)*4,a=.25+.75*Math.max(0,Math.sin(t*1.8+f.ph));
+     g.globalAlpha=a*.2;g.fillStyle="#ff9fc0";g.fillRect((X|0)-1,(Y|0)-1,4,4);g.globalAlpha=a;g.fillStyle="#ffd48a";g.fillRect(X|0,Y|0,2,2);g.globalAlpha=1})}
+  }
+  // box + bloom
+  const bx=((LW-BW)/2+Math.round(Math.sin(t*.9)))|0,by=(LH-dockLog-BH+Math.round(Math.sin(t*1.3)))|0;
+  if(openAt!==null&&!F.fin){const rt=t-openAt-.5;
+    if(rt>0){let all=true;const d=F.cur.data,s=F.full.data;
+      for(let i=0;i<F.N;i++){if(F.done[i])continue;if(F.tm[i]<=rt){F.done[i]=1;const j=i*4;d[j]=s[j];d[j+1]=s[j+1];d[j+2]=s[j+2];d[j+3]=s[j+3]}else if(F.tm[i]<1e8)all=false}
+      F.rc.putImageData(F.cur,0,0);if(all)F.fin=true}}
+  if(openAt!==null)g.drawImage(F.rev,bx,by);
+  {const fb=openAt===null?1:Math.max(0,1-(t-openAt-.3)/.9);if(fb>0){g.globalAlpha=fb;g.drawImage(boxCv,bx,by);g.globalAlpha=1}}
+  if(openAt===null){const hop=Math.pow(Math.max(0,Math.sin(t*3)),8);g.drawImage(lidCv,bx,by-Math.round(hop*BH*.03))}
+  else{const p=Math.min(1,(t-openAt)/.9);if(p<1){g.globalAlpha=1-p;g.drawImage(lidCv,bx,by-Math.round(BH*.3*(1-(1-p)**2)));g.globalAlpha=1}}
+  for(let i=0;i<14;i++){const x=bx+hashf(i,1)*BW,y=by+hashf(i,2)*BH,q=Math.sin(t*2.5+i*2);if(q>.4)spark(x,y,"#ffd0e0",q*.8,1)}
+  {const cx=CH.x-22,cy=CH.foot-58+Math.round(Math.sin(t*1.6));g.fillStyle="rgba(0,0,0,.55)";for(let r=0;r<4;r++)g.fillRect(CH.x-17+r*3,CH.foot-1+r,34-r*6,1);g.drawImage(charCv,cx,cy)}
+  if(F.fin){nextPetal-=dt;if(nextPetal<0&&petals.length<16){petals.push({x:Math.random()*LW,y:-4,ph:Math.random()*6,v:14+Math.random()*10});nextPetal=.7+Math.random()*.8}}
+  petals=petals.filter(p=>{p.y+=p.v*dt;p.x+=Math.sin(t*1.3+p.ph)*.5;g.globalAlpha=.85;g.fillStyle="#fff1f3";g.fillRect(p.x|0,p.y|0,3,2);g.fillStyle="#ffc2d4";g.fillRect((p.x|0)+1,(p.y|0)+1,2,1);g.globalAlpha=1;return p.y<LH-dockLog-6});
+  if(F.fin){nextHeart-=dt;if(nextHeart<0){hearts.push({x:bx+BW*(.15+Math.random()*.7),y:by+BH*.3,t:0,s:Math.random()*6,c:"#ff8fb1"});nextHeart=.9+Math.random()}}
+  hearts=hearts.filter(h=>{h.t+=dt;if(h.t<0)return true;h.y-=26*dt;h.x+=Math.sin(h.t*3+h.s)*.4;g.globalAlpha=Math.max(0,1-h.t/2.2);g.fillStyle=h.c;
+    HEART.forEach((r,j)=>[...r].forEach((v,i)=>{if(v=="1")g.fillRect((h.x+i*2)|0,(h.y+j*2)|0,2,2)}));g.globalAlpha=1;return h.t<2.2});
+  royalOverlay(dt);cuteOverlay(dt);
+  if(t<1.8){g.globalAlpha=1-t/1.8;g.fillStyle="#000";g.fillRect(0,0,LW,LH);g.globalAlpha=1}
+  if(xf){xfT-=dt/1.3;if(xfT<=0)xf=null;else{g.globalAlpha=xfT*xfT*(3-2*xfT);g.imageSmoothingEnabled=true;g.drawImage(xf,0,0,LW,LH);g.imageSmoothingEnabled=false;g.globalAlpha=1}}
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// ===== interaction =====
+const dT=$("#dT"),dM=$("#dM");
+function showMsg(title,text){dM.style.opacity=0;setTimeout(()=>{dT.textContent=title;dM.textContent=text;dM.style.opacity=1},120)}
+function openBox(){openAt=t;applyMode()}
+function charHearts(){for(let i=0;i<3;i++)hearts.push({x:CH.x-8+Math.random()*16,y:CH.foot-62,t:-i*.12,s:Math.random()*6,c:"#ff8fb1"})}
+function tap(x,y){cuteTap(x,y);
+  let best=null,bd=16;hits.forEach(h=>{const d=Math.hypot(h.x-x,h.y-y);if(d<bd){bd=d;best=h}});
+  if(best){if(best.dk!==undefined){dayTap(best);return}if(best.pl!==undefined){found.add("p-"+best.pl);save();showMsg(PL[best.pl].n+" · planet",PLMSG[best.pl]);if(found.size>=TOTAL)showMsg("every star found ♥",FIN);charHearts();return}found.add(best.ci+"-"+best.si);save();const c=C[best.ci];showMsg(`${c.n} · star ${best.si+1}`,MSGS[PERM[c.off+best.si]]);if(found.size>=TOTAL)showMsg("every star found ♥",FIN);charHearts();return}
+  if(x>CH.x-22&&y>CH.foot-60){charHearts();princessTap();return}
+  const bx=(LW-BW)/2,by=LH-dockLog-BH;
+  if(x>bx&&x<bx+BW&&y>by+BH*.25&&y<by+BH){
+    if(openAt===null)openBox();
+    else for(let i=0;i<7;i++)hearts.push({x:x-10+Math.random()*20,y:y-8,t:-i*.12,s:Math.random()*6,c:["#ff8fb1","#ff4d79","#fff1f3"][i%3]})}
+}
+let lt=0,pinch=null;const ptrs=new Map(),pd=()=>{const [a,b]=[...ptrs.values()];return Math.hypot(a.x-b.x,a.y-b.y)};
+cv.addEventListener("pointerdown",e=>{ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});cv.setPointerCapture(e.pointerId);
+  if(ptrs.size==1){drag={x:e.clientX,y:e.clientY,m:0};vx=vy=0;lt=performance.now()}else if(ptrs.size==2){drag=null;pinch={d:pd(),f:fov}}});
+cv.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch&&ptrs.size==2){fov=Math.max(30*rad,Math.min(120*rad,pinch.f*pinch.d/pd()));return}
+  if(!drag)return;const dx=(e.clientX-drag.x)/S,dy=(e.clientY-drag.y)/S,n=performance.now(),d=Math.max(8,n-lt)/1000;lt=n;
+  rotView(dx,dy);vx=vx*.5+(dx/d)*.5;vy=vy*.5+(dy/d)*.5;drag.x=e.clientX;drag.y=e.clientY;drag.m+=Math.abs(dx)+Math.abs(dy)});
+cv.addEventListener("pointerup",e=>{if(drag&&drag.m<3&&ptrs.size==1)tap(e.clientX/S,e.clientY/S);ptrs.delete(e.pointerId);drag=null;if(ptrs.size<2)pinch=null});
+cv.addEventListener("pointercancel",e=>{ptrs.delete(e.pointerId);drag=null;pinch=null});
+addEventListener("wheel",e=>{fov=Math.max(30*rad,Math.min(120*rad,fov*(1+e.deltaY*.001)))},{passive:true});
+
+// ===== letter =====
+const paper=$("#paper"),ov=$("#ov");
+function placeMoon(){const m=$("#moon"),v=window.visualViewport;if(!v)return;m.style.right="auto";m.style.left=Math.max(8,v.offsetLeft+v.width-m.offsetWidth-26)+"px"}
+drawMoon();placeMoon();addEventListener("resize",placeMoon);if(window.visualViewport){visualViewport.addEventListener("resize",placeMoon);visualViewport.addEventListener("scroll",placeMoon)}
+$("#moon").onclick=()=>{markRead();
+  paper.innerHTML="<h2>A letter for you</h2>"+CFG.letter.map((p,i)=>`<p style="animation-delay:${.35+i*.9}s">${p.replace("{to}",CFG.to).replace("{from}",CFG.from)}</p>`).join("")+notesHTML()+'<button id="wb">write back to me 💌</button><div id="wr" hidden><textarea id="wt" maxlength="1000" placeholder="write me something sweet…"></textarea><button id="ws" class="wa">send on WhatsApp ↗</button></div><button id="cl">close ♥</button>';
+  ov.classList.add("show");$("#cl").onclick=()=>ov.classList.remove("show");
+  $("#wb").onclick=()=>{$("#wb").hidden=true;$("#wr").hidden=false;$("#wt").focus()};
+  $("#ws").onclick=()=>{const m=$("#wt").value.trim();if(!m){$("#wt").placeholder="type a little something first ♥";$("#wt").focus();return}
+    window.open("https://wa.me/"+CFG.whatsapp.replace(/\D/g,"")+"?text="+encodeURIComponent("💌 "+m+"\n— "+CFG.to),"_blank")};
+};
+ov.onclick=e=>{if(e.target===ov)ov.classList.remove("show")};
+$("#lawsBtn").onclick=openLaws;cuteInit();
+$("#chip").onclick=()=>{modeOv={auto:"day",day:"night",night:"auto"}[modeOv]||"auto";tick();applyMode()};
+tick();loadWx();loadAC();applyMode();
+</script></body>
+</html>
